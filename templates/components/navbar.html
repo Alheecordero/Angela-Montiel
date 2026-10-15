@@ -1,0 +1,46 @@
+{% load static %}
+<nav class="navbar firm-nav">
+    <div class="container navbar-inner">
+        <a href="{% url 'core:home' %}" class="brand">
+            <img src="{% static 'images/logo-am-gold.png' %}" alt="AM" class="brand-mark" width="42" height="35">
+            <span class="brand-text">
+                <span class="brand-name">Ángela Montiel</span>
+                <span class="brand-role">Abogada corporativa</span>
+            </span>
+        </a>
+
+        <div class="nav-right">
+            <ul class="nav-links nav-links--desktop">
+                <li><a href="{% url 'core:home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>Inicio</a></li>
+                <li><a href="{% url 'core:home' %}#servicios">Servicios</a></li>
+                <li><a href="{% url 'core:about' %}" {% if request.resolver_match.url_name == 'about' %}class="active"{% endif %}>Sobre mí</a></li>
+                <li><a href="{% url 'blog:post_list' %}" {% if 'blog' in request.path %}class="active"{% endif %}>Actualidad</a></li>
+                <li><a href="{% url 'contact:contact' %}" {% if request.resolver_match.url_name == 'contact' %}class="active"{% endif %}>Contacto</a></li>
+            </ul>
+            <a href="{% url 'contact:contact' %}" class="firm-pill nav-cta">
+                <span>Agendar reunión</span>
+                {% include "components/icons.html" with icon="arrow-right" size=16 %}
+            </a>
+            <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div class="nav-drawer" id="main-navigation" aria-hidden="true">
+    <ul class="nav-links nav-links--mobile">
+        <li><a href="{% url 'core:home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>Inicio</a></li>
+        <li><a href="{% url 'core:home' %}#servicios">Servicios</a></li>
+        <li><a href="{% url 'core:about' %}" {% if request.resolver_match.url_name == 'about' %}class="active"{% endif %}>Sobre mí</a></li>
+        <li><a href="{% url 'blog:post_list' %}" {% if 'blog' in request.path %}class="active"{% endif %}>Actualidad</a></li>
+        <li><a href="{% url 'contact:contact' %}" {% if request.resolver_match.url_name == 'contact' %}class="active"{% endif %}>Contacto</a></li>
+        <li class="mobile-nav-cta">
+            <a href="{% url 'contact:contact' %}" class="firm-pill">
+                Agendar reunión
+                {% include "components/icons.html" with icon="arrow-right" size=16 %}
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="nav-backdrop" data-nav-backdrop hidden></div>

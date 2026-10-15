@@ -1,0 +1,22 @@
+from .base import *  # noqa: F403
+
+DEBUG = False
+
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = env.bool("SECURE_SSL_REDIRECT", default=True)  # noqa: F405
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_HSTS_SECONDS = 31536000 if SITE_INDEXABLE else 0  # noqa: F405
+SECURE_HSTS_INCLUDE_SUBDOMAINS = SITE_INDEXABLE  # noqa: F405
+SECURE_HSTS_PRELOAD = SITE_INDEXABLE  # noqa: F405
+
+CSRF_TRUSTED_ORIGINS = env.list(  # noqa: F405
+    "CSRF_TRUSTED_ORIGINS",
+    default=[
+        "https://angelamontiel.cl",
+        "https://www.angelamontiel.cl",
+    ],
+)

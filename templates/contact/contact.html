@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Contacto — {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-header page-header--blog">
+    <div class="container reveal">
+        <div class="breadcrumb"><a href="{% url 'core:home' %}">Inicio</a> / Contacto</div>
+        <p class="section-label">Contacto</p>
+        <h1>Agendar una reunión</h1>
+        <p class="section-subtitle">Cuénteme su consulta y le responderé a la brevedad, con claridad y reserva.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container contact-grid">
+        <div class="reveal">
+            <h2 class="contact-heading">Información de contacto</h2>
+            {% if site_settings.email %}
+            <div class="contact-info-item">
+                <span class="contact-icon-wrap">{% include "components/icons.html" with icon="mail" size=20 %}</span>
+                <div>
+                    <strong>Correo electrónico</strong>
+                    <a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a>
+                </div>
+            </div>
+            {% endif %}
+            {% if site_settings.phone %}
+            <div class="contact-info-item">
+                <span class="contact-icon-wrap">{% include "components/icons.html" with icon="phone" size=20 %}</span>
+                <div>
+                    <strong>Teléfono</strong>
+                    {% if site_settings.phone_href %}
+                    <a href="{{ site_settings.phone_href }}">{{ site_settings.phone }}</a>
+                    {% else %}
+                    <p>{{ site_settings.phone }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            {% if site_settings.address or site_settings.city %}
+            <div class="contact-info-item">
+                <span class="contact-icon-wrap">{% include "components/icons.html" with icon="map-pin" size=20 %}</span>
+                <div>
+                    <strong>Ubicación</strong>
+                    <p>{% if site_settings.address %}{{ site_settings.address }}{% if site_settings.city %}, {% endif %}{% endif %}{{ site_settings.city }}</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <ul class="contact-promises">
+                <li>
+                    <span class="contact-promise-icon">{% include "components/icons.html" with icon="clock" size=16 %}</span>
+                    <span>Respuesta en 24 a 48 horas hábiles</span>
+                </li>
+                <li>
+                    <span class="contact-promise-icon">{% include "components/icons.html" with icon="lock" size=16 %}</span>
+                    <span>Conversación confidencial</span>
+                </li>
+                <li>
+                    <span class="contact-promise-icon">{% include "components/icons.html" with icon="check" size=16 %}</span>
+                    <span>Primera orientación sin compromiso</span>
+                </li>
+            </ul>
+
+            {% if site_settings.whatsapp_url %}
+            <a href="{{ site_settings.whatsapp_url }}" class="btn btn-outline contact-whatsapp" target="_blank" rel="noopener noreferrer">
+                {% include "components/icons.html" with icon="whatsapp" size=18 %}
+                <span>Escribir por WhatsApp</span>
+            </a>
+            {% endif %}
+        </div>
+
+        <div class="contact-form-card reveal reveal-delay-1">
+            <p class="contact-form-kicker">Formulario de consulta</p>
+            <h3 class="contact-form-title">Cuénteme su caso</h3>
+            <form method="post" novalidate data-loading-form>
+                {% csrf_token %}
+                {{ form.website }}
+
+                {% for field in form.visible_fields %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                    <div class="form-errors">{{ field.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    <span>Enviar mensaje</span>
+                    {% include "components/icons.html" with icon="send" size=16 %}
+                </button>
+                <p class="form-note">Al enviar este formulario acepta que sus datos se usen únicamente para responder su consulta.</p>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

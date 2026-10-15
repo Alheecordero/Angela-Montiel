@@ -1,0 +1,11 @@
+[Unit]
+Description=gunicorn socket for Angela Montiel
+
+[Socket]
+ListenStream=/run/gunicorn-angelamontiel.sock
+SocketUser=www-data
+SocketGroup=www-data
+SocketMode=0660
+
+[Install]
+WantedBy=sockets.target

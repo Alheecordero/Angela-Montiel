@@ -1,0 +1,25 @@
+<article class="card card--article">
+    {% if post.cover_image %}
+    <a href="{{ post.get_absolute_url }}" class="card-image-wrap">
+        <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" class="card-image" loading="lazy">
+    </a>
+    {% else %}
+    <a href="{{ post.get_absolute_url }}" class="card-image-wrap">
+        <div class="card-image-placeholder"></div>
+    </a>
+    {% endif %}
+    <div class="card-body">
+        <div class="card-type card-type--article">Artículo</div>
+        {% if post.category %}
+        <div class="card-category">{{ post.category.name }}</div>
+        {% endif %}
+        <h3 class="card-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+        {% if post.excerpt %}
+        <p class="card-excerpt">{{ post.excerpt|truncatewords:20 }}</p>
+        {% endif %}
+        <div class="card-footer">
+            <span class="card-date">{{ post.published_at|date:"d M Y" }}</span>
+            <a href="{{ post.get_absolute_url }}" class="card-link">Leer más</a>
+        </div>
+    </div>
+</article>

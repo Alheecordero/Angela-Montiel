@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sobre mí — {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-header page-header--blog">
+    <div class="container reveal">
+        <div class="breadcrumb"><a href="{% url 'core:home' %}">Inicio</a> / Sobre mí</div>
+        <p class="section-label">Sobre mí</p>
+        <h1>{{ about_section.headline }}</h1>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container about-preview">
+        <div class="about-photo-wrap reveal">
+            {% if about_section.photo %}
+            <img src="{{ about_section.photo.url }}" alt="{{ about_section.headline }}" class="about-photo">
+            {% else %}
+            <img src="{% static 'images/angela-escritorio.jpg' %}" alt="{{ about_section.headline }}" class="about-photo">
+            {% endif %}
+            <div class="about-photo-accent"></div>
+        </div>
+        <div class="reveal reveal-delay-1">
+            <h2 class="about-name">{{ site_settings.site_name }}</h2>
+            <div class="article-content about-copy">
+                {{ about_section.bio|linebreaks }}
+            </div>
+
+            <div class="about-stats">
+                {% if about_section.years_experience %}
+                <div class="about-stat">
+                    <strong>{{ about_section.years_experience }}+</strong>
+                    <span>Años de experiencia</span>
+                </div>
+                {% endif %}
+                {% if about_section.specialty_list %}
+                <div class="about-stat">
+                    <strong>{{ about_section.specialty_list|length }}</strong>
+                    <span>Áreas de práctica</span>
+                </div>
+                {% endif %}
+                <div class="about-stat">
+                    <strong>Chile</strong>
+                    <span>Ejercicio profesional</span>
+                </div>
+            </div>
+
+            <blockquote class="about-principle">
+                “El derecho debe ser una herramienta para avanzar, no una barrera para crecer.”
+            </blockquote>
+
+            {% if about_section.specialty_list %}
+            <div class="specialty-tags about-specialties">
+                {% for specialty in about_section.specialty_list %}
+                <span class="tag tag--blue">{{ specialty }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% if about_section.university or about_section.bar_association or about_section.credentials %}
+<section class="section section-alt">
+    <div class="container credentials-container reveal">
+        <p class="section-label">Credenciales</p>
+        <h2>Formación y experiencia</h2>
+        <div class="credentials-grid">
+            {% if about_section.university %}
+            <div class="credential-item">
+                <span class="credential-icon">{% include "components/icons.html" with icon="graduation" size=18 %}</span>
+                <strong>Formación académica</strong>
+                <p>{{ about_section.university }}</p>
+            </div>
+            {% endif %}
+            {% if about_section.bar_association %}
+            <div class="credential-item">
+                <span class="credential-icon">{% include "components/icons.html" with icon="scale" size=18 %}</span>
+                <strong>Colegio de abogados</strong>
+                <p>{{ about_section.bar_association }}</p>
+            </div>
+            {% endif %}
+            {% if about_section.credentials %}
+            <div class="credential-item">
+                <span class="credential-icon">{% include "components/icons.html" with icon="file-text" size=18 %}</span>
+                <strong>Otras credenciales</strong>
+                <div>{{ about_section.credentials|linebreaks }}</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="cta-band reveal">
+    <div class="container cta-band-inner">
+        <p class="section-label">Conversemos</p>
+        <h2>¿Conversamos sobre su caso?</h2>
+        <p>Estoy disponible para orientarle con claridad y profesionalismo.</p>
+        <div class="cta-band-actions">
+            <a href="{% url 'contact:contact' %}" class="btn btn-primary btn-lg">
+                {% include "components/icons.html" with icon="calendar" size=18 %}
+                <span>Agendar una reunión</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

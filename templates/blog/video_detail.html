@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{{ video.title }} — {{ site_settings.site_name }}{% endblock %}
+{% block meta_description %}{{ video.description|truncatewords:30 }}{% endblock %}
+
+{% block content %}
+<section class="page-header page-header--compact">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{% url 'core:home' %}">Inicio</a> /
+            <a href="{% url 'blog:post_list' %}">Blog</a> /
+            {{ video.title|truncatewords:6 }}
+        </div>
+        <div class="card-type card-type--video">Video</div>
+        <h1>{{ video.title }}</h1>
+        <p class="article-meta">
+            {{ video.published_at|date:"d F Y" }}
+            {% if video.category %} · {{ video.category.name }}{% endif %}
+        </p>
+    </div>
+</section>
+
+<section class="section section--article">
+    <div class="container container--narrow">
+        {% if video.embed_url %}
+        <div class="video-embed">
+            <iframe
+                src="{{ video.embed_url }}"
+                title="{{ video.title }}"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+            ></iframe>
+        </div>
+        {% endif %}
+
+        {% if video.description %}
+        <div class="article-content">
+            {{ video.description|linebreaks }}
+        </div>
+        {% endif %}
+
+        <a href="{% url 'blog:post_list' %}" class="btn-link article-back">
+            <span>Volver al blog</span>
+            {% include "components/icons.html" with icon="arrow-right" size=16 %}
+        </a>
+    </div>
+</section>
+
+{% if related_items %}
+<section class="section section-alt">
+    <div class="container">
+        <div class="section-header">
+            <p class="section-label">Más contenido</p>
+            <h2 class="section-title">Videos relacionados</h2>
+        </div>
+        <div class="card-grid">
+            {% for item in related_items %}
+            {% include "components/content_card.html" %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

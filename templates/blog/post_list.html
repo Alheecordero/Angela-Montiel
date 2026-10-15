@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Blog — {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<section class="page-header page-header--blog">
+    <div class="container reveal">
+        <div class="breadcrumb"><a href="{% url 'core:home' %}">Inicio</a> / Blog</div>
+        <p class="section-label">Blog legal</p>
+        <h1>Artículos y videos</h1>
+        <p class="section-subtitle">Contenido jurídico en texto y video para orientar sus decisiones con claridad.</p>
+    </div>
+</section>
+
+<section class="section section--blog">
+    <div class="container">
+        <div class="blog-toolbar reveal">
+            <div class="type-tabs">
+                <a href="{{ request.path }}" class="type-tab {% if active_type == 'todos' %}active{% endif %}">Todos</a>
+                <a href="{{ request.path }}?tipo=articulos" class="type-tab {% if active_type == 'articulos' %}active{% endif %}">Artículos</a>
+                <a href="{{ request.path }}?tipo=videos" class="type-tab {% if active_type == 'videos' %}active{% endif %}">Videos</a>
+            </div>
+            {% if categories %}
+            <div class="filter-bar">
+                <a href="{% url 'blog:post_list' %}{% if active_type != 'todos' %}?tipo={{ active_type }}{% endif %}" class="filter-chip {% if not active_category and not active_tag %}active{% endif %}">Todas</a>
+                {% for category in categories %}
+                <a href="{% url 'blog:post_list_by_category' category.slug %}{% if active_type != 'todos' %}?tipo={{ active_type }}{% endif %}" class="filter-chip {% if active_category == category.slug %}active{% endif %}">{{ category.name }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        {% if content_items %}
+        <div class="card-grid" data-stagger>
+            {% for item in content_items %}
+            {% include "components/content_card.html" %}
+            {% endfor %}
+        </div>
+        {% include "components/pagination.html" %}
+        {% else %}
+        <div class="empty-state">
+            <p class="empty-state-title">Pronto habrá contenido aquí</p>
+            <p>Aún no hay artículos o videos publicados en esta sección.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

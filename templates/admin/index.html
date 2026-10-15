@@ -1,0 +1,18 @@
+{% extends "unfold/layouts/base_simple.html" %}
+{% load i18n %}
+
+{% block content %}
+<div style="padding: 1.5rem;">
+    <h1 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem;">Panel de control</h1>
+    {% if stats %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        {% for stat in stats %}
+        <a href="{{ stat.link }}" style="display: block; padding: 1.25rem; border-radius: 8px; border: 1px solid #e5e7eb; background: white; text-decoration: none; color: inherit;">
+            <div style="font-size: 2rem; font-weight: 700; color: #1e3a5f;">{{ stat.value }}</div>
+            <div style="font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem;">{{ stat.title }}</div>
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

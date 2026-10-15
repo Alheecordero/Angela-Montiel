@@ -1,0 +1,17 @@
+<section class="newsletter-bar">
+    <div class="container newsletter-inner reveal">
+        <div>
+            <h3>Newsletter legal</h3>
+            <p>Reciba artículos y novedades jurídicas directamente en su correo.</p>
+        </div>
+        <form class="newsletter-form" method="post" action="{% url 'newsletter:subscribe' %}" data-loading-form>
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <input type="email" name="email" class="form-input newsletter-input" placeholder="Su correo electrónico" required aria-label="Correo electrónico" autocomplete="email">
+            <button type="submit" class="btn btn-primary">
+                <span>Suscribirse</span>
+                {% include "components/icons.html" with icon="send" size=16 %}
+            </button>
+        </form>
+    </div>
+</section>

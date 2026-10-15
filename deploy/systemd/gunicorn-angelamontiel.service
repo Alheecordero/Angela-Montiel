@@ -1,0 +1,23 @@
+[Unit]
+Description=gunicorn daemon for Angela Montiel
+Requires=gunicorn-angelamontiel.socket
+After=network.target postgresql.service
+
+[Service]
+Type=notify
+User=root
+Group=www-data
+WorkingDirectory=/var/www/angelamontiel
+EnvironmentFile=/var/www/angelamontiel/.env
+Environment=DJANGO_SETTINGS_MODULE=config.settings.prod
+ExecStart=/var/www/angelamontiel/venv/bin/gunicorn \
+    --access-logfile - \
+    --workers 3 \
+    --timeout 120 \
+    --bind unix:/run/gunicorn-angelamontiel.sock \
+    config.wsgi:application
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

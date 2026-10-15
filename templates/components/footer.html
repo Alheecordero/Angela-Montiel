@@ -1,0 +1,39 @@
+{% load static %}
+<footer class="footer firm-footer">
+    <div class="container">
+        <div class="firm-footer-top">
+            <a href="{% url 'core:home' %}" class="brand brand--footer">
+                <img src="{% static 'images/logo-am-gold.png' %}" alt="AM" class="brand-mark" width="40" height="33">
+                <span class="brand-text">
+                    <span class="brand-name">Ángela Montiel</span>
+                    <span class="brand-role">Abogada corporativa</span>
+                </span>
+            </a>
+            <ul class="firm-footer-nav">
+                <li><a href="{% url 'core:home' %}">Inicio</a></li>
+                <li><a href="{% url 'core:about' %}">Sobre Ángela</a></li>
+                <li><a href="{% url 'core:home' %}#servicios">Servicios</a></li>
+                <li><a href="{% url 'blog:post_list' %}">Blog / Actualidad</a></li>
+                <li><a href="{% url 'contact:contact' %}">Contacto</a></li>
+            </ul>
+            <div class="firm-footer-social">
+                {% if site_settings.instagram_url %}
+                <a href="{{ site_settings.instagram_url }}" title="Instagram" target="_blank" rel="noopener noreferrer">{% include "components/icons.html" with icon="instagram" size=16 %}</a>
+                {% endif %}
+                {% if site_settings.linkedin_url %}
+                <a href="{{ site_settings.linkedin_url }}" title="LinkedIn" target="_blank" rel="noopener noreferrer">{% include "components/icons.html" with icon="linkedin" size=16 %}</a>
+                {% endif %}
+                {% if site_settings.email %}
+                <a href="mailto:{{ site_settings.email }}" title="Email">{% include "components/icons.html" with icon="mail" size=16 %}</a>
+                {% endif %}
+                {% if site_settings.whatsapp_url %}
+                <a href="{{ site_settings.whatsapp_url }}" title="WhatsApp" target="_blank" rel="noopener noreferrer">{% include "components/icons.html" with icon="whatsapp" size=16 %}</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="firm-footer-bottom">
+            <span>&copy; {% now "Y" %} Ángela Montiel. Todos los derechos reservados.</span>
+            <span>{{ site_settings.city|default:"Santiago, Chile" }}</span>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,24 @@
+<article class="card">
+    <a href="{{ video.get_absolute_url }}" class="card-image-wrap">
+        {% if video.thumbnail_url %}
+        <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}" class="card-image">
+        {% else %}
+        <div class="card-image-placeholder"></div>
+        {% endif %}
+        <div class="card-play">
+            <div class="card-play-icon">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+        </div>
+    </a>
+    <div class="card-body">
+        {% if video.category %}
+        <div class="card-category">{{ video.category.name }}</div>
+        {% endif %}
+        <h3 class="card-title"><a href="{{ video.get_absolute_url }}">{{ video.title }}</a></h3>
+        {% if video.description %}
+        <p class="card-excerpt">{{ video.description|truncatewords:18 }}</p>
+        {% endif %}
+        <a href="{{ video.get_absolute_url }}" class="card-link">Ver video</a>
+    </div>
+</article>
