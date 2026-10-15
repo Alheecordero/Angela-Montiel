@@ -1,3 +1,4 @@
+{% load static %}
 <article class="card card--article">
     {% if post.cover_image %}
     <a href="{{ post.get_absolute_url }}" class="card-image-wrap">
@@ -5,7 +6,7 @@
     </a>
     {% else %}
     <a href="{{ post.get_absolute_url }}" class="card-image-wrap">
-        <div class="card-image-placeholder"></div>
+        <img src="{% static cycle 'images/navy-gold-architecture.png' 'images/study-desk.jpg' 'images/museum-hall.jpg' 'images/navy-gold-shadows.png' 'images/bronze-sculpture-navy.png' 'images/acropolis-navy.png' %}" alt="" class="card-image" loading="lazy">
     </a>
     {% endif %}
     <div class="card-body">

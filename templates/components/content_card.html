@@ -1,3 +1,4 @@
+{% load static %}
 {% if item.type == "video" %}
 {% with video=item.obj %}
 <article class="card card--video">
@@ -5,7 +6,7 @@
         {% if video.thumbnail_url %}
         <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}" class="card-image" loading="lazy">
         {% else %}
-        <div class="card-image-placeholder"></div>
+        <img src="{% static cycle 'images/museum-hall.jpg' 'images/navy-gold-shadows.png' 'images/bronze-sculpture-navy.png' 'images/acropolis-navy.png' 'images/navy-gold-architecture.png' 'images/study-desk.jpg' %}" alt="" class="card-image" loading="lazy">
         {% endif %}
         <div class="card-play">
             <div class="card-play-icon">
@@ -38,7 +39,7 @@
     </a>
     {% else %}
     <a href="{{ post.get_absolute_url }}" class="card-image-wrap">
-        <div class="card-image-placeholder"></div>
+        <img src="{% static cycle 'images/navy-gold-architecture.png' 'images/study-desk.jpg' 'images/museum-hall.jpg' 'images/navy-gold-shadows.png' 'images/bronze-sculpture-navy.png' 'images/acropolis-navy.png' %}" alt="" class="card-image" loading="lazy">
     </a>
     {% endif %}
     <div class="card-body">

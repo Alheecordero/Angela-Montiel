@@ -4,7 +4,7 @@
 {% block title %}Sobre mí — {{ site_settings.site_name }}{% endblock %}
 
 {% block content %}
-<section class="page-header page-header--blog">
+<section class="page-header page-header--blog page-header--visual" style="background-image: url('{% static "images/navy-gold-cinematic.png" %}')">
     <div class="container reveal">
         <div class="breadcrumb"><a href="{% url 'core:home' %}">Inicio</a> / Sobre mí</div>
         <p class="section-label">Sobre mí</p>
@@ -63,7 +63,7 @@
 </section>
 
 {% if about_section.university or about_section.bar_association or about_section.credentials %}
-<section class="section section-alt">
+<section class="section section-alt section--visual" style="background-image: url('{% static "images/navy-gold-shadows.png" %}')">
     <div class="container credentials-container reveal">
         <p class="section-label">Credenciales</p>
         <h2>Formación y experiencia</h2>
@@ -94,7 +94,8 @@
 </section>
 {% endif %}
 
-<section class="cta-band reveal">
+<section class="cta-band cta-band--visual reveal">
+    <img src="{% static 'images/museum-hall.jpg' %}" alt="" class="cta-band-bg" loading="lazy" decoding="async">
     <div class="container cta-band-inner">
         <p class="section-label">Conversemos</p>
         <h2>¿Conversamos sobre su caso?</h2>
