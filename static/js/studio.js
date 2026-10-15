@@ -56,7 +56,7 @@ function initHeroBanners(reducedMotion) {
 
   const start = () => {
     clearInterval(timer);
-    if (reducedMotion) return;
+    if (reducedMotion || document.hidden) return;
     timer = setInterval(() => show(index + 1), 7000);
   };
 
@@ -67,12 +67,32 @@ function initHeroBanners(reducedMotion) {
     });
   });
 
-  root.addEventListener("mouseenter", () => clearInterval(timer));
-  root.addEventListener("mouseleave", start);
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (finePointer) {
+    root.addEventListener("mouseenter", () => clearInterval(timer));
+    root.addEventListener("mouseleave", start);
+  }
+
   root.addEventListener("focusin", () => clearInterval(timer));
   root.addEventListener("focusout", (event) => {
     if (!root.contains(event.relatedTarget)) start();
   });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) clearInterval(timer);
+    else start();
+  });
+
+  const hero = root.closest(".firm-hero");
+  if (hero && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) start();
+        else clearInterval(timer);
+      });
+    }, { threshold: 0.25 });
+    observer.observe(hero);
+  }
 
   show(0);
   start();
@@ -116,14 +136,17 @@ function initParallaxAndScrubbing() {
   ];
 
   let ticking = false;
+  let clearedMobileMotion = false;
 
   const render = () => {
     ticking = false;
     const vh = window.innerHeight || 1;
     const isDesktop = window.innerWidth > 980;
 
-    // 1. Parallax scrolling
+    // 1. Parallax scrolling. En móvil se limpia una sola vez: reescribir
+    // el transform en cada frame retrasa el cambio de los banners.
     if (isDesktop) {
+      clearedMobileMotion = false;
       parallaxItems.forEach((el) => {
         const speed = parseFloat(el.dataset.parallax || "0");
         const rect = el.parentElement ? el.parentElement.getBoundingClientRect() : el.getBoundingClientRect();
@@ -131,10 +154,11 @@ function initParallaxAndScrubbing() {
         const shift = clamp(centerOffset * speed, -32, 32);
         el.style.transform = `translate3d(0, ${shift.toFixed(1)}px, 0)`;
       });
-    } else {
+    } else if (!clearedMobileMotion) {
       parallaxItems.forEach((el) => {
         el.style.transform = "";
       });
+      clearedMobileMotion = true;
     }
 
     // 2. Scroll scrubbing en la franja editorial (#criterio)
@@ -207,11 +231,17 @@ function initPinnedServices(reducedMotion) {
     return;
   }
 
+  let clearedMobilePins = false;
+
   const onScroll = () => {
     if (window.innerWidth <= 980) {
-      cards.forEach((card) => card.removeAttribute("aria-hidden"));
+      if (!clearedMobilePins) {
+        cards.forEach((card) => card.removeAttribute("aria-hidden"));
+        clearedMobilePins = true;
+      }
       return;
     }
+    clearedMobilePins = false;
     const rect = section.getBoundingClientRect();
     const scrollable = section.offsetHeight - window.innerHeight;
     if (scrollable <= 0) return;

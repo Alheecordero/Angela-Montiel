@@ -1106,7 +1106,15 @@ h1, h2, h3 {
     padding: 0;
     background: linear-gradient(180deg, rgba(246, 243, 238, 0) 0, #f6f3ee 1.6rem);
     transform: none !important;
+    will-change: auto;
   }
+
+  .firm-hero-columns,
+  .firm-hero-statue { will-change: auto; }
+
+  .firm-hero-statue { filter: none; }
+
+  .firm-banner { transition: none; }
 
   .firm-hero h1,
   .firm-hero-title {
