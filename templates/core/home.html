@@ -149,10 +149,12 @@
                 <h2>Lo último, verificado en la fuente.</h2>
                 <p>Notas jurídicas, análisis y guías para entender tu empresa antes de decidir.</p>
             </div>
+            {% if recent_publications %}
             <a href="{% url 'publications:list' %}" class="firm-journal-all firm-pill">
                 <span>Ver todas las publicaciones</span>
                 {% include "components/icons.html" with icon="arrow-right" size=16 %}
             </a>
+            {% endif %}
         </header>
 
         {% if recent_publications %}
@@ -211,23 +213,6 @@
                     </figure>
                 </div>
 
-                {% with principles=about_page.principles.all %}
-                {% if principles %}
-                <div class="firm-about-glass firm-about-reveal" style="--about-delay: 5">
-                    <ul class="firm-about-highlights" data-about-highlights role="tablist" aria-label="Cómo trabajo">
-                        {% for principle in principles|slice:":3" %}
-                        <li{% if forloop.first %} class="is-active"{% endif %} data-about-highlight role="tab" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
-                            <span class="firm-about-highlight-icon">{% include "components/icons.html" with icon="diamond" size=18 %}</span>
-                            <div>
-                                <strong>{{ principle.title }}</strong>
-                                <p>{{ principle.text|truncatewords:14 }}</p>
-                            </div>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endif %}
-                {% endwith %}
             </div>
         </article>
     </div>

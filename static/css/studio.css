@@ -890,7 +890,6 @@ h1, h2, h3 {
   flex-direction: column;
   justify-content: center;
   padding: clamp(1.75rem, 4.5vw, 3.2rem);
-  padding-bottom: clamp(4.5rem, 10vw, 5.5rem);
 }
 
 .firm-about h2 {
@@ -969,7 +968,7 @@ h1, h2, h3 {
   position: absolute;
   z-index: 2;
   right: clamp(0.85rem, 2.5vw, 1.35rem);
-  bottom: clamp(4.2rem, 9vw, 5rem);
+  bottom: clamp(0.85rem, 2.5vw, 1.35rem);
   padding: 0.65rem 0.85rem;
   border-radius: 12px;
   background: rgba(8, 16, 28, 0.72);
@@ -2057,7 +2056,7 @@ h1, h2, h3 {
   }
 
   .firm-about-copy {
-    padding: 2rem 1.75rem 4.25rem;
+    padding: 2rem 1.75rem;
   }
 
   .firm-about h2 {
