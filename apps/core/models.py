@@ -239,7 +239,7 @@ class AboutPage(SingletonModel):
             return self.photo.url
         from django.templatetags.static import static
 
-        return static("images/angela-sobremi.jpg")
+        return static("images/angela-escritorio.jpg")
 
 
 class WorkPrinciple(models.Model):

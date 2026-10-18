@@ -882,7 +882,7 @@ h1, h2, h3 {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(240px, 0.95fr);
   align-items: stretch;
-  min-height: clamp(380px, 52vw, 460px);
+  min-height: 0;
 }
 
 .firm-about-copy {
@@ -948,33 +948,21 @@ h1, h2, h3 {
 .firm-about-visual {
   position: relative;
   margin: 0;
-  min-height: 100%;
-  background: linear-gradient(180deg, rgba(36, 58, 92, 0.2), rgba(23, 42, 66, 0.55));
+  aspect-ratio: 4 / 5;
+  background: #172a42;
+  overflow: hidden;
 }
 
 .firm-about-visual::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 38%;
-  background: linear-gradient(90deg, rgba(23, 42, 66, 0.92), transparent);
-  z-index: 1;
-  pointer-events: none;
+  content: none;
 }
 
 .firm-about-visual img {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: clamp(320px, 52vw, 460px);
   object-fit: cover;
-  object-position: center 14%;
-  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
-}
-
-.firm-about-card-inner:hover .firm-about-visual img {
-  transform: scale(1.05);
+  object-position: center;
 }
 
 .firm-about-nameplate {
@@ -1724,19 +1712,7 @@ h1, h2, h3 {
 
   .firm-about-visual {
     order: -1;
-    max-height: clamp(240px, 38vw, 300px);
-  }
-
-  .firm-about-visual::before {
-    inset: auto 0 0 0;
     width: 100%;
-    height: 55%;
-    background: linear-gradient(180deg, transparent, rgba(23, 42, 66, 0.82));
-  }
-
-  .firm-about-visual img {
-    min-height: clamp(220px, 36vw, 300px);
-    max-height: clamp(240px, 38vw, 300px);
   }
 
   .firm-about-copy {
@@ -1910,10 +1886,6 @@ h1, h2, h3 {
 
   .firm-about-card-inner {
     border-radius: 18px;
-  }
-
-  .firm-about-visual img {
-    object-position: center 12%;
   }
 
   .firm-about-copy {
@@ -2092,9 +2064,6 @@ h1, h2, h3 {
     font-size: clamp(1.95rem, 2.8vw, 2.55rem);
   }
 
-  .firm-about-visual img {
-    min-height: 360px;
-  }
 
   .firm-hero-visual {
     width: min(44%, 560px);
