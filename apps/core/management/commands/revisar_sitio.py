@@ -138,7 +138,7 @@ class Command(BaseCommand):
         urls += [p.get_absolute_url() for p in Publication.objects.published()]
         urls += [v.get_absolute_url() for v in Video.objects.published()]
         for url in urls:
-            r = client.get(url)
+            r = client.get(url, secure=True)
             if r.status_code != 200:
                 self.anotar(f"{url} responde {r.status_code}.")
                 continue
