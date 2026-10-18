@@ -308,7 +308,23 @@ function initServicesCarousel(reducedMotion) {
 
   const measure = () => {
     const cardWidth = cards[0]?.offsetWidth || 320;
-    spreadPx = Math.min(cardWidth * 0.52, window.innerWidth * 0.34);
+    const vw = viewport.clientWidth || window.innerWidth;
+    const width = window.innerWidth;
+
+    let cardFactor = 0.52;
+    let viewportFactor = 0.34;
+    if (width < 480) {
+      cardFactor = 0.82;
+      viewportFactor = 0.44;
+    } else if (width < 768) {
+      cardFactor = 0.72;
+      viewportFactor = 0.4;
+    } else if (width < 980) {
+      cardFactor = 0.58;
+      viewportFactor = 0.36;
+    }
+
+    spreadPx = Math.min(cardWidth * cardFactor, Math.max(108, vw * viewportFactor));
     return spreadPx;
   };
 
