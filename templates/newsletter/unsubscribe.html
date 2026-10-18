@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}Baja de newsletter — {{ site_settings.site_name }}{% endblock %}
-
 {% block content %}
-<section class="section">
-    <div class="container confirmation-card reveal">
-        <h1>Baja confirmada</h1>
-        <p>
-            El correo <strong>{{ subscriber.email }}</strong> ha sido dado de baja del newsletter.
-        </p>
-        <a href="{% url 'core:home' %}" class="btn btn-blue">Volver al inicio</a>
+<section class="c-hero">
+    <div class="container reveal">
+        <p class="firm-kicker">Boletín</p>
+        <h1>Baja confirmada.</h1>
+        <div class="c-hero-rule" aria-hidden="true"></div>
+        <p class="c-hero-lead">El correo <strong>{{ subscriber.email }}</strong> ya no recibirá el boletín. Puedes volver a suscribirte cuando quieras desde la página de publicaciones.</p>
+        <div class="c-hero-actions">
+            <a href="{% url 'core:home' %}" class="firm-pill"><span>Volver al inicio</span></a>
+        </div>
     </div>
 </section>
 {% endblock %}

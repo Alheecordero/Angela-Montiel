@@ -1,0 +1,92 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://www.angelamontiel.cl/#angela-montiel",
+      "name": "Ángela Montiel",
+      "url": "https://www.angelamontiel.cl/sobre-mi",
+      "image": "https://www.angelamontiel.cl/img/angela-sobremi.jpg",
+      "description": "Ángela Montiel es abogada titulada en la Universidad del Zulia (Venezuela), con revalidación de título en curso en la Universidad de Chile. Desde 2019 asesora a empresas en Chile en derecho societario y reorganizaciones empresariales con enfoque tributario. Es diplomada en Tributación Corporativa por la Universidad Andrés Bello, y en Responsabilidad Civil y Contratación Pública por la Universidad de Chile.",
+      "knowsAbout": [
+        "Derecho societario",
+        "Reorganizaciones empresariales",
+        "Fusión de sociedades",
+        "División de sociedades",
+        "Transformación de sociedades",
+        "Aporte de bienes",
+        "Conversión de empresario individual",
+        "Tributación corporativa"
+      ],
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Universidad del Zulia"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Universidad Andrés Bello"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Universidad de Chile"
+        }
+      ],
+      "hasCredential": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "credentialCategory": "degree",
+          "name": "Abogada",
+          "recognizedBy": {
+            "@type": "CollegeOrUniversity",
+            "name": "Universidad del Zulia"
+          }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "credentialCategory": "certificate",
+          "name": "Diplomado en Tributación Corporativa",
+          "recognizedBy": {
+            "@type": "CollegeOrUniversity",
+            "name": "Universidad Andrés Bello"
+          }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "credentialCategory": "certificate",
+          "name": "Diplomado en Responsabilidad Civil",
+          "recognizedBy": {
+            "@type": "CollegeOrUniversity",
+            "name": "Universidad de Chile"
+          }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "credentialCategory": "certificate",
+          "name": "Diplomado en Contratación Pública",
+          "recognizedBy": {
+            "@type": "CollegeOrUniversity",
+            "name": "Universidad de Chile"
+          }
+        }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "CL"
+      },
+      "sameAs": [
+        "https://www.instagram.com/abogada_angelamontiel/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.angelamontiel.cl/#website",
+      "url": "https://www.angelamontiel.cl/",
+      "name": "Ángela Montiel",
+      "inLanguage": "es-CL",
+      "publisher": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      }
+    }
+  ]
+}

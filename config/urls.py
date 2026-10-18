@@ -3,39 +3,41 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.http import HttpResponseNotFound
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.views.generic import RedirectView
 
-from apps.core.views import robots_txt
-from config.sitemaps import PostSitemap, StaticViewSitemap, VideoSitemap
-
-sitemaps = {
-    "static": StaticViewSitemap,
-    "posts": PostSitemap,
-    "videos": VideoSitemap,
-}
+from apps.core.views import llms_txt, robots_txt
+from config.sitemaps import SITEMAPS
 
 
 def conditional_sitemap(request, **kwargs):
     if not settings.SITE_INDEXABLE:
         return HttpResponseNotFound("Sitemap no disponible en entorno de desarrollo.")
-    return sitemap(request, sitemaps=sitemaps, **kwargs)
+    return sitemap(request, sitemaps=SITEMAPS, **kwargs)
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("ckeditor5/", include("django_ckeditor_5.urls")),
-    path("", include("apps.core.urls")),
-    path("blog/videos/", RedirectView.as_view(url="/blog/?tipo=videos", permanent=True)),
-    path(
-        "blog/videos/<slug:slug>/",
-        RedirectView.as_view(pattern_name="blog:post_detail", permanent=True),
-    ),
-    path("blog/", include("apps.blog.urls")),
-    path("contacto/", include("apps.contact.urls")),
-    path("newsletter/", include("apps.newsletter.urls")),
-    path("robots.txt", robots_txt),
+    path("robots.txt", robots_txt, name="robots"),
+    path("llms.txt", llms_txt, name="llms"),
     path("sitemap.xml", conditional_sitemap, name="django.contrib.sitemaps.views.sitemap"),
+    # Redirecciones desde las rutas de la versión anterior del sitio.
+    re_path(r"^blog/videos/?$", RedirectView.as_view(url="/videos", permanent=True)),
+    re_path(r"^blog/videos/(?P<slug>[-\w]+)/?$", RedirectView.as_view(url="/videos/%(slug)s", permanent=True)),
+    re_path(r"^blog/?$", RedirectView.as_view(url="/publicaciones", permanent=True)),
+    re_path(r"^blog/(?P<slug>[-\w]+)/?$", RedirectView.as_view(url="/publicaciones/%(slug)s", permanent=True)),
+    re_path(r"^contacto/?$", RedirectView.as_view(url="/#conversemos", permanent=True)),
+    re_path(r"^newsletter/baja/(?P<token>[-\w]+)/?$", RedirectView.as_view(url="/boletin/baja/%(token)s", permanent=True)),
+    # Secciones con prefijo propio. Cada app declara sus rutas completas sin barra final.
+    path("", include("apps.publications.urls")),
+    path("", include("apps.videos.urls")),
+    path("", include("apps.resources.urls")),
+    path("", include("apps.newsletter.urls")),
+    # Inicio, Sobre mí y páginas legales.
+    path("", include("apps.core.urls")),
+    # Áreas de práctica y figuras ocupan el primer nivel; van al final.
+    path("", include("apps.practice.urls")),
 ]
 
 if settings.DEBUG:

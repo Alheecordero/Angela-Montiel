@@ -13,7 +13,11 @@ pip install -r requirements.txt
 echo "==> Migraciones y archivos estáticos"
 export DJANGO_SETTINGS_MODULE=config.settings.prod
 python manage.py migrate --noinput
+python manage.py optimizar_imagenes
 python manage.py collectstatic --noinput
+
+echo "==> Revisión de reglas del sitio"
+python manage.py revisar_sitio || true
 
 echo "==> Reiniciando servicios"
 systemctl restart gunicorn-angelamontiel.socket gunicorn-angelamontiel.service

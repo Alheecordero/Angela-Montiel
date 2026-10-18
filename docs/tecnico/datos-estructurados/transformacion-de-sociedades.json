@@ -1,0 +1,81 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.angelamontiel.cl/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Reorganizaciones empresariales",
+          "item": "https://www.angelamontiel.cl/reorganizaciones-empresariales"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Transformación",
+          "item": "https://www.angelamontiel.cl/transformacion-de-sociedades"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.angelamontiel.cl/transformacion-de-sociedades#pagina",
+      "url": "https://www.angelamontiel.cl/transformacion-de-sociedades",
+      "name": "Transformación de sociedades en Chile, de limitada a SpA | Ángela Montiel",
+      "description": "Qué es la transformación de una sociedad, cómo se acuerda en cada tipo social y qué debes informar al SII.",
+      "inLanguage": "es-CL",
+      "dateModified": "2026-10-18",
+      "author": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "reviewedBy": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "lastReviewed": "2026-10-18"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿La sociedad transformada es una sociedad nueva?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Sigue siendo la misma persona jurídica; solo cambia su tipo social."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Puedo transformar mi limitada en SpA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. Es una transformación, y se hace mediante una reforma de la escritura social de la limitada, que debe reducirse a escritura pública inscrita."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Hay que avisar al SII?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, a través de la carpeta tributaria electrónica, dentro de los dos meses siguientes a la modificación o a su inscripción en el Registro de Comercio."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Una SpA puede transformarse en sociedad anónima sin acuerdo de sus accionistas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, por el solo ministerio de la ley, si durante doce meses consecutivos cumple las condiciones que obligan a una sociedad anónima cerrada a inscribir sus acciones en el Registro de Valores."
+          }
+        }
+      ]
+    }
+  ]
+}

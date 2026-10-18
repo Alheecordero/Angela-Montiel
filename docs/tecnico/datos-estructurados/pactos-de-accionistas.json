@@ -1,0 +1,81 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.angelamontiel.cl/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Derecho societario",
+          "item": "https://www.angelamontiel.cl/derecho-societario"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Pactos de accionistas y socios",
+          "item": "https://www.angelamontiel.cl/pactos-de-accionistas"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.angelamontiel.cl/pactos-de-accionistas#pagina",
+      "url": "https://www.angelamontiel.cl/pactos-de-accionistas",
+      "name": "Pactos de accionistas y de socios en Chile | Ángela Montiel",
+      "description": "Dónde debe constar un pacto de accionistas para ser oponible, qué permite el estatuto de una SpA y qué debe informarse al SII.",
+      "inLanguage": "es-CL",
+      "dateModified": "2026-10-18",
+      "author": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "reviewedBy": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "lastReviewed": "2026-10-18"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Dónde debe constar un pacto de accionistas en una sociedad anónima?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Si se refiere a la cesión de acciones, debe depositarse en la compañía, a disposición de los demás accionistas y de terceros interesados, con referencia en el Registro de Accionistas. Si no, es inoponible a terceros."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿En una SpA se puede obligar a un accionista a vender?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, si el estatuto lo establece para determinadas circunstancias y regula sus efectos y los derechos y obligaciones que nacen para los accionistas. Si no los regula, la estipulación se tiene por no escrita."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Puede haber acciones con más de un voto?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "En la SpA, sí. El estatuto puede contemplar series sin derecho a voto, con voto limitado o con más de un voto por acción, indicando cómo se computan para los quórum."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Debo informar al SII si repartimos utilidades en proporción distinta al capital?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. Los acuerdos de participación en las utilidades distinta a la participación en el capital deben informarse al SII dentro de dos meses."
+          }
+        }
+      ]
+    }
+  ]
+}

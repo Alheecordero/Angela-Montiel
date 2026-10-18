@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static site_tags %}
+
+{% block content %}
+{% include "components/page_hero.html" with label=area.label title=area.title lead=area.lead breadcrumbs=breadcrumbs updated=area.content_updated_at cta_label="Escríbeme por WhatsApp" cta_message=area.whatsapp_message secondary_href="#herramienta" secondary_label=area.home_cta image="images/navy-gold-cinematic.png" %}
+
+{# Herramienta: mapa de reorganizaciones o comparador de tipos sociales #}
+{% if map_options %}
+<section class="c-section c-section--ink" id="herramienta">
+    <div class="container">
+        <header class="c-head reveal">
+            <p class="firm-kicker firm-kicker--light">{{ area.tool_label }}</p>
+            <h2>{{ area.tool_title }}</h2>
+            <p>{{ area.tool_intro|enfasis }}</p>
+        </header>
+        <div class="c-map reveal" data-map>
+            <script type="application/json" data-map-data>{{ map_options_json|safe }}</script>
+            <div class="c-map-options" role="group" aria-label="{{ area.tool_title }}">
+                {% for option in map_options %}
+                <button type="button" class="c-map-option" data-map-option="{{ forloop.counter0 }}" aria-pressed="false">
+                    <span>{{ option.question }}</span>
+                    {% include "components/icons.html" with icon="arrow-right" size=16 %}
+                </button>
+                {% endfor %}
+            </div>
+            <div class="c-map-placeholder" data-map-empty>
+                <p>Elige una opción para ver la figura que podría servirte y su principal punto de atención.</p>
+            </div>
+            <article class="c-map-result" data-map-result hidden tabindex="-1" aria-live="polite">
+                <p class="firm-kicker">Figura</p>
+                <h3 data-map-name></h3>
+                <p data-map-para></p>
+                <div class="c-map-attention">
+                    <p class="firm-kicker">Principal punto de atención</p>
+                    <p data-map-atencion></p>
+                </div>
+                <a href="#" class="firm-text-link" data-map-link>Ver en detalle</a>
+            </article>
+        </div>
+        <noscript>
+            <div class="c-grid" style="margin-top: 1.5rem">
+                {% for option in map_options %}
+                <a href="{{ option.figure.get_absolute_url }}" class="c-tile">
+                    <span class="c-meta">{{ option.question }}</span>
+                    <span class="c-tile-title">{{ option.name }}</span>
+                    <p>{{ option.description }}</p>
+                    <p><strong>Principal punto de atención.</strong> {{ option.attention_point }}</p>
+                </a>
+                {% endfor %}
+            </div>
+        </noscript>
+    </div>
+</section>
+{% elif comparator_rows %}
+<section class="c-section c-section--paper" id="herramienta">
+    <div class="container">
+        <header class="c-head reveal">
+            <p class="firm-kicker">{{ area.tool_label }}</p>
+            <h2>{{ area.tool_title }}</h2>
+            <p>{{ area.tool_intro|enfasis }}</p>
+        </header>
+        <div class="c-table-wrap reveal">
+            <table class="c-table">
+                <caption class="sr-only" style="position:absolute;left:-9999px">{{ area.tool_title }}</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Criterio</th>
+                        <th scope="col">Sociedad anónima</th>
+                        <th scope="col">Sociedad por acciones</th>
+                        <th scope="col">Sociedad de responsabilidad limitada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in comparator_rows %}
+                    <tr>
+                        <th scope="row">{{ row.criterion }}</th>
+                        <td>{{ row.sa|enfasis }}</td>
+                        <td>{{ row.spa|enfasis }}</td>
+                        <td>{{ row.ltda|enfasis }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if area.tool_note %}<p class="c-note" style="margin-top: 1.2rem; max-width: 52rem">{{ area.tool_note|enfasis }}</p>{% endif %}
+    </div>
+</section>
+{% endif %}
+
+{# Figuras #}
+{% if figures %}
+<section class="c-section" id="figuras">
+    <div class="container">
+        <header class="c-head reveal">
+            <p class="firm-kicker">{{ area.figures_label }}</p>
+            <h2>{{ area.figures_title }}</h2>
+        </header>
+        <div class="c-grid">
+            {% for figure in figures %}
+            <a href="{{ figure.get_absolute_url }}" class="c-tile reveal" style="--reveal-order: {{ forloop.counter }}">
+                <span class="c-num">{{ forloop.counter0|romano }}.</span>
+                <span class="c-tile-title">{{ figure.short_name }}</span>
+                <p>{{ figure.card_text|enfasis }}</p>
+                <span class="firm-text-link">Ver en detalle</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{# Lo que todas tienen en común (tributario) #}
+{% if area.tax_text %}
+<section class="c-section c-section--paper">
+    <div class="container">
+        <header class="c-head reveal">
+            <p class="firm-kicker">{{ area.tax_label }}</p>
+            <h2>{{ area.tax_title }}</h2>
+        </header>
+        <div class="c-prose reveal">{{ area.tax_text|parrafos }}</div>
+    </div>
+</section>
+{% endif %}
+
+{% include "components/ley_criterio_riesgo.html" with obj=area %}
+
+{# Cómo trabajo #}
+{% if work_steps %}
+<section class="c-section">
+    <div class="container">
+        <header class="c-head reveal">
+            <p class="firm-kicker">{{ area.how_label }}</p>
+        </header>
+        <ol class="c-steps reveal">
+            {% for step in work_steps %}
+            <li><span class="c-num">{{ step.numeral }}.</span><span>{{ step.text|enfasis }}</span></li>
+            {% endfor %}
+        </ol>
+    </div>
+</section>
+{% endif %}
+
+{% include "components/faq.html" %}
+{% include "components/related.html" %}
+{% include "components/sources.html" with obj=area %}
+{% include "components/close.html" with question=area.closing_question message=area.whatsapp_message %}
+{% endblock %}

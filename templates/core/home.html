@@ -1,78 +1,186 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static site_tags %}
 
 {% block body_class %}is-home{% endblock %}
-{% block title %}Ángela Montiel — Abogada corporativa{% endblock %}
+
+{% block meta_extra %}<link rel="preload" as="image" href="{% webp 'images/navy-stone-columns.png' %}">{% endblock %}
 
 {% block content %}
 <section class="firm-hero" data-scrolly-hero>
     <div class="firm-hero-visual" aria-hidden="true">
-        <img src="{% static 'images/navy-stone-columns.png' %}" alt="" class="firm-hero-columns">
+        <img src="{% webp 'images/navy-stone-columns.png' %}" alt="" class="firm-hero-columns" fetchpriority="high">
     </div>
 
     <div class="container firm-hero-grid">
         <div class="firm-hero-copy" data-hero-banners data-parallax="-0.08">
             <div class="firm-banner-stage">
+            {# Banner 1. Fijo. Único H1 de la página. #}
             <div class="firm-banner is-active" data-banner aria-hidden="false">
-                <p class="firm-kicker">Asesoría jurídica con visión de negocio</p>
-                <h1 class="firm-hero-title">Estrategia legal para el crecimiento de tu empresa.</h1>
-                <p class="firm-lead">Asesoría corporativa y societaria con enfoque estratégico, rigor jurídico y atención personalizada, para acompañar cada etapa de tu negocio.</p>
+                <p class="firm-kicker">{{ site_settings.header_line }}</p>
+                <h1 class="firm-hero-title">Reorganizar tu empresa empieza por entenderla.</h1>
+                <p class="firm-lead">Derecho societario y reorganizaciones empresariales, explicados junto con <strong>su efecto tributario</strong>, para que decidas con claridad.</p>
                 <div class="firm-hero-actions">
-                    <a href="{% url 'contact:contact' %}" class="firm-pill">
-                        <span>Agendar reunión</span>
-                        {% include "components/icons.html" with icon="arrow-right" size=16 %}
+                    <a href="{{ site_settings.whatsapp_url }}" class="firm-pill" target="_blank" rel="noopener noreferrer">
+                        {% include "components/icons.html" with icon="whatsapp" size=16 %}
+                        <span>Conversemos por WhatsApp</span>
                     </a>
-                    <a href="#servicios" class="firm-text-link">
-                        <span>Conoce mis servicios</span>
-                    </a>
+                    <a href="#areas" class="firm-text-link"><span>Ver las áreas de práctica</span></a>
                 </div>
             </div>
 
+            {# Banner 2. Última nota jurídica. #}
             <div class="firm-banner" data-banner aria-hidden="true">
-                <p class="firm-kicker">Planes de acompañamiento</p>
-                <p class="firm-hero-title">Una forma de trabajar según la etapa de tu empresa.</p>
-                <p class="firm-lead">Consulta inicial, proyecto puntual o acompañamiento continuo. El alcance se define con las decisiones societarias y comerciales que tengas por delante.</p>
+                <p class="firm-kicker">Publicaciones</p>
+                <p class="firm-hero-title">Cuando la ley cambia, te explico qué significa para tu empresa.</p>
+                <p class="firm-lead">Notas jurídicas, análisis y guías sobre derecho societario y reorganizaciones, con fuentes oficiales verificadas.</p>
                 <div class="firm-hero-actions">
-                    <a href="#servicios" class="firm-pill">
-                        <span>Ver los servicios</span>
+                    <a href="{% url 'publications:list' %}" class="firm-pill">
+                        <span>Leer las publicaciones</span>
                         {% include "components/icons.html" with icon="arrow-right" size=16 %}
                     </a>
-                    <a href="{% url 'contact:contact' %}" class="firm-text-link">
-                        <span>Conversar un plan</span>
-                    </a>
+                    {% if latest_nota %}
+                    <a href="{{ latest_nota.get_absolute_url }}" class="firm-text-link"><span>Última nota · {{ latest_nota.title|truncatechars:60 }}</span></a>
+                    {% endif %}
                 </div>
             </div>
 
+            {# Banner 3. Solo cuando el canal existe y hay videos. #}
+            {% if latest_video %}
             <div class="firm-banner" data-banner aria-hidden="true">
-                <p class="firm-kicker">Blog y videos</p>
-                <p class="firm-hero-title">Ideas y conversaciones para decidir con más criterio.</p>
-                <p class="firm-lead">Artículos y videos sobre derecho corporativo, societario y gestión empresarial, para entender cada tema antes de dar el siguiente paso.</p>
+                <p class="firm-kicker">Entiende tu empresa</p>
+                <p class="firm-hero-title">Hola, soy Ángela Montiel. Hoy te explico…</p>
+                <p class="firm-lead">Videos breves sobre las decisiones societarias que más se preguntan los empresarios, y su efecto tributario.</p>
                 <div class="firm-hero-actions">
-                    <a href="{% url 'blog:post_list' %}" class="firm-pill">
-                        <span>Ir al blog</span>
-                        {% include "components/icons.html" with icon="arrow-right" size=16 %}
-                    </a>
-                    <a href="{% url 'blog:post_list' %}?tipo=videos" class="firm-text-link">
+                    <a href="{% url 'videos:list' %}" class="firm-pill">
+                        {% include "components/icons.html" with icon="play" size=16 %}
                         <span>Ver los videos</span>
                     </a>
+                    <a href="{{ latest_video.get_absolute_url }}" class="firm-text-link"><span>{{ latest_video.title|truncatechars:60 }}</span></a>
                 </div>
             </div>
+            {% endif %}
             </div>
 
             <div class="firm-banner-nav" role="tablist" aria-label="Mensajes de inicio">
                 <button type="button" class="is-active" data-banner-dot="0" role="tab" aria-selected="true">Presentación</button>
-                <button type="button" data-banner-dot="1" role="tab" aria-selected="false">Planes</button>
-                <button type="button" data-banner-dot="2" role="tab" aria-selected="false">Blog y videos</button>
+                <button type="button" data-banner-dot="1" role="tab" aria-selected="false">Publicaciones</button>
+                {% if latest_video %}<button type="button" data-banner-dot="2" role="tab" aria-selected="false">Videos</button>{% endif %}
             </div>
         </div>
     </div>
 
-    <a href="#sobre" class="firm-scroll" aria-label="Bajar">
+    <a href="#areas" class="firm-scroll" aria-label="Bajar">
         {% include "components/icons.html" with icon="chevron-up" size=16 %}
         <span>Scroll</span>
     </a>
 </section>
 
+{# Áreas de práctica. Dos áreas con sus figuras. #}
+<section class="firm-services" id="areas" data-services-carousel>
+    <div class="container">
+        <header class="firm-services-head">
+            <p class="firm-kicker">Áreas de práctica</p>
+            <p class="firm-services-lead">Cada decisión de tu empresa, con su efecto tributario.</p>
+        </header>
+
+        <div class="firm-services-stage">
+            <div class="firm-services-orbit" aria-hidden="true"></div>
+            <button type="button" class="firm-services-nav firm-services-nav--prev" data-services-prev aria-label="Área anterior">
+                {% include "components/icons.html" with icon="chevron-up" size=18 %}
+            </button>
+            <button type="button" class="firm-services-nav firm-services-nav--next" data-services-next aria-label="Siguiente área">
+                {% include "components/icons.html" with icon="chevron-up" size=18 %}
+            </button>
+            <div class="firm-services-viewport" aria-roledescription="carrusel" aria-label="Áreas de práctica">
+            <div class="firm-services-track" data-services-track>
+                {% for area in areas %}
+                <article class="firm-service-card" data-service-card data-service-label="{{ area.short_name }}" aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
+                    <div class="firm-service-card-media">
+                        <img src="{% webp 'images/navy-gold-architecture.png' %}" alt="" loading="lazy" decoding="async">
+                    </div>
+                    <div class="firm-service-card-body">
+                        <h2>{{ area.name }}</h2>
+                        <p>{{ area.home_description|enfasis }}</p>
+                        <a href="{{ area.get_absolute_url }}" class="firm-text-link">{{ area.home_cta }}</a>
+                    </div>
+                </article>
+                {% for figure in area.published_figures %}
+                <article class="firm-service-card" data-service-card data-service-label="{{ figure.short_name }}" aria-hidden="true">
+                    <div class="firm-service-card-media">
+                        {% cycle 'images/study-desk.jpg' 'images/navy-gold-shadows.png' 'images/bronze-sculpture-navy.png' 'images/acropolis-navy.png' 'images/museum-hall.jpg' as tile_img silent %}<img src="{% webp tile_img %}" alt="" loading="lazy" decoding="async">
+                    </div>
+                    <div class="firm-service-card-body">
+                        <p class="firm-kicker">{{ area.short_name }}</p>
+                        <h2>{{ figure.name }}</h2>
+                        <p>{{ figure.card_text|enfasis }}</p>
+                        <a href="{{ figure.get_absolute_url }}" class="firm-text-link">Ver en detalle</a>
+                    </div>
+                </article>
+                {% endfor %}
+                {% endfor %}
+            </div>
+            </div>
+        </div>
+
+        <div class="firm-services-footer">
+            <div class="firm-services-dots" role="tablist" aria-label="Áreas de práctica"></div>
+            <p class="firm-services-live" aria-live="polite" data-services-live></p>
+        </div>
+
+        <div class="c-grid" style="margin-top: 2.5rem">
+            {% for area in areas %}
+            <a href="{{ area.get_absolute_url }}" class="c-tile{% if area.is_primary %} c-tile--ink{% endif %} scrolly-reveal" style="--reveal-order: {{ forloop.counter }}">
+                <span class="c-meta">{% if area.is_primary %}Servicio principal{% else %}Área de práctica{% endif %}</span>
+                <span class="c-tile-title">{{ area.name }}</span>
+                <p>{% for figure in area.published_figures %}{{ figure.short_name }}{% if not forloop.last %} · {% endif %}{% endfor %}</p>
+                <span class="firm-text-link">{{ area.home_cta }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{# Publicaciones recientes. #}
+<section class="firm-journal" data-scroll-scene>
+    <div class="container">
+        <header class="firm-journal-head scrolly-reveal" style="--reveal-order: 0">
+            <div class="firm-journal-intro">
+                <p class="firm-kicker">Publicaciones</p>
+                <h2>Lo último, verificado en la fuente.</h2>
+                <p>Notas jurídicas, análisis y guías para entender tu empresa antes de decidir.</p>
+            </div>
+            <a href="{% url 'publications:list' %}" class="firm-journal-all firm-pill">
+                <span>Ver todas las publicaciones</span>
+                {% include "components/icons.html" with icon="arrow-right" size=16 %}
+            </a>
+        </header>
+
+        {% if recent_publications %}
+        <div class="firm-posts-track">
+            <div class="firm-posts">
+                {% for pub in recent_publications %}
+                <article class="firm-post scrolly-reveal{% if forloop.first %} firm-post--lead{% endif %}" style="--reveal-order: {{ forloop.counter }}">
+                    <a href="{{ pub.get_absolute_url }}" class="firm-post-media">
+                        <span class="firm-post-tag">{{ pub.get_format_display }}</span>
+                        {% if pub.image %}<img src="{{ pub.image.url }}" alt="" loading="lazy" decoding="async">{% else %}<img src="{% webp 'images/navy-gold-architecture.png' %}" alt="" loading="lazy">{% endif %}
+                    </a>
+                    <div class="firm-post-body">
+                        <time datetime="{{ pub.published_at|date:'Y-m-d' }}">{{ pub.published_at|fecha_corta }}</time>
+                        <h3><a href="{{ pub.get_absolute_url }}">{{ pub.title }}</a></h3>
+                        <p class="firm-post-excerpt">{{ pub.lead }}</p>
+                        <a href="{{ pub.get_absolute_url }}" class="firm-text-link firm-post-more">Leer</a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <p class="c-note scrolly-reveal" style="--reveal-order: 1">Las primeras publicaciones están en preparación. Mientras tanto, puedes revisar las áreas de práctica y el glosario.</p>
+        {% endif %}
+    </div>
+</section>
+
+{# Sobre mí. #}
 <section class="firm-about" id="sobre" data-scroll-scene data-about-interactive>
     <div class="container firm-about-wrap">
         <article class="firm-about-card scrolly-reveal" data-about-card style="--reveal-order: 0">
@@ -82,255 +190,86 @@
             <div class="firm-about-card-inner" data-about-tilt>
                 <div class="firm-about-layout">
                     <div class="firm-about-copy">
-                        <p class="firm-kicker firm-kicker--light firm-about-reveal" style="--about-delay: 1">Sobre Ángela</p>
-                        <h2 class="firm-about-reveal" style="--about-delay: 2">Criterio jurídico para las decisiones de tu empresa.</h2>
-                        <p class="firm-about-lead firm-about-reveal" style="--about-delay: 3">Asesoría en estructura societaria, contratos y cumplimiento, con relación directa en cada encargo.</p>
+                        <p class="firm-kicker firm-kicker--light firm-about-reveal" style="--about-delay: 1">{{ about_page.label }}</p>
+                        <h2 class="firm-about-reveal" style="--about-delay: 2">{{ about_page.title }}</h2>
+                        <p class="firm-about-lead firm-about-reveal" style="--about-delay: 3">{{ about_page.lead|enfasis }}</p>
                         <div class="firm-about-actions firm-about-reveal" style="--about-delay: 4">
-                            <a href="{% url 'contact:contact' %}" class="firm-pill">
-                                <span>Agendar reunión</span>
+                            <a href="{% url 'core:about' %}" class="firm-pill">
+                                <span>Conocer mi trayectoria</span>
                                 {% include "components/icons.html" with icon="arrow-right" size=16 %}
                             </a>
-                            <a href="{% url 'core:about' %}" class="firm-about-secondary">Conoce más sobre mí</a>
+                            <a href="{{ site_settings.whatsapp_url }}" class="firm-about-secondary" target="_blank" rel="noopener noreferrer">Escríbeme por WhatsApp</a>
                         </div>
                     </div>
 
                     <figure class="firm-about-visual firm-about-reveal" style="--about-delay: 3">
-                        <img src="{% static 'images/angela-escritorio.jpg' %}" alt="Ángela Montiel, abogada corporativa" data-parallax="-0.05">
+                        <img src="{{ about_page.photo_url }}" alt="{{ about_page.photo_alt }}" data-parallax="-0.05" loading="lazy" decoding="async">
                         <figcaption class="firm-about-nameplate firm-about-reveal" style="--about-delay: 5">
-                            <strong>Ángela Montiel Báez</strong>
-                            <span>Abogada corporativa</span>
+                            <strong>Ángela Montiel</strong>
+                            <span>{{ site_settings.short_presentation }}</span>
                         </figcaption>
                     </figure>
                 </div>
 
+                {% with principles=about_page.principles.all %}
+                {% if principles %}
                 <div class="firm-about-glass firm-about-reveal" style="--about-delay: 5">
-                    <ul class="firm-about-highlights" data-about-highlights role="tablist" aria-label="Valores de acompañamiento">
-                        <li class="is-active" data-about-highlight role="tab" tabindex="0" aria-selected="true">
+                    <ul class="firm-about-highlights" data-about-highlights role="tablist" aria-label="Cómo trabajo">
+                        {% for principle in principles|slice:":3" %}
+                        <li{% if forloop.first %} class="is-active"{% endif %} data-about-highlight role="tab" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
                             <span class="firm-about-highlight-icon">{% include "components/icons.html" with icon="diamond" size=18 %}</span>
                             <div>
-                                <strong>Atención directa</strong>
-                                <p>Cada asunto se trata de forma personal.</p>
+                                <strong>{{ principle.title }}</strong>
+                                <p>{{ principle.text|truncatewords:14 }}</p>
                             </div>
                         </li>
-                        <li data-about-highlight role="tab" tabindex="-1" aria-selected="false">
-                            <span class="firm-about-highlight-icon">{% include "components/icons.html" with icon="scale" size=18 %}</span>
-                            <div>
-                                <strong>Visión de negocio</strong>
-                                <p>Soluciones alineadas con la operación de la empresa.</p>
-                            </div>
-                        </li>
-                        <li data-about-highlight role="tab" tabindex="-1" aria-selected="false">
-                            <span class="firm-about-highlight-icon">{% include "components/icons.html" with icon="users" size=18 %}</span>
-                            <div>
-                                <strong>Continuidad</strong>
-                                <p>Acompañamiento sostenido en el tiempo.</p>
-                            </div>
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
+                {% endif %}
+                {% endwith %}
             </div>
         </article>
     </div>
 </section>
 
-<section class="firm-services" id="servicios" data-services-carousel>
+{# Recursos. #}
+<section class="c-section" id="recursos">
     <div class="container">
-        <header class="firm-services-head">
-            <p class="firm-kicker">Servicios</p>
-            <p class="firm-services-lead">Áreas de acompañamiento para decidir con respaldo jurídico en cada etapa del negocio.</p>
+        <header class="c-head c-head--row reveal">
+            <div>
+                <p class="firm-kicker">Recursos</p>
+                <h2>Herramientas para entender tu empresa.</h2>
+            </div>
+            <a href="{% url 'resources:index' %}" class="firm-text-link"><span>Ver todos los recursos</span></a>
         </header>
-
-        <div class="firm-services-stage">
-            <div class="firm-services-orbit" aria-hidden="true"></div>
-            <button type="button" class="firm-services-nav firm-services-nav--prev" data-services-prev aria-label="Servicio anterior">
-                {% include "components/icons.html" with icon="chevron-up" size=18 %}
-            </button>
-            <button type="button" class="firm-services-nav firm-services-nav--next" data-services-next aria-label="Siguiente servicio">
-                {% include "components/icons.html" with icon="chevron-up" size=18 %}
-            </button>
-            <div class="firm-services-viewport" aria-roledescription="carrusel" aria-label="Áreas de servicio">
-            <div class="firm-services-track" data-services-track>
-                <article class="firm-service-card" data-service-card aria-hidden="false">
-                    <div class="firm-service-card-media">
-                        <img src="{% static 'images/navy-gold-architecture.png' %}" alt="">
-                    </div>
-                    <div class="firm-service-card-body">
-                        <h2>Asesoría corporativa</h2>
-                        <p>Decisiones societarias, gobierno corporativo y estructuración de grupos empresariales con visión de largo plazo.</p>
-                        <a href="{% url 'contact:contact' %}" class="firm-text-link">Conversar sobre esta área</a>
-                    </div>
-                </article>
-                <article class="firm-service-card" data-service-card aria-hidden="true">
-                    <div class="firm-service-card-media">
-                        <img src="{% static 'images/study-desk.jpg' %}" alt="">
-                    </div>
-                    <div class="firm-service-card-body">
-                        <h2>Contratos</h2>
-                        <p>Acuerdos comerciales claros, pensados para proteger relaciones de negocio y reducir contingencias.</p>
-                        <a href="{% url 'contact:contact' %}" class="firm-text-link">Conversar sobre esta área</a>
-                    </div>
-                </article>
-                <article class="firm-service-card" data-service-card aria-hidden="true">
-                    <div class="firm-service-card-media">
-                        <img src="{% static 'images/museum-hall.jpg' %}" alt="">
-                    </div>
-                    <div class="firm-service-card-body">
-                        <h2>E-commerce</h2>
-                        <p>Cumplimiento para plataformas, marketplaces y negocios digitales que venden con certeza.</p>
-                        <a href="{% url 'contact:contact' %}" class="firm-text-link">Conversar sobre esta área</a>
-                    </div>
-                </article>
-                <article class="firm-service-card" data-service-card aria-hidden="true">
-                    <div class="firm-service-card-media">
-                        <img src="{% static 'images/navy-gold-shadows.png' %}" alt="">
-                    </div>
-                    <div class="firm-service-card-body">
-                        <h2>Protección de datos</h2>
-                        <p>Privacidad y tratamiento responsable de información personal, adaptados al estándar chileno.</p>
-                        <a href="{% url 'contact:contact' %}" class="firm-text-link">Conversar sobre esta área</a>
-                    </div>
-                </article>
-                <article class="firm-service-card" data-service-card aria-hidden="true">
-                    <div class="firm-service-card-media">
-                        <img src="{% static 'images/bronze-sculpture-navy.png' %}" alt="">
-                    </div>
-                    <div class="firm-service-card-body">
-                        <h2>Propiedad intelectual</h2>
-                        <p>Marcas, activos intangibles y contenido creativo protegidos como parte del valor de la empresa.</p>
-                        <a href="{% url 'contact:contact' %}" class="firm-text-link">Conversar sobre esta área</a>
-                    </div>
-                </article>
-                <article class="firm-service-card" data-service-card aria-hidden="true">
-                    <div class="firm-service-card-media">
-                        <img src="{% static 'images/acropolis-navy.png' %}" alt="">
-                    </div>
-                    <div class="firm-service-card-body">
-                        <h2>Prevención y defensa</h2>
-                        <p>Riesgos identificados a tiempo y representación jurídica cuando el negocio lo necesita.</p>
-                        <a href="{% url 'contact:contact' %}" class="firm-text-link">Conversar sobre esta área</a>
-                    </div>
-                </article>
-            </div>
-            </div>
-        </div>
-
-        <div class="firm-services-footer">
-            <div class="firm-services-dots" role="tablist" aria-label="Áreas de servicio"></div>
-            <p class="firm-services-live" aria-live="polite" data-services-live></p>
-        </div>
-    </div>
-</section>
-
-<section class="firm-journal" data-scroll-scene>
-    <div class="container">
-        <header class="firm-journal-head scrolly-reveal" style="--reveal-order: 0">
-            <div class="firm-journal-intro">
-                <p class="firm-kicker">Blog / Actualidad</p>
-                <h2>Ideas, análisis y tendencias legales.</h2>
-                <p>Reflexiones sobre derecho corporativo, societario y gestión empresarial para decidir con más criterio.</p>
-            </div>
-            <a href="{% url 'blog:post_list' %}" class="firm-journal-all firm-pill">
-                <span>Ver todas las publicaciones</span>
-                {% include "components/icons.html" with icon="arrow-right" size=16 %}
+        <div class="c-grid">
+            {% for area in areas %}
+            {% if area.has_map %}
+            <a href="{{ area.get_absolute_url }}#herramienta" class="c-tile c-tile--ink reveal">
+                <span class="c-meta">Herramienta</span>
+                <span class="c-tile-title">Mapa de reorganizaciones</span>
+                <p>Elige lo que quieres lograr y ve qué figura podría servirte y su principal punto de atención.</p>
+                <span class="firm-text-link">Usar el mapa</span>
             </a>
-        </header>
-
-        <div class="firm-posts-track">
-            <div class="firm-posts">
-                {% if latest_content %}
-                    {% for item in latest_content|slice:":3" %}
-                    {% with obj=item.obj %}
-                    <article class="firm-post scrolly-reveal{% if forloop.first %} firm-post--lead{% endif %}" style="--reveal-order: {{ forloop.counter }}">
-                        <a href="{{ obj.get_absolute_url }}" class="firm-post-media">
-                            {% if obj.category %}
-                            <span class="firm-post-tag">{{ obj.category.name }}</span>
-                            {% elif item.type == "video" %}
-                            <span class="firm-post-tag firm-post-tag--video">Video</span>
-                            {% endif %}
-                            {% if item.type != "video" and obj.cover_image %}
-                            <img src="{{ obj.cover_image.url }}" alt="">
-                            {% elif item.type == "video" and obj.thumbnail_url %}
-                            <img src="{{ obj.thumbnail_url }}" alt="">
-                            {% elif forloop.counter == 2 %}
-                            <img src="{% static 'images/study-desk.jpg' %}" alt="">
-                            {% elif forloop.counter == 3 %}
-                            <img src="{% static 'images/navy-gold-shadows.png' %}" alt="">
-                            {% else %}
-                            <img src="{% static 'images/navy-gold-architecture.png' %}" alt="">
-                            {% endif %}
-                        </a>
-                        <div class="firm-post-body">
-                            {% if obj.published_at %}<time>{{ obj.published_at|date:"d M Y" }}</time>{% endif %}
-                            <h3><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></h3>
-                            {% if item.type != "video" and obj.excerpt %}
-                            <p class="firm-post-excerpt">{{ obj.excerpt|truncatewords:16 }}</p>
-                            {% elif item.type == "video" and obj.description %}
-                            <p class="firm-post-excerpt">{{ obj.description|truncatewords:16 }}</p>
-                            {% endif %}
-                            <a href="{{ obj.get_absolute_url }}" class="firm-text-link firm-post-more">
-                                {% if item.type == "video" %}Ver video{% else %}Leer más{% endif %}
-                            </a>
-                        </div>
-                    </article>
-                    {% endwith %}
-                    {% endfor %}
-                {% else %}
-                <article class="firm-post firm-post--lead scrolly-reveal" style="--reveal-order: 1">
-                    <a href="{% url 'blog:post_list' %}" class="firm-post-media">
-                        <span class="firm-post-tag">Societario</span>
-                        <img src="{% static 'images/navy-gold-architecture.png' %}" alt="Reorganización empresarial">
-                    </a>
-                    <div class="firm-post-body">
-                        <time>12 abr 2026</time>
-                        <h3><a href="{% url 'blog:post_list' %}">Reorganización empresarial: cuándo y cómo dar el paso</a></h3>
-                        <p class="firm-post-excerpt">Cuándo tiene sentido reorganizar y qué revisar antes de ejecutar el cambio.</p>
-                        <a href="{% url 'blog:post_list' %}" class="firm-text-link firm-post-more">Leer más</a>
-                    </div>
-                </article>
-                <article class="firm-post scrolly-reveal" style="--reveal-order: 2">
-                    <a href="{% url 'blog:post_list' %}" class="firm-post-media">
-                        <span class="firm-post-tag">Gobierno corporativo</span>
-                        <img src="{% static 'images/study-desk.jpg' %}" alt="Pactos de accionistas">
-                    </a>
-                    <div class="firm-post-body">
-                        <time>28 mar 2026</time>
-                        <h3><a href="{% url 'blog:post_list' %}">Pactos de accionistas: clave para el crecimiento sostenible</a></h3>
-                        <p class="firm-post-excerpt">Acuerdos que ordenan la relación entre socios cuando el negocio crece.</p>
-                        <a href="{% url 'blog:post_list' %}" class="firm-text-link firm-post-more">Leer más</a>
-                    </div>
-                </article>
-                <article class="firm-post scrolly-reveal" style="--reveal-order: 3">
-                    <a href="{% url 'blog:post_list' %}" class="firm-post-media">
-                        <span class="firm-post-tag">Compliance</span>
-                        <img src="{% static 'images/navy-gold-shadows.png' %}" alt="Cumplimiento normativo">
-                    </a>
-                    <div class="firm-post-body">
-                        <time>15 mar 2026</time>
-                        <h3><a href="{% url 'blog:post_list' %}">Cumplimiento normativo en empresas: más que una obligación</a></h3>
-                        <p class="firm-post-excerpt">Buenas prácticas de compliance como ventaja operativa, no solo requisito.</p>
-                        <a href="{% url 'blog:post_list' %}" class="firm-text-link firm-post-more">Leer más</a>
-                    </div>
-                </article>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="firm-close" data-scroll-scene>
-    <img src="{% static 'images/museum-hall.jpg' %}" alt="" class="firm-close-bg" data-parallax="-0.12">
-    <div class="container firm-close-inner">
-        <div class="scrolly-reveal" style="--reveal-order: 0">
-            <p class="firm-kicker firm-kicker--light">Trabajemos juntos</p>
-            <h2>Conversemos sobre la estructura legal de tu empresa.</h2>
-        </div>
-        <div class="firm-close-side scrolly-reveal" style="--reveal-order: 1">
-            <a href="{% url 'contact:contact' %}" class="firm-pill">
-                <span>Agendar reunión</span>
-                {% include "components/icons.html" with icon="arrow-right" size=16 %}
+            {% elif area.has_comparator %}
+            <a href="{{ area.get_absolute_url }}#herramienta" class="c-tile c-tile--ink reveal reveal-delay-1">
+                <span class="c-meta">Herramienta</span>
+                <span class="c-tile-title">Comparador de tipos sociales</span>
+                <p>Sociedad anónima, SpA y limitada frente a frente, en los criterios que más pesan al decidir.</p>
+                <span class="firm-text-link">Comparar</span>
             </a>
-            <p>Una conversación hoy puede abrir grandes oportunidades mañana.</p>
+            {% endif %}
+            {% endfor %}
+            <a href="{% url 'resources:index' %}#glosario" class="c-tile reveal reveal-delay-2">
+                <span class="c-meta">Consulta</span>
+                <span class="c-tile-title">Glosario societario y tributario</span>
+                <p>Los términos que aparecen en estas páginas, explicados en una o dos líneas.</p>
+                <span class="firm-text-link">Abrir el glosario</span>
+            </a>
         </div>
     </div>
 </section>
+
+{% include "components/close.html" with question="¿Estás pensando en reorganizar tu empresa o revisar su estructura? Escríbeme." id="conversemos" %}
 {% endblock %}

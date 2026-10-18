@@ -1,0 +1,73 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.angelamontiel.cl/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Reorganizaciones empresariales",
+          "item": "https://www.angelamontiel.cl/reorganizaciones-empresariales"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Aporte de bienes",
+          "item": "https://www.angelamontiel.cl/aporte-de-bienes"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.angelamontiel.cl/aporte-de-bienes#pagina",
+      "url": "https://www.angelamontiel.cl/aporte-de-bienes",
+      "name": "Aporte de bienes a una sociedad, IVA y tasación | Ángela Montiel",
+      "description": "Cómo se aportan bienes a una sociedad en Chile, cuándo el aporte está gravado con IVA y qué exige la ley para que el SII no tase.",
+      "inLanguage": "es-CL",
+      "dateModified": "2026-10-18",
+      "author": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "reviewedBy": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "lastReviewed": "2026-10-18"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Puedo aportar un inmueble a mi sociedad?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. El dominio se traspasa con la inscripción del título en el Conservador de Bienes Raíces. Antes conviene revisar si eres vendedor habitual de inmuebles, por el IVA, y si existe una legítima razón de negocios, para que el SII no pueda tasar el aporte."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿El aporte siempre paga IVA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Se considera venta para efectos del IVA cuando lo efectúa un vendedor, es decir, quien se dedica habitualmente a vender esos bienes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué es una legítima razón de negocios?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Es una finalidad distinta de la meramente tributaria, como mejorar las condiciones del negocio, obtener financiamiento, reducir costos o riesgos, aumentar la capacidad productiva u optimizar la administración."
+          }
+        }
+      ]
+    }
+  ]
+}

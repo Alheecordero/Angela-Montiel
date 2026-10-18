@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load site_tags %}
+
+{% block content %}
+<section class="c-hero">
+    <div class="container reveal">
+        <nav class="breadcrumb" aria-label="Ruta"><a href="{% url 'core:home' %}">Inicio</a> › {{ page.title }}</nav>
+        <p class="firm-kicker">Legal</p>
+        <h1>{{ page.title }}</h1>
+        <div class="c-hero-rule" aria-hidden="true"></div>
+        <p class="c-hero-meta">Actualizado el {{ page.updated_at|fecha_larga }}</p>
+    </div>
+</section>
+
+<section class="c-section">
+    <div class="container">
+        {% if page.body %}
+        <div class="c-prose reveal">{{ page.body|safe }}</div>
+        {% else %}
+        <p class="c-prose c-legal-pending reveal">El texto de esta página está en revisión y se publicará antes del lanzamiento del sitio.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

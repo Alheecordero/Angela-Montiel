@@ -1,14 +1,25 @@
-{% load static %}
+{% load static site_tags %}
 <!DOCTYPE html>
-<html lang="es" class="no-js">
+<html lang="es-CL" class="no-js">
 <head>
     <script>document.documentElement.classList.remove("no-js");</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{ site_settings.site_name }}{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}{{ site_settings.meta_description|default:'Asesoría legal profesional en Chile.' }}{% endblock %}">
+    <title>{% block title %}{{ page_meta.title|default:site_settings.meta_title }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ page_meta.description|default:site_settings.meta_description }}{% endblock %}">
     <meta name="theme-color" content="#0c1a2e">
-    {% if not SITE_INDEXABLE %}<meta name="robots" content="noindex, nofollow, noarchive">{% endif %}
+    {% if not SITE_INDEXABLE or page_meta.noindex %}<meta name="robots" content="noindex, nofollow, noarchive">{% endif %}
+    <link rel="canonical" href="{{ page_meta.canonical|default:canonical_url }}">
+    <meta property="og:site_name" content="{{ site_settings.site_name }}">
+    <meta property="og:locale" content="es_CL">
+    <meta property="og:type" content="{{ page_meta.og_type|default:'website' }}">
+    <meta property="og:title" content="{{ page_meta.title|default:site_settings.meta_title }}">
+    <meta property="og:description" content="{{ page_meta.description|default:site_settings.meta_description }}">
+    <meta property="og:url" content="{{ page_meta.canonical|default:canonical_url }}">
+    {% if page_meta.og_image %}<meta property="og:image" content="{{ page_meta.og_image }}">{% endif %}
+    <meta name="twitter:card" content="summary_large_image">
+    {% if site_settings.search_console_token %}<meta name="google-site-verification" content="{{ site_settings.search_console_token }}">{% endif %}
+    {% if site_settings.bing_token %}<meta name="msvalidate.01" content="{{ site_settings.bing_token }}">{% endif %}
     {% block meta_extra %}{% endblock %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +28,10 @@
     <link rel="apple-touch-icon" href="{% static 'favicon.png' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/studio.css' %}">
+    <link rel="stylesheet" href="{% static 'css/content.css' %}">
     {% block extra_css %}{% endblock %}
+    {% if jsonld %}{% jsonld jsonld %}{% endif %}
+    {% block jsonld_extra %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
     <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
@@ -36,15 +50,12 @@
         {% block content %}{% endblock %}
     </main>
 
-    {% include "components/newsletter_bar.html" %}
     {% include "components/footer.html" %}
 
     <div class="float-actions">
-        {% if site_settings.whatsapp_url %}
         <a href="{{ site_settings.whatsapp_url }}" class="float-btn float-btn--whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Escribir por WhatsApp">
             {% include "components/icons.html" with icon="whatsapp" size=20 %}
         </a>
-        {% endif %}
         <button type="button" class="float-btn float-btn--top" data-back-to-top hidden aria-label="Volver arriba">
             {% include "components/icons.html" with icon="chevron-up" size=20 %}
         </button>
@@ -52,6 +63,7 @@
 
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/studio.js' %}"></script>
+    <script src="{% static 'js/content.js' %}" defer></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>

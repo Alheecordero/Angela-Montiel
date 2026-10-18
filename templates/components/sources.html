@@ -1,0 +1,21 @@
+{% load site_tags %}
+{% if obj.sources or sources_list %}
+<section class="c-section c-section--tight">
+    <div class="container">
+        <div class="c-sources reveal">
+            <p class="firm-kicker">Fuentes</p>
+            {% if sources_list %}
+            <ul>
+                {% for source in sources_list %}
+                <li>{% if source.url %}<a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.text }}</a>{% else %}{{ source.text }}{% endif %}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>{{ obj.sources|enfasis }}</p>
+            {% endif %}
+            {% if obj.verified_at %}<p>Verificado el {{ obj.verified_at|fecha_larga }}.</p>{% endif %}
+        </div>
+        <p class="c-disclaimer">{{ site_settings.disclaimer }}</p>
+    </div>
+</section>
+{% endif %}

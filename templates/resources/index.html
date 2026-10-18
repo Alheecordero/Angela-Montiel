@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static site_tags %}
+
+{% block content %}
+<section class="c-hero">
+    <div class="container reveal">
+        <nav class="breadcrumb" aria-label="Ruta"><a href="{% url 'core:home' %}">Inicio</a> › Recursos</nav>
+        <p class="firm-kicker">Recursos</p>
+        <h1>Herramientas para entender tu empresa.</h1>
+        <div class="c-hero-rule" aria-hidden="true"></div>
+        <p class="c-hero-lead">Guías, herramientas y un glosario para revisar con tu asesor antes de decidir. <strong>Información general, verificada en fuentes oficiales.</strong></p>
+    </div>
+</section>
+
+<section class="c-section c-section--tight">
+    <div class="container">
+        <div class="c-grid">
+            {% if map_area %}
+            <a href="{{ map_area.get_absolute_url }}#herramienta" class="c-tile c-tile--ink reveal">
+                <span class="c-meta">Herramienta</span>
+                <span class="c-tile-title">Mapa de reorganizaciones</span>
+                <p>Elige lo que quieres lograr y ve qué figura podría servirte y su principal punto de atención.</p>
+                <span class="firm-text-link">Usar el mapa</span>
+            </a>
+            {% endif %}
+            {% if comparator_area %}
+            <a href="{{ comparator_area.get_absolute_url }}#herramienta" class="c-tile c-tile--ink reveal reveal-delay-1">
+                <span class="c-meta">Herramienta</span>
+                <span class="c-tile-title">Comparador de tipos sociales</span>
+                <p>Sociedad anónima, SpA y limitada frente a frente, en los criterios que más pesan al decidir.</p>
+                <span class="firm-text-link">Comparar</span>
+            </a>
+            {% endif %}
+            <a href="#glosario" class="c-tile reveal reveal-delay-2">
+                <span class="c-meta">Consulta</span>
+                <span class="c-tile-title">Glosario societario y tributario</span>
+                <p>Los términos que aparecen en estas páginas, explicados en una o dos líneas.</p>
+                <span class="firm-text-link">Abrir el glosario</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="c-section" id="glosario">
+    <div class="container" data-glossary>
+        <header class="c-head reveal">
+            <p class="firm-kicker">Glosario</p>
+            <h2>Los términos que usamos, explicados en simple.</h2>
+        </header>
+        <label for="buscar-glosario" style="position:absolute;left:-9999px">Buscar un término</label>
+        <input type="search" id="buscar-glosario" class="c-search reveal" placeholder="Buscar un término, por ejemplo fusión o tasación" autocomplete="off" data-glossary-input>
+        {% if terms %}
+        <dl class="c-glossary reveal">
+            {% for term in terms %}
+            <div class="c-glossary-item" data-glossary-item data-search="{{ term.search_key }}">
+                <dt>{{ term.term }}</dt>
+                <dd>{{ term.definition|enfasis }}</dd>
+            </div>
+            {% endfor %}
+        </dl>
+        <p class="c-glossary-empty" data-glossary-empty hidden>No encontré ese término. Prueba con otra palabra o escríbeme y lo agrego.</p>
+        {% else %}
+        <p class="c-note">El glosario está en preparación.</p>
+        {% endif %}
+    </div>
+</section>
+
+<section class="c-section c-section--paper" id="guias">
+    <div class="container">
+        <header class="c-head reveal">
+            <p class="firm-kicker">Guías para descargar</p>
+            <h2>Para revisar con tu asesor, no como lista de requisitos legales.</h2>
+        </header>
+        <div class="c-grid">
+            {% for guide in guides %}
+            {% if guide.is_downloadable %}
+            <a href="{{ guide.file.url }}" class="c-tile reveal" download>
+                <span class="c-meta">Guía · PDF</span>
+                <span class="c-tile-title">{{ guide.title }}</span>
+                <p>{{ guide.description }}</p>
+                <span class="firm-text-link">Descargar</span>
+            </a>
+            {% else %}
+            <div class="c-tile c-tile--dashed reveal">
+                <span class="c-meta">Guía · PDF</span>
+                <span class="c-tile-title">{{ guide.title }}</span>
+                <p>{{ guide.description }}</p>
+                <span class="c-tile-status">Próximamente</span>
+            </div>
+            {% endif %}
+            {% empty %}
+            <div class="c-tile c-tile--dashed reveal">
+                <span class="c-meta">Guía · PDF</span>
+                <span class="c-tile-title">Primeras guías en preparación</span>
+                <p>Documentos breves para revisar con tu asesor antes de decidir.</p>
+                <span class="c-tile-status">Próximamente</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% include "components/close.html" with question="¿Quieres revisar la estructura de tu empresa? Escríbeme." %}
+{% endblock %}

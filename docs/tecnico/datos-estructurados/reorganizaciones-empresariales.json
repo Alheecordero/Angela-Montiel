@@ -1,0 +1,75 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.angelamontiel.cl/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Reorganizaciones empresariales",
+          "item": "https://www.angelamontiel.cl/reorganizaciones-empresariales"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.angelamontiel.cl/reorganizaciones-empresariales#pagina",
+      "url": "https://www.angelamontiel.cl/reorganizaciones-empresariales",
+      "name": "Reorganizaciones empresariales en Chile y su efecto tributario | Ángela Montiel",
+      "description": "Fusión, división, transformación, aporte de bienes y conversión de empresas en Chile, con sus efectos societarios y tributarios verificados en la ley vigente.",
+      "inLanguage": "es-CL",
+      "dateModified": "2026-10-18",
+      "author": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "reviewedBy": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "lastReviewed": "2026-10-18"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Qué es una reorganización empresarial?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Es un cambio en la estructura jurídica de una o más empresas, como una fusión, una división, una transformación, un aporte de bienes o la conversión de un negocio individual en sociedad."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Una reorganización sirve para pagar menos impuestos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El ahorro tributario puede ser un efecto, pero no basta como único motivo. Si la reorganización no produce efectos jurídicos o económicos relevantes distintos de los tributarios, puede ser cuestionada como abuso."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Quién decide si una reorganización fue abusiva?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No el SII por sí solo. La existencia de abuso o simulación la declara el Tribunal Tributario y Aduanero, a requerimiento del Director del SII."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Puedo consultar al SII sobre mi reorganización?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. La ley permite presentar al SII una consulta sobre la aplicación de estas reglas a una operación concreta."
+          }
+        }
+      ]
+    }
+  ]
+}

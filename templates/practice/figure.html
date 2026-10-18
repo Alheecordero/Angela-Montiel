@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static site_tags %}
+
+{% block content %}
+{% include "components/page_hero.html" with label=figure.label title=figure.title lead=figure.lead breadcrumbs=breadcrumbs updated=figure.content_updated_at cta_label="Escríbeme por WhatsApp" cta_message=figure.whatsapp_message secondary_href=area.get_absolute_url secondary_label="Volver al área" image="images/navy-gold-shadows.png" %}
+
+{# Qué es #}
+<section class="c-section">
+    <div class="container">
+        <header class="c-head reveal">
+            <p class="firm-kicker">{{ figure.definition_label }}</p>
+        </header>
+        <p class="c-definition-lead reveal">{{ figure.definition_lead|enfasis }}</p>
+        {% if figure.definition_body %}<div class="c-prose reveal">{{ figure.definition_body|parrafos }}</div>{% endif %}
+    </div>
+</section>
+
+{# Lo societario y lo tributario #}
+<section class="c-section c-section--paper">
+    <div class="container">
+        <div class="c-cols">
+            <article class="c-col reveal">
+                <p class="firm-kicker">Lo societario</p>
+                {% if figure.sa %}<div class="c-col-group"><p class="c-col-type">Sociedad anónima</p><p>{{ figure.sa|enfasis }}</p></div>{% endif %}
+                {% if figure.spa %}<div class="c-col-group"><p class="c-col-type">Sociedad por acciones</p><p>{{ figure.spa|enfasis }}</p></div>{% endif %}
+                {% if figure.ltda %}<div class="c-col-group"><p class="c-col-type">Sociedad de responsabilidad limitada</p><p>{{ figure.ltda|enfasis }}</p></div>{% endif %}
+                {% if figure.societario_note %}<p class="c-note">{{ figure.societario_note|enfasis }}</p>{% endif %}
+            </article>
+            <article class="c-col c-col--ink reveal reveal-delay-1">
+                <p class="firm-kicker firm-kicker--light">Lo tributario</p>
+                {% if tax_points %}
+                <ol class="c-points">
+                    {% for point in tax_points %}
+                    <li><span class="c-num">{{ point.numeral }}.</span><div><strong>{{ point.title }}.</strong> <span>{{ point.text|enfasis }}</span></div></li>
+                    {% endfor %}
+                </ol>
+                {% endif %}
+            </article>
+        </div>
+    </div>
+</section>
+
+{% include "components/ley_criterio_riesgo.html" with obj=figure %}
+{% include "components/faq.html" %}
+{% include "components/related.html" %}
+{% include "components/sources.html" with obj=figure %}
+{% include "components/close.html" with question=figure.closing_question message=figure.whatsapp_message %}
+{% endblock %}

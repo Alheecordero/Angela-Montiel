@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static site_tags %}
+
+{% block content %}
+<section class="c-hero c-hero--visual" style="background-image: url('{% webp 'images/navy-gold-cinematic.png' %}')">
+    <div class="container reveal">
+        <nav class="breadcrumb" aria-label="Ruta"><a href="{% url 'core:home' %}">Inicio</a> › Publicaciones</nav>
+        <p class="firm-kicker">Publicaciones</p>
+        <h1>Cuando la ley cambia, te explico qué significa para tu empresa.</h1>
+        <div class="c-hero-rule" aria-hidden="true"></div>
+        <p class="c-hero-lead">Notas jurídicas, análisis y guías sobre derecho societario y reorganizaciones, con <strong>fuentes oficiales verificadas</strong>.</p>
+    </div>
+</section>
+
+{% if featured %}
+<section class="c-section c-section--tight">
+    <div class="container">
+        <article class="c-featured reveal">
+            <div>
+                <p class="firm-kicker firm-kicker--light">Última publicación · {{ featured.get_format_display }}</p>
+                <h2><a href="{{ featured.get_absolute_url }}">{{ featured.title }}</a></h2>
+                <p>{{ featured.highlight|default:featured.lead }}</p>
+                <p class="c-meta" style="margin-top: 1rem"><span>{{ featured.published_at|fecha_larga }}</span><span>{{ featured.reading_time }} min de lectura</span></p>
+                <a href="{{ featured.get_absolute_url }}" class="firm-text-link"><span>Leer la publicación</span></a>
+            </div>
+            {% if featured.image %}<img src="{{ featured.image.url }}" alt="{{ featured.image_alt }}" loading="lazy" decoding="async">{% endif %}
+        </article>
+    </div>
+</section>
+{% endif %}
+
+<section class="c-section" id="lista">
+    <div class="container">
+        <div class="filter-bar reveal" role="group" aria-label="Filtrar por formato" data-filter-group="publicaciones" data-filter-param="formato">
+            <button type="button" class="filter-chip active" data-filter="todas" aria-pressed="true">Todas</button>
+            {% for f in formats %}
+            <button type="button" class="filter-chip" data-filter="{{ f.key }}" aria-pressed="false">{{ f.label }}</button>
+            {% endfor %}
+        </div>
+        <p class="c-filter-note" data-filter-desc="publicaciones" data-key="todas">{{ format_descriptions.todas }}</p>
+        {% for f in formats %}
+        <p class="c-filter-note" data-filter-desc="publicaciones" data-key="{{ f.key }}" hidden>{{ f.description }}</p>
+        {% endfor %}
+
+        {% if publications %}
+        <div class="c-grid">
+            {% for pub in publications %}
+            <a href="{{ pub.get_absolute_url }}" class="c-tile reveal" data-filter-item="publicaciones" data-key="{{ pub.format }}">
+                <span class="c-meta"><span>{{ pub.get_format_display }}</span>{% for area in pub.areas.all %}<span>{{ area.short_name }}</span>{% endfor %}</span>
+                <span class="c-tile-title">{{ pub.title }}</span>
+                <p>{{ pub.lead }}</p>
+                <span class="c-meta"><span>{{ pub.published_at|fecha_corta }}</span><span>{{ pub.reading_time }} min</span></span>
+            </a>
+            {% endfor %}
+        </div>
+        <p class="c-note empty-state" data-filter-empty="publicaciones" hidden>Todavía no hay publicaciones de este formato. Pronto habrá.</p>
+        {% else %}
+        <div class="empty-state reveal">
+            <p class="c-definition-lead">Las primeras publicaciones están en preparación.</p>
+            <p class="c-note">Mientras tanto, puedes revisar las <a href="{% url 'core:home' %}#areas" class="firm-text-link">áreas de práctica</a> y el <a href="{% url 'resources:index' %}#glosario" class="firm-text-link">glosario</a>.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% if site_settings.newsletter_enabled %}
+<section class="c-section c-section--paper" id="boletin">
+    <div class="container">
+        <div class="c-newsletter reveal">
+            <div>
+                <p class="firm-kicker">Boletín</p>
+                <h2>Recibe cada nota jurídica en tu correo.</h2>
+                <p>Un correo cuando cambie algo que afecte a tu empresa. Sin publicidad.</p>
+            </div>
+            {% if site_settings.newsletter_linkedin %}
+            <div>
+                <a href="{{ site_settings.newsletter_linkedin_url }}" class="firm-pill" target="_blank" rel="noopener noreferrer">
+                    {% include "components/icons.html" with icon="linkedin" size=16 %}
+                    <span>Suscribirme en LinkedIn</span>
+                </a>
+            </div>
+            {% else %}
+            <form method="post" action="{% url 'newsletter:subscribe' %}" novalidate>
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{% url 'publications:list' %}">
+                <div class="c-field">
+                    <label for="correo-pub" class="sr-only" style="position:absolute;left:-9999px">Correo electrónico</label>
+                    {{ newsletter_form.email }}
+                    <button type="submit" class="firm-pill">Suscribirme</button>
+                </div>
+                <label for="consentimiento-pub">
+                    {{ newsletter_form.consent }}
+                    <span>Acepto recibir el boletín y el tratamiento de mi correo según la <a href="{% url 'core:privacy' %}">política de privacidad</a>.</span>
+                </label>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% include "components/close.html" with question="¿Quieres revisar cómo afecta esto a tu empresa? Escríbeme." %}
+{% endblock %}

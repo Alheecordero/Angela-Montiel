@@ -1,0 +1,73 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.angelamontiel.cl/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Derecho societario",
+          "item": "https://www.angelamontiel.cl/derecho-societario"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Constitución y tipo social",
+          "item": "https://www.angelamontiel.cl/constitucion-de-sociedades"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.angelamontiel.cl/constitucion-de-sociedades#pagina",
+      "url": "https://www.angelamontiel.cl/constitucion-de-sociedades",
+      "name": "Constituir una sociedad en Chile, SA, SpA o limitada | Ángela Montiel",
+      "description": "Qué exige cada tipo social para constituirse, el inicio de actividades ante el SII y las condiciones del Régimen Pro Pyme.",
+      "inLanguage": "es-CL",
+      "dateModified": "2026-10-18",
+      "author": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "reviewedBy": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "lastReviewed": "2026-10-18"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿En qué plazo debo inscribir y publicar el extracto?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "En la sociedad anónima, la SpA y la limitada, dentro de 60 días desde la fecha de la escritura o del acto de constitución."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuándo debo hacer el inicio de actividades?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Dentro de los dos meses siguientes a aquel en que comienzan las actividades."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Mi sociedad queda automáticamente en el régimen Pro Pyme?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, si cumple las condiciones legales de Pyme y no opta por otro régimen al iniciar actividades. El SII lo informa en el sitio personal del contribuyente."
+          }
+        }
+      ]
+    }
+  ]
+}

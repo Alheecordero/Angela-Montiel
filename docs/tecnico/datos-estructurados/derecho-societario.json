@@ -1,0 +1,75 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.angelamontiel.cl/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Derecho societario",
+          "item": "https://www.angelamontiel.cl/derecho-societario"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.angelamontiel.cl/derecho-societario#pagina",
+      "url": "https://www.angelamontiel.cl/derecho-societario",
+      "name": "Derecho societario en Chile con enfoque tributario | Ángela Montiel",
+      "description": "Constitución de sociedades, entrada y salida de socios, pactos de accionistas y cambios de capital, con su efecto tributario. Comparador de SA, SpA y limitada.",
+      "inLanguage": "es-CL",
+      "dateModified": "2026-10-18",
+      "author": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "reviewedBy": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "lastReviewed": "2026-10-18"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Qué tipo de sociedad me conviene?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Depende de cuántos socios serán, cómo quieren administrarla, si piensan incorporar inversionistas y qué régimen tributario le corresponderá. No hay un tipo social que convenga siempre."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Puedo tener una sociedad sin otros socios?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La SpA puede constituirse por una sola persona y no se disuelve por reunirse todas sus acciones en un accionista, salvo que su estatuto disponga otra cosa. La sociedad anónima, en cambio, se disuelve si todas sus acciones se reúnen en una sola persona por más de 10 días ininterrumpidos."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuántos socios puede tener una limitada?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Hasta cincuenta."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Debo avisar al SII cuando cambian los socios?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, dentro de dos meses desde la modificación o desde su inscripción en el Registro de Comercio. En las sociedades anónimas abiertas, solo los cambios de controladores."
+          }
+        }
+      ]
+    }
+  ]
+}

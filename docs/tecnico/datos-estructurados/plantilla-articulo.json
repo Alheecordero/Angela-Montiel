@@ -1,0 +1,48 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.angelamontiel.cl/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Publicaciones",
+          "item": "https://www.angelamontiel.cl/publicaciones"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "[Título de la publicación]",
+          "item": "https://www.angelamontiel.cl/plantilla-articulo"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "[Título de la publicación]",
+      "description": "[Descripción]",
+      "datePublished": "[AAAA-MM-DD]",
+      "dateModified": "[AAAA-MM-DD]",
+      "inLanguage": "es-CL",
+      "author": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "publisher": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "image": "https://www.angelamontiel.cl/img/[imagen-de-la-publicacion].jpg",
+      "mainEntityOfPage": "https://www.angelamontiel.cl/plantilla-articulo",
+      "citation": [
+        "[URL de la norma en LeyChile]",
+        "[URL de la circular u oficio del SII]"
+      ]
+    }
+  ]
+}

@@ -32,9 +32,10 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "django_ckeditor_5",
     "apps.core",
-    "apps.blog",
-    "apps.media_content",
-    "apps.contact",
+    "apps.practice",
+    "apps.publications",
+    "apps.videos",
+    "apps.resources",
     "apps.newsletter",
 ]
 
@@ -42,6 +43,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "apps.core.middleware.NoIndexMiddleware",
+    "apps.core.middleware.TrailingSlashRedirectMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -51,6 +53,16 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "config.urls"
+APPEND_SLASH = False
+
+# Correo del boletín (doble verificación). En producción se configura el proveedor en .env.
+EMAIL_BACKEND = env("EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
+EMAIL_HOST = env("EMAIL_HOST", default="")
+EMAIL_PORT = env.int("EMAIL_PORT", default=587)
+EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="Ángela Montiel <boletin@angelamontiel.cl>")
 
 TEMPLATES = [
     {
@@ -109,11 +121,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CKEDITOR_5_CONFIGS = {
     "default": {
+        "language": "es",
         "toolbar": [
             "heading",
             "|",
             "bold",
             "italic",
+            "superscript",
             "link",
             "bulletedList",
             "numberedList",
@@ -122,6 +136,13 @@ CKEDITOR_5_CONFIGS = {
             "undo",
             "redo",
         ],
+        "heading": {
+            "options": [
+                {"model": "paragraph", "title": "Párrafo", "class": "ck-heading_paragraph"},
+                {"model": "heading2", "view": "h2", "title": "Título H2", "class": "ck-heading_heading2"},
+                {"model": "heading3", "view": "h3", "title": "Título H3", "class": "ck-heading_heading3"},
+            ]
+        },
     },
 }
 
@@ -129,7 +150,7 @@ CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 
 UNFOLD = {
     "DASHBOARD_CALLBACK": "config.admin.dashboard_callback",
-    "SITE_TITLE": "Angela Montiel",
+    "SITE_TITLE": "Ángela Montiel",
     "SITE_HEADER": "Panel de administración",
     "SITE_SUBHEADER": "Gestión de contenido",
     "SITE_SYMBOL": "gavel",
@@ -148,56 +169,31 @@ UNFOLD = {
             {
                 "title": "Contenido",
                 "items": [
-                    {
-                        "title": "Artículos",
-                        "icon": "article",
-                        "link": "/admin/blog/post/",
-                    },
-                    {
-                        "title": "Videos",
-                        "icon": "play_circle",
-                        "link": "/admin/media_content/videopost/",
-                    },
-                    {
-                        "title": "Categorías",
-                        "icon": "category",
-                        "link": "/admin/blog/category/",
-                    },
-                    {
-                        "title": "Etiquetas",
-                        "icon": "label",
-                        "link": "/admin/blog/tag/",
-                    },
+                    {"title": "Publicaciones", "icon": "article", "link": "/admin/publications/publication/"},
+                    {"title": "Videos", "icon": "play_circle", "link": "/admin/videos/video/"},
+                    {"title": "Glosario", "icon": "menu_book", "link": "/admin/resources/glossaryterm/"},
+                    {"title": "Guías descargables", "icon": "download", "link": "/admin/resources/guide/"},
+                ],
+            },
+            {
+                "title": "Áreas de práctica",
+                "items": [
+                    {"title": "Áreas", "icon": "account_tree", "link": "/admin/practice/practicearea/"},
+                    {"title": "Figuras (subpáginas)", "icon": "description", "link": "/admin/practice/practicefigure/"},
                 ],
             },
             {
                 "title": "Sitio",
                 "items": [
-                    {
-                        "title": "Configuración",
-                        "icon": "settings",
-                        "link": "/admin/core/sitesettings/",
-                    },
-                    {
-                        "title": "Sobre mí",
-                        "icon": "person",
-                        "link": "/admin/core/aboutsection/",
-                    },
+                    {"title": "Configuración", "icon": "settings", "link": "/admin/core/sitesettings/1/change/"},
+                    {"title": "Sobre mí", "icon": "person", "link": "/admin/core/aboutpage/1/change/"},
+                    {"title": "Páginas legales", "icon": "gavel", "link": "/admin/core/legalpage/"},
                 ],
             },
             {
-                "title": "Comunicación",
+                "title": "Boletín",
                 "items": [
-                    {
-                        "title": "Mensajes",
-                        "icon": "mail",
-                        "link": "/admin/contact/contactmessage/",
-                    },
-                    {
-                        "title": "Newsletter",
-                        "icon": "campaign",
-                        "link": "/admin/newsletter/subscriber/",
-                    },
+                    {"title": "Suscriptores", "icon": "campaign", "link": "/admin/newsletter/subscriber/"},
                 ],
             },
         ],

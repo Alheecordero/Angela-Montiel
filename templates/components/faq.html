@@ -1,0 +1,18 @@
+{% load site_tags %}
+{% if faqs %}
+<section class="c-section">
+    <div class="container">
+        <header class="c-head reveal">
+            <p class="firm-kicker">Preguntas frecuentes</p>
+        </header>
+        <div class="c-faq reveal">
+            {% for faq in faqs %}
+            <details{% if forloop.first %} open{% endif %}>
+                <summary>{{ faq.question }}</summary>
+                <p>{{ faq.answer|enfasis }}</p>
+            </details>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}

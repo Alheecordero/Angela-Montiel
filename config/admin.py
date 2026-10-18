@@ -1,15 +1,13 @@
 from django.contrib import admin
-from django.utils.html import format_html
-from unfold.admin import ModelAdmin
 
-from apps.blog.models import Post, PublishStatus
-from apps.contact.models import ContactMessage
-from apps.media_content.models import VideoPost
+from apps.core.models import PublishStatus
 from apps.newsletter.models import Subscriber
+from apps.practice.models import PracticeFigure
+from apps.publications.models import Publication
+from apps.videos.models import Video
 
-
-admin.site.site_header = "Angela Montiel — Administración"
-admin.site.site_title = "Angela Montiel"
+admin.site.site_header = "Ángela Montiel · Administración"
+admin.site.site_title = "Ángela Montiel"
 admin.site.index_title = "Panel de control"
 
 
@@ -18,22 +16,22 @@ def dashboard_callback(request, context):
         {
             "stats": [
                 {
-                    "title": "Artículos publicados",
-                    "value": Post.objects.filter(status=PublishStatus.PUBLISHED).count(),
-                    "link": "/admin/blog/post/",
+                    "title": "Publicaciones publicadas",
+                    "value": Publication.objects.filter(status=PublishStatus.PUBLISHED).count(),
+                    "link": "/admin/publications/publication/",
                 },
                 {
                     "title": "Videos publicados",
-                    "value": VideoPost.objects.filter(status=PublishStatus.PUBLISHED).count(),
-                    "link": "/admin/media_content/videopost/",
+                    "value": Video.objects.filter(status=PublishStatus.PUBLISHED).count(),
+                    "link": "/admin/videos/video/",
                 },
                 {
-                    "title": "Mensajes nuevos",
-                    "value": ContactMessage.objects.filter(is_read=False).count(),
-                    "link": "/admin/contact/contactmessage/?is_read__exact=0",
+                    "title": "Figuras publicadas",
+                    "value": PracticeFigure.objects.filter(status=PublishStatus.PUBLISHED).count(),
+                    "link": "/admin/practice/practicefigure/",
                 },
                 {
-                    "title": "Suscriptores activos",
+                    "title": "Suscriptores confirmados",
                     "value": Subscriber.objects.filter(is_active=True).count(),
                     "link": "/admin/newsletter/subscriber/?is_active__exact=1",
                 },

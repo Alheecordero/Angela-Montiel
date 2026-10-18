@@ -1,0 +1,73 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.angelamontiel.cl/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Reorganizaciones empresariales",
+          "item": "https://www.angelamontiel.cl/reorganizaciones-empresariales"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "División",
+          "item": "https://www.angelamontiel.cl/division-de-sociedades"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.angelamontiel.cl/division-de-sociedades#pagina",
+      "url": "https://www.angelamontiel.cl/division-de-sociedades",
+      "name": "División de sociedades en Chile, lo societario y lo tributario | Ángela Montiel",
+      "description": "Qué es la división de una sociedad, cómo se acuerda y cómo se asignan los registros tributarios entre las sociedades que nacen.",
+      "inLanguage": "es-CL",
+      "dateModified": "2026-10-18",
+      "author": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "reviewedBy": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "lastReviewed": "2026-10-18"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿La sociedad que se divide desaparece?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Subsiste con un capital menor, y distribuye parte de su patrimonio a la o las nuevas sociedades."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Los socios pueden quedar con porcentajes distintos en las nuevas sociedades?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "En la división, no. La ley establece que a los socios les corresponde en cada nueva sociedad la misma proporción en el capital que tenían en la sociedad que se divide."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cómo se reparten las utilidades tributarias entre las sociedades?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Si la sociedad lleva contabilidad completa, en proporción al capital propio tributario de cada una, salvo que antes de la división se pida y obtenga autorización del SII para hacerlo en base al patrimonio financiero."
+          }
+        }
+      ]
+    }
+  ]
+}

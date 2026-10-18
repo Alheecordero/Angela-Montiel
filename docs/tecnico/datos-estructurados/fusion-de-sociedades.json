@@ -1,0 +1,73 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.angelamontiel.cl/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Reorganizaciones empresariales",
+          "item": "https://www.angelamontiel.cl/reorganizaciones-empresariales"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Fusión",
+          "item": "https://www.angelamontiel.cl/fusion-de-sociedades"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.angelamontiel.cl/fusion-de-sociedades#pagina",
+      "url": "https://www.angelamontiel.cl/fusion-de-sociedades",
+      "name": "Fusión de sociedades en Chile, lo societario y lo tributario | Ángela Montiel",
+      "description": "Qué es una fusión de sociedades, cómo se acuerda en la SA, la SpA y la limitada, y sus efectos tributarios como término de giro, tasación y pérdidas.",
+      "inLanguage": "es-CL",
+      "dateModified": "2026-10-18",
+      "author": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "reviewedBy": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "lastReviewed": "2026-10-18"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Hay que dar término de giro al fusionar sociedades?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, si la sociedad que continúa asume en la escritura todos los impuestos de la fusionada, aunque igual debes informar la fusión al SII."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Necesito una razón de negocios para fusionar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La ley no la exige para limitar la tasación en una fusión, pero mi recomendación es documentarla, porque la operación igual puede revisarse bajo la norma general antielusiva."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿La sociedad absorbida se liquida?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Se disuelve, pero no se liquida, porque su patrimonio pasa completo a la sociedad que continúa."
+          }
+        }
+      ]
+    }
+  ]
+}

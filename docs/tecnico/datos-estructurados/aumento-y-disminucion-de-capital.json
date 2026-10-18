@@ -1,0 +1,81 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.angelamontiel.cl/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Derecho societario",
+          "item": "https://www.angelamontiel.cl/derecho-societario"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Aumento y disminución de capital",
+          "item": "https://www.angelamontiel.cl/aumento-y-disminucion-de-capital"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.angelamontiel.cl/aumento-y-disminucion-de-capital#pagina",
+      "url": "https://www.angelamontiel.cl/aumento-y-disminucion-de-capital",
+      "name": "Aumento y disminución de capital y devolución de capital | Ángela Montiel",
+      "description": "Quórum y plazos para aumentar o disminuir el capital en la SA, la SpA y la limitada, y cuándo una devolución de capital no es renta.",
+      "inLanguage": "es-CL",
+      "dateModified": "2026-10-18",
+      "author": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "reviewedBy": {
+        "@id": "https://www.angelamontiel.cl/#angela-montiel"
+      },
+      "lastReviewed": "2026-10-18"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Puedo devolver capital a los socios sin pagar impuestos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La devolución no constituye renta hasta el valor de aporte o de adquisición de la participación y sus reajustes, siempre que no corresponda a utilidades capitalizadas que deban pagar impuestos. Lo que se retire o distribuya se imputa en la forma que dispone el artículo 14 de la Ley sobre Impuesto a la Renta."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué pasa si no pago las acciones que suscribí en una SpA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Si no se pagan en el plazo del estatuto o, en su silencio, en cinco años, el capital queda reducido al monto efectivamente suscrito y pagado. Salvo disposición en contrario del estatuto, las acciones no pagadas totalmente no gozan de derecho alguno."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuánto debo esperar para devolver capital en una sociedad anónima?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Treinta días desde la publicación en el Diario Oficial del extracto de la modificación."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿La administración de una SpA puede aumentar el capital?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, si el estatuto la faculta, en forma general o limitada, temporal o permanente, para financiar la gestión ordinaria de la sociedad o para fines específicos."
+          }
+        }
+      ]
+    }
+  ]
+}

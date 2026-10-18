@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static site_tags %}
+
+{% block content %}
+<section class="c-hero c-hero--visual" style="background-image: url('{% webp 'images/navy-gold-shadows.png' %}')">
+    <div class="container reveal">
+        <nav class="breadcrumb" aria-label="Ruta"><a href="{% url 'core:home' %}">Inicio</a> › Videos{% if is_detail %} › {{ featured.title|truncatechars:60 }}{% endif %}</nav>
+        <p class="firm-kicker">Entiende tu empresa</p>
+        {% if is_detail %}
+        <h1>{{ featured.title }}</h1>
+        {% else %}
+        <h1>Hola, soy Ángela Montiel. Hoy te explico…</h1>
+        {% endif %}
+        <div class="c-hero-rule" aria-hidden="true"></div>
+        <p class="c-hero-lead">Videos breves sobre las decisiones societarias que más se preguntan los empresarios, y <strong>su efecto tributario</strong>.</p>
+    </div>
+</section>
+
+{% if featured %}
+<section class="c-section">
+    <div class="container">
+        <div class="c-cols reveal" style="grid-template-columns: 1.25fr 0.75fr; align-items: start">
+            <div>
+                <div class="c-video" data-video-facade="{{ featured.embed_url }}">
+                    <img src="{{ featured.thumbnail_url }}" alt="" width="1280" height="720" fetchpriority="high">
+                    <button type="button" class="c-video-play" data-video-play aria-label="Reproducir {{ featured.title }}">
+                        <span>{% include "components/icons.html" with icon="play" size=28 %}</span>
+                    </button>
+                </div>
+                {% if featured.transcript %}
+                <details class="c-transcript">
+                    <summary>Ver transcripción completa</summary>
+                    <div class="c-prose">{{ featured.transcript|parrafos }}</div>
+                </details>
+                {% endif %}
+            </div>
+            <div>
+                <p class="c-meta">{% if featured.area %}<span>{{ featured.area.short_name }}</span>{% endif %}<span>{{ featured.published_at|fecha_larga }}</span>{% if featured.duration_display %}<span>{{ featured.duration_display }}</span>{% endif %}</p>
+                {% if is_detail %}<p class="c-definition-lead" style="margin-top: 0.8rem">{{ featured.title }}</p>{% else %}<h2 style="margin-top: 0.8rem; font-size: 1.8rem; line-height: 1.15">{{ featured.title }}</h2>{% endif %}
+                <div class="c-prose" style="margin-top: 1rem">{{ featured.summary|parrafos }}</div>
+                {% if related_publications %}
+                <div style="margin-top: 1.6rem; display: flex; flex-direction: column; gap: 0.6rem">
+                    {% for pub in related_publications %}
+                    <a href="{{ pub.get_absolute_url }}" class="firm-text-link" style="align-self: flex-start"><span>{{ pub.title }}</span></a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% if featured.area %}
+                <p style="margin-top: 1.2rem"><a href="{{ featured.area.get_absolute_url }}" class="firm-text-link"><span>{{ featured.area.name }}</span></a></p>
+                {% endif %}
+                <p style="margin-top: 1.4rem"><a href="{{ featured.watch_url }}" class="c-note" target="_blank" rel="noopener noreferrer">Ver en YouTube</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="c-section c-section--paper" id="todos">
+    <div class="container">
+        <header class="c-head c-head--row reveal">
+            <div>
+                <p class="firm-kicker">Todos los videos</p>
+                <div class="filter-bar" role="group" aria-label="Filtrar por área" data-filter-group="videos" data-filter-param="area" style="margin-bottom: 0">
+                    <button type="button" class="filter-chip active" data-filter="todas" aria-pressed="true">Todos</button>
+                    {% for area in areas %}
+                    <button type="button" class="filter-chip" data-filter="{{ area.slug }}" aria-pressed="false">{{ area.name }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+            {% if site_settings.youtube_url %}
+            <a href="{{ site_settings.youtube_url }}" class="firm-pill" target="_blank" rel="noopener noreferrer">
+                {% include "components/icons.html" with icon="play" size=16 %}
+                <span>Suscríbete en YouTube</span>
+            </a>
+            {% endif %}
+        </header>
+
+        {% if videos %}
+        <div class="c-video-grid">
+            {% for video in videos %}
+            <a href="{{ video.get_absolute_url }}" class="c-video-card reveal" data-filter-item="videos" data-key="{{ video.area.slug }}">
+                <span class="c-video"><img src="{{ video.thumbnail_url }}" alt="" loading="lazy" decoding="async" width="480" height="360"></span>
+                <span class="c-meta">{% if video.area %}<span>{{ video.area.short_name }}</span>{% endif %}{% if video.duration_display %}<span>{{ video.duration_display }}</span>{% endif %}</span>
+                <h3>{{ video.title }}</h3>
+                <p>{{ video.summary|truncatewords:22 }}</p>
+            </a>
+            {% endfor %}
+        </div>
+        <p class="c-note" data-filter-empty="videos" hidden>Todavía no hay videos de esta área.</p>
+        {% else %}
+        <div class="empty-state reveal">
+            <p class="c-definition-lead">Los primeros videos de la serie están en preparación.</p>
+            <p class="c-note">Mientras tanto, puedes revisar las <a href="{% url 'publications:list' %}" class="firm-text-link">publicaciones</a> y las áreas de práctica.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% include "components/close.html" with question="¿Tienes una pregunta sobre tu sociedad que no aparece aquí? Escríbeme." %}
+{% endblock %}

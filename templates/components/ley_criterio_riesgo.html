@@ -1,0 +1,15 @@
+{% load site_tags %}
+{% if obj.has_ley_criterio_riesgo %}
+<section class="c-section c-section--paper">
+    <div class="container">
+        <header class="c-head reveal">
+            <p class="firm-kicker">Ley · Criterio · Riesgo</p>
+        </header>
+        <div class="c-lcr">
+            <article class="c-lcr-card reveal"><h3>La ley</h3><p>{{ obj.ley|enfasis }}</p></article>
+            <article class="c-lcr-card reveal reveal-delay-1"><h3>Mi criterio</h3><p>{{ obj.criterio|enfasis }}</p></article>
+            <article class="c-lcr-card reveal reveal-delay-2"><h3>El riesgo</h3><p>{{ obj.riesgo|enfasis }}</p></article>
+        </div>
+    </div>
+</section>
+{% endif %}

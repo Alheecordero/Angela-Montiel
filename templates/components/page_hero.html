@@ -1,0 +1,25 @@
+{% load static site_tags %}
+{# Encabezado de página. Variables: label, title, lead, breadcrumbs, updated (fecha), cta_message, cta_label, image #}
+<section class="c-hero{% if image %} c-hero--visual{% endif %}"{% if image %} style="background-image: url('{% webp image %}')"{% endif %}>
+    <div class="container reveal">
+        {% if breadcrumbs %}
+        <nav class="breadcrumb" aria-label="Ruta">
+            {% for crumb in breadcrumbs %}{% if forloop.last %}{{ crumb.name }}{% else %}<a href="{{ crumb.url }}">{{ crumb.name }}</a> › {% endif %}{% endfor %}
+        </nav>
+        {% endif %}
+        {% if label %}<p class="firm-kicker">{{ label }}</p>{% endif %}
+        <h1>{{ title }}</h1>
+        <div class="c-hero-rule" aria-hidden="true"></div>
+        {% if lead %}<p class="c-hero-lead">{{ lead|enfasis }}</p>{% endif %}
+        {% if cta_label %}
+        <div class="c-hero-actions">
+            <a href="{% whatsapp cta_message %}" class="firm-pill" target="_blank" rel="noopener noreferrer">
+                {% include "components/icons.html" with icon="whatsapp" size=16 %}
+                <span>{{ cta_label }}</span>
+            </a>
+            {% if secondary_href %}<a href="{{ secondary_href }}" class="firm-text-link"><span>{{ secondary_label }}</span></a>{% endif %}
+        </div>
+        {% endif %}
+        {% if updated %}<p class="c-hero-meta">Actualizado el {{ updated|fecha_larga }} · Ángela Montiel</p>{% endif %}
+    </div>
+</section>

@@ -1,0 +1,28 @@
+{% load site_tags %}
+{% if related_publications or related_videos %}
+<section class="c-section c-section--paper">
+    <div class="container">
+        <header class="c-head reveal">
+            <p class="firm-kicker">Para seguir leyendo</p>
+        </header>
+        <div class="c-grid">
+            {% for pub in related_publications %}
+            <a href="{{ pub.get_absolute_url }}" class="c-tile reveal">
+                <span class="c-meta"><span>{{ pub.get_format_display }}</span><span>{{ pub.published_at|fecha_corta }}</span></span>
+                <span class="c-tile-title">{{ pub.title }}</span>
+                <p>{{ pub.lead }}</p>
+                <span class="firm-text-link">Leer</span>
+            </a>
+            {% endfor %}
+            {% for video in related_videos %}
+            <a href="{{ video.get_absolute_url }}" class="c-tile c-tile--ink reveal">
+                <span class="c-meta"><span>Video</span>{% if video.duration_display %}<span>{{ video.duration_display }}</span>{% endif %}</span>
+                <span class="c-tile-title">{{ video.title }}</span>
+                <p>{{ video.summary|truncatewords:24 }}</p>
+                <span class="firm-text-link">Ver video</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}

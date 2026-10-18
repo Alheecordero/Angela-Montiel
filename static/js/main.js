@@ -44,7 +44,7 @@ function initMobileMenu() {
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 768 && drawer.classList.contains("is-open")) {
+    if (window.innerWidth > 1024 && drawer.classList.contains("is-open")) {
       setOpen(false);
     }
   });

@@ -1,142 +1,119 @@
-# Web profesional — Angela Montiel
+# angelamontiel.cl
 
-Sitio web profesional para la abogada Angela Montiel (Chile). Incluye landing page, blog de artículos legales, sección de videos de YouTube, formulario de contacto y newsletter.
+Sitio profesional de Ángela Montiel. Derecho societario, reorganizaciones empresariales y tributario en Chile.
+
+Dominio canónico `https://angelamontiel.cl` (apex, `www` redirige). URL públicas sin barra final. Idioma `es-CL`.
 
 ## Stack
 
-- **Backend:** Django 5.x
-- **Admin:** django-unfold (panel visual moderno)
-- **Editor:** django-ckeditor-5 (artículos del blog)
-- **Frontend:** Plantillas Django + CSS personalizado (diseño sobrio y profesional)
-- **Base de datos:** SQLite (desarrollo) / PostgreSQL (producción)
-
-## Requisitos
-
-- Python 3.10+
-- pip
+- Django 5.2 con django-unfold (admin) y django-ckeditor-5 (cuerpo de publicaciones)
+- SQLite en desarrollo, PostgreSQL en producción
+- whitenoise para estáticos, gunicorn tras nginx (ver `deploy/`)
+- Frontend propio en `static/css` y `static/js` (sin build). `content.css` y `content.js` son la capa de contenidos; `main.css`, `studio.css`, `main.js` y `studio.js` conservan la línea estética original
 
 ## Instalación local
 
 ```bash
-# Clonar o entrar al proyecto
-cd AngelaMontiel
-
-# Instalar dependencias
-pip install -r requirements.txt
-
-# Configurar entorno
-cp .env.example .env
-# Editar .env con SECRET_KEY y ALLOWED_HOSTS
-
-# Migraciones y datos iniciales
-python manage.py migrate
-python manage.py setup_initial_data
-
-# Crear usuario administrador
-python manage.py createsuperuser
-
-# Iniciar servidor
-python manage.py runserver
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+cp .env.example .env            # revisar SECRET_KEY
+.venv/bin/python manage.py migrate
+.venv/bin/python manage.py importar_prototipo   # carga el contenido aprobado
+.venv/bin/python manage.py createsuperuser
+.venv/bin/python manage.py runserver
 ```
 
-- **Sitio público:** http://127.0.0.1:8000/
-- **Panel admin:** http://127.0.0.1:8000/admin/
+Sitio en `http://127.0.0.1:8000` y panel en `http://127.0.0.1:8000/admin/`.
 
-## Guía para Angela — Gestión de contenido
+## Comandos propios
 
-### Acceder al panel
+| Comando | Qué hace |
+|---|---|
+| `importar_prototipo [--solo configuracion\|areas\|sobre-mi\|glosario\|legales]` | Carga en la base de datos los textos del prototipo aprobado (`docs/prototipo`), los metadatos (`docs/tecnico/metadatos-por-pagina.csv`) y la configuración del sitio. Idempotente. |
+| `revisar_sitio [--estricto]` | Audita reglas de marca (dos puntos, tilde en Ángela, corchetes, Inicia Legal, palabra abogada), metadatos, fuentes, FAQ, H1 único, canónica, datos estructurados, correos visibles y barras finales. |
+| `optimizar_imagenes [--forzar] [--sin-avif]` | Genera WebP y AVIF de `static/images` (ancho máximo 1920 px). La etiqueta de plantilla `{% webp %}` usa la versión WebP si existe. |
 
-1. Ir a `/admin/`
-2. Iniciar sesión con su usuario y contraseña
+## Pruebas
 
-### Configurar el sitio
+```bash
+.venv/bin/python manage.py test
+```
 
-- **Configuración del sitio:** teléfono, email, dirección, redes sociales, textos de la página de inicio.
-- **Sobre mí:** biografía, foto profesional, credenciales y especialidades.
-
-### Publicar un artículo
-
-1. Ir a **Contenido → Artículos → Añadir artículo**
-2. Completar título, extracto y contenido
-3. Opcional: imagen de portada, categoría y etiquetas
-4. En **Publicación**, cambiar estado a **Publicado**
-5. Guardar
-
-### Publicar un video de YouTube
-
-1. Ir a **Contenido → Videos → Añadir video**
-2. Pegar la URL de YouTube (ej: `https://www.youtube.com/watch?v=XXXXXXXXXXX`)
-3. Agregar título y descripción
-4. Cambiar estado a **Publicado** y guardar
-
-> No es necesario pegar código iframe. El sistema genera el reproductor automáticamente.
-
-### Revisar mensajes de contacto
-
-- **Comunicación → Mensajes:** consultas enviadas desde el formulario de contacto
-- Los mensajes nuevos aparecen marcados como **Nuevo**
-- Seleccionar mensajes y usar la acción **Marcar como leídos**
-
-### Newsletter
-
-- **Comunicación → Newsletter:** lista de suscriptores activos
-- Cada suscriptor tiene un enlace de baja automático (`/newsletter/baja/<token>/`)
-
-## Estructura del proyecto
+## Estructura
 
 ```
 apps/
-  core/           Landing, sobre mí, configuración
-  blog/           Artículos legales
-  media_content/  Videos de YouTube
-  contact/        Formulario de contacto
-  newsletter/     Suscriptores
-config/           Settings, URLs, admin dashboard
-templates/        Plantillas HTML
-static/           CSS y JavaScript
+  core/          SiteSettings, AboutPage, LegalPage, SEO (seo.py), middleware de barra final,
+                 inicio, sobre mí, legales, robots, llms.txt, importador, revisar_sitio
+  practice/      Áreas de práctica y figuras (mapa de reorganizaciones, comparador, FAQ, fuentes)
+  publications/  Publicaciones (nota, columna, guía, boletín) y relación con áreas
+  videos/        Videos de YouTube con transcripción y VideoObject
+  resources/     Glosario y guías descargables
+  newsletter/    Boletín con doble verificación (solo visible si está activo)
+config/          settings (base, dev, prod), urls, sitemaps
+templates/       Plantillas. components/ contiene hero, Ley · Criterio · Riesgo, FAQ, fuentes, cierre
+static/          CSS, JS e imágenes
+docs/            prototipo HTML aprobado y paquete técnico (metadatos, datos estructurados)
+deploy/          nginx, systemd, deploy.sh, setup_server.sh
 ```
 
-## Despliegue en producción
+## Mapa de URL
 
-1. Configurar variables de entorno:
+| Ruta | Contenido |
+|---|---|
+| `/` | Inicio |
+| `/sobre-mi` | Sobre mí |
+| `/derecho-societario`, `/reorganizaciones-empresariales`, `/derecho-tributario` | Áreas |
+| `/fusion-de-sociedades`, `/division-de-sociedades`, … | Figuras, en primer nivel |
+| `/publicaciones`, `/publicaciones/<slug>` | Publicaciones |
+| `/videos`, `/videos/<slug>` | Videos |
+| `/recursos` | Mapa, comparador, glosario y guías |
+| `/politica-de-privacidad`, `/terminos-de-uso` | Legales |
+| `/boletin/suscribir`, `/boletin/confirmar/<token>`, `/boletin/baja/<token>` | Boletín (404 si está inactivo) |
+| `/robots.txt`, `/sitemap.xml`, `/llms.txt` | Solo con `SITE_INDEXABLE=True` |
+
+Las rutas antiguas (`/blog`, `/blog/videos`, `/contacto`, `/newsletter/baja`) redirigen con 301.
+
+## Reglas de contenido que el sistema hace cumplir
+
+- Sin dos puntos en títulos, bajadas y textos cortos visibles (validadores en modelos y `revisar_sitio`).
+- Ángela siempre con tilde. Sin corchetes. Sin menciones a Inicia Legal.
+- Contacto único por WhatsApp `https://wa.me/56930882307`. Sin formulario de contacto ni correo visible.
+- Aclaración fija en todas las páginas. "Información general. Cada empresa requiere análisis particular. — Ángela"
+- Un H1 por página, canónica absoluta sin barra final, JSON-LD (Person, WebSite, BreadcrumbList, WebPage, FAQPage, Article, VideoObject).
+- Boletín solo en Publicaciones y únicamente si `Configuración del sitio → Boletín` no está en Inactivo.
+
+## Guía para Ángela
+
+- **Sitio → Configuración del sitio.** WhatsApp, línea del encabezado, redes, boletín, tokens de Search Console y Bing.
+- **Sitio → Sobre mí.** Textos, principios, formación, foto.
+- **Áreas de práctica.** Cada área y cada figura tiene bajada, definición, bloque Ley · Criterio · Riesgo, preguntas frecuentes, fuentes y metadatos. La fecha de actualización se muestra en la página.
+- **Publicaciones.** Título, bajada, cuerpo, formato, áreas relacionadas, fuentes e imagen para redes. Estado Borrador o Publicada.
+- **Videos.** URL de YouTube, resumen, transcripción, área. El reproductor se carga solo al pulsar.
+- **Recursos.** Términos del glosario y guías descargables.
+
+Ejecutar `python manage.py revisar_sitio` antes de cada publicación importante.
+
+## Despliegue
+
+Variables mínimas en `.env` de producción.
 
 ```env
 DEBUG=False
-SECRET_KEY=generar-clave-segura-larga
-ALLOWED_HOSTS=tudominio.cl,www.tudominio.cl
-DATABASE_URL=postgres://usuario:password@host:5432/nombre_db
+DJANGO_SETTINGS_MODULE=config.settings.prod
+SECRET_KEY=...
+ALLOWED_HOSTS=angelamontiel.cl,www.angelamontiel.cl
+CSRF_TRUSTED_ORIGINS=https://angelamontiel.cl,https://www.angelamontiel.cl
+DATABASE_URL=postgres://...
 SECURE_SSL_REDIRECT=True
+SITE_INDEXABLE=False
 ```
 
-2. Ejecutar:
+`deploy/deploy.sh` instala dependencias, migra, genera WebP/AVIF, recoge estáticos, ejecuta `revisar_sitio` y reinicia gunicorn.
 
-```bash
-export DJANGO_SETTINGS_MODULE=config.settings.prod
-python manage.py migrate
-python manage.py collectstatic --noinput
-python manage.py setup_initial_data
-gunicorn config.wsgi:application --bind 0.0.0.0:8000
-```
+### Lista de lanzamiento
 
-3. Servir archivos media con nginx o almacenamiento en la nube (S3, etc.)
-
-## Rutas principales
-
-| Ruta | Descripción |
-|------|-------------|
-| `/` | Página de inicio |
-| `/sobre-mi/` | Biografía profesional |
-| `/blog/` | Listado de artículos |
-| `/blog/videos/` | Listado de videos |
-| `/contacto/` | Formulario de contacto |
-| `/admin/` | Panel de administración |
-| `/sitemap.xml` | Mapa del sitio (SEO) |
-
-## Credenciales de desarrollo
-
-Tras la instalación inicial se crea un superusuario de prueba:
-
-- **Usuario:** `angela`
-- **Contraseña:** `admin123`
-
-> Cambiar esta contraseña antes de desplegar en producción.
+1. `SITE_INDEXABLE=True` en `.env` y reiniciar gunicorn. Activa robots, sitemap, llms.txt y quita `noindex`.
+2. Quitar `add_header X-Robots-Tag` de `deploy/nginx/angelamontiel.conf` y recargar nginx.
+3. Cargar el token de Search Console en Configuración del sitio y enviar `https://angelamontiel.cl/sitemap.xml`.
+4. `python manage.py revisar_sitio --estricto` sin hallazgos.

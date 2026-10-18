@@ -1,25 +1,39 @@
 {% load static %}
-<nav class="navbar firm-nav">
+{% with current=request.resolver_match.url_name ns=request.resolver_match.namespace %}
+<nav class="navbar firm-nav" aria-label="Principal">
     <div class="container navbar-inner">
         <a href="{% url 'core:home' %}" class="brand">
             <img src="{% static 'images/logo-am-gold.png' %}" alt="AM" class="brand-mark" width="42" height="35">
             <span class="brand-text">
                 <span class="brand-name">Ángela Montiel</span>
-                <span class="brand-role">Abogada corporativa</span>
+                <span class="brand-role">{{ site_settings.header_line }}</span>
             </span>
         </a>
 
         <div class="nav-right">
             <ul class="nav-links nav-links--desktop">
-                <li><a href="{% url 'core:home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>Inicio</a></li>
-                <li><a href="{% url 'core:home' %}#servicios">Servicios</a></li>
-                <li><a href="{% url 'core:about' %}" {% if request.resolver_match.url_name == 'about' %}class="active"{% endif %}>Sobre mí</a></li>
-                <li><a href="{% url 'blog:post_list' %}" {% if 'blog' in request.path %}class="active"{% endif %}>Actualidad</a></li>
-                <li><a href="{% url 'contact:contact' %}" {% if request.resolver_match.url_name == 'contact' %}class="active"{% endif %}>Contacto</a></li>
+                <li><a href="{% url 'core:home' %}" {% if current == 'home' %}class="active"{% endif %}>Inicio</a></li>
+                <li><a href="{% url 'core:about' %}" {% if current == 'about' %}class="active"{% endif %}>Sobre mí</a></li>
+                <li class="nav-dropdown">
+                    <a href="{% url 'core:home' %}#areas" {% if ns == 'practice' %}class="active"{% endif %} aria-haspopup="true">Áreas de práctica</a>
+                    <div class="nav-dropdown-panel">
+                        {% for item in nav_areas %}
+                        <div class="nav-dropdown-group">
+                            <a href="{{ item.area.get_absolute_url }}" class="nav-dropdown-title">{{ item.area.name }}</a>
+                            {% for figure in item.figures %}
+                            <a href="{{ figure.get_absolute_url }}" class="nav-dropdown-link">{{ figure.menu_name }}</a>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </li>
+                <li><a href="{% url 'publications:list' %}" {% if ns == 'publications' %}class="active"{% endif %}>Publicaciones</a></li>
+                <li><a href="{% url 'videos:list' %}" {% if ns == 'videos' %}class="active"{% endif %}>Videos</a></li>
+                <li><a href="{% url 'resources:index' %}" {% if ns == 'resources' %}class="active"{% endif %}>Recursos</a></li>
             </ul>
-            <a href="{% url 'contact:contact' %}" class="firm-pill nav-cta">
-                <span>Agendar reunión</span>
-                {% include "components/icons.html" with icon="arrow-right" size=16 %}
+            <a href="{{ site_settings.whatsapp_url }}" class="firm-pill nav-cta" target="_blank" rel="noopener noreferrer">
+                <span>Conversemos</span>
+                {% include "components/icons.html" with icon="whatsapp" size=16 %}
             </a>
             <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-navigation">
                 <span></span><span></span><span></span>
@@ -30,17 +44,27 @@
 
 <div class="nav-drawer" id="main-navigation" aria-hidden="true">
     <ul class="nav-links nav-links--mobile">
-        <li><a href="{% url 'core:home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>Inicio</a></li>
-        <li><a href="{% url 'core:home' %}#servicios">Servicios</a></li>
-        <li><a href="{% url 'core:about' %}" {% if request.resolver_match.url_name == 'about' %}class="active"{% endif %}>Sobre mí</a></li>
-        <li><a href="{% url 'blog:post_list' %}" {% if 'blog' in request.path %}class="active"{% endif %}>Actualidad</a></li>
-        <li><a href="{% url 'contact:contact' %}" {% if request.resolver_match.url_name == 'contact' %}class="active"{% endif %}>Contacto</a></li>
+        <li><a href="{% url 'core:home' %}" {% if current == 'home' %}class="active"{% endif %}>Inicio</a></li>
+        <li><a href="{% url 'core:about' %}" {% if current == 'about' %}class="active"{% endif %}>Sobre mí</a></li>
+        {% for item in nav_areas %}
+        <li><a href="{{ item.area.get_absolute_url }}">{{ item.area.name }}</a>
+            <ul class="nav-sublinks">
+                {% for figure in item.figures %}
+                <li><a href="{{ figure.get_absolute_url }}">{{ figure.menu_name }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+        <li><a href="{% url 'publications:list' %}" {% if ns == 'publications' %}class="active"{% endif %}>Publicaciones</a></li>
+        <li><a href="{% url 'videos:list' %}" {% if ns == 'videos' %}class="active"{% endif %}>Videos</a></li>
+        <li><a href="{% url 'resources:index' %}" {% if ns == 'resources' %}class="active"{% endif %}>Recursos</a></li>
         <li class="mobile-nav-cta">
-            <a href="{% url 'contact:contact' %}" class="firm-pill">
-                Agendar reunión
-                {% include "components/icons.html" with icon="arrow-right" size=16 %}
+            <a href="{{ site_settings.whatsapp_url }}" class="firm-pill" target="_blank" rel="noopener noreferrer">
+                Conversemos por WhatsApp
+                {% include "components/icons.html" with icon="whatsapp" size=16 %}
             </a>
         </li>
     </ul>
 </div>
 <div class="nav-backdrop" data-nav-backdrop hidden></div>
+{% endwith %}

@@ -1,22 +1,26 @@
 from django import forms
 
-from .models import Subscriber
+CONSENT_TEXT = "Acepto recibir el boletín y el tratamiento de mi correo según la política de privacidad."
 
 
-class NewsletterForm(forms.ModelForm):
-    class Meta:
-        model = Subscriber
-        fields = ["email"]
-        widgets = {
-            "email": forms.EmailInput(
-                attrs={"class": "form-input newsletter-input", "placeholder": "Su correo electrónico"}
-            ),
-        }
-        labels = {"email": "Correo electrónico"}
+class NewsletterForm(forms.Form):
+    email = forms.EmailField(
+        label="Correo electrónico",
+        widget=forms.EmailInput(
+            attrs={
+                "class": "form-input newsletter-input",
+                "placeholder": "tu@empresa.cl",
+                "autocomplete": "email",
+                "id": "correo-pub",
+            }
+        ),
+    )
+    consent = forms.BooleanField(
+        label=CONSENT_TEXT,
+        required=True,
+        error_messages={"required": "Para suscribirte debes aceptar el tratamiento de tu correo."},
+        widget=forms.CheckboxInput(attrs={"id": "consentimiento-pub"}),
+    )
 
     def clean_email(self):
-        email = self.cleaned_data["email"].lower().strip()
-        existing = Subscriber.objects.filter(email=email).first()
-        if existing and existing.is_active:
-            raise forms.ValidationError("Este correo ya está suscrito.")
-        return email
+        return self.cleaned_data["email"].lower().strip()

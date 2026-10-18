@@ -1,0 +1,19 @@
+{% load static site_tags %}
+{# Cierre con pregunta y botón de WhatsApp. Variables: question, message, id #}
+<section class="c-close" data-scroll-scene{% if id %} id="{{ id }}"{% endif %}>
+    <img src="{% webp 'images/museum-hall.jpg' %}" alt="" class="c-close-bg" loading="lazy" decoding="async">
+    <div class="container c-close-inner">
+        <div class="scrolly-reveal" style="--reveal-order: 0">
+            <p class="firm-kicker firm-kicker--light">Conversemos</p>
+            <h2>{{ question|default:"¿Quieres revisar la situación de tu empresa? Escríbeme." }}</h2>
+            <p>{{ site_settings.signature_phrase }}</p>
+        </div>
+        <div class="c-close-side scrolly-reveal" style="--reveal-order: 1">
+            <a href="{% whatsapp message %}" class="firm-pill" target="_blank" rel="noopener noreferrer">
+                {% include "components/icons.html" with icon="whatsapp" size=16 %}
+                <span>Escríbeme por WhatsApp</span>
+            </a>
+            <small>{{ site_settings.whatsapp_display }}</small>
+        </div>
+    </div>
+</section>

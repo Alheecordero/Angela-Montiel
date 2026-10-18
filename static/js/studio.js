@@ -284,7 +284,7 @@ function initServicesCarousel(reducedMotion) {
   const live = section.querySelector("[data-services-live]");
   const prevBtn = section.querySelector("[data-services-prev]");
   const nextBtn = section.querySelector("[data-services-next]");
-  const labels = ["Corporativa", "Contratos", "E-commerce", "Datos", "Marcas", "Defensa"];
+  const labels = cards.map((card, idx) => card.dataset.serviceLabel || `Área ${idx + 1}`);
   const AUTO_MS = 5200;
   const count = cards.length;
   if (!count || !track || !viewport) return;

@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static site_tags %}
+
+{% block content %}
+<section class="c-hero">
+    <div class="container reveal">
+        <nav class="breadcrumb" aria-label="Ruta">
+            {% for crumb in breadcrumbs %}{% if forloop.last %}{{ crumb.name|truncatechars:60 }}{% else %}<a href="{{ crumb.url }}">{{ crumb.name }}</a> › {% endif %}{% endfor %}
+        </nav>
+        <p class="firm-kicker">{{ publication.get_format_display }}{% if primary_area %} · {{ primary_area.short_name }}{% endif %}</p>
+        <h1>{{ publication.title }}</h1>
+        <div class="c-hero-rule" aria-hidden="true"></div>
+        <p class="c-hero-lead">{{ publication.lead }}</p>
+        <p class="c-hero-meta">
+            Publicado el {{ publication.published_at|fecha_larga }}
+            {% if publication.content_updated_at != publication.published_at.date %} · Actualizado el {{ publication.content_updated_at|fecha_larga }}{% endif %}
+            · {{ publication.reading_time }} min de lectura · Ángela Montiel
+        </p>
+    </div>
+</section>
+
+<article class="c-section">
+    <div class="container">
+        {% if publication.image %}
+        <img src="{{ publication.image.url }}" alt="{{ publication.image_alt }}" class="c-article-cover reveal" width="1200" height="630" fetchpriority="high">
+        {% endif %}
+
+        <div class="c-prose reveal">
+            <p class="c-definition-lead">{{ publication.summary|enfasis }}</p>
+        </div>
+
+        <div class="c-prose article-content reveal" style="margin-left: 0">
+            {{ publication.body|safe }}
+        </div>
+
+        {% if publication.highlight %}
+        <blockquote class="c-highlight reveal" style="max-width: 44rem">{{ publication.highlight }}</blockquote>
+        {% endif %}
+
+        {% if publication.tax_block %}
+        <aside class="c-taxblock reveal" style="max-width: 44rem">
+            <p class="firm-kicker firm-kicker--light">Y en lo tributario…</p>
+            <div>{{ publication.tax_block|parrafos }}</div>
+        </aside>
+        {% endif %}
+
+        {% if publication.ley or publication.criterio or publication.riesgo %}
+        <div class="c-lcr reveal" style="margin-top: 2.2rem">
+            {% if publication.ley %}<div class="c-lcr-card"><h3>La ley</h3><p>{{ publication.ley|enfasis }}</p></div>{% endif %}
+            {% if publication.criterio %}<div class="c-lcr-card"><h3>Mi criterio</h3><p>{{ publication.criterio|enfasis }}</p></div>{% endif %}
+            {% if publication.riesgo %}<div class="c-lcr-card"><h3>El riesgo</h3><p>{{ publication.riesgo|enfasis }}</p></div>{% endif %}
+        </div>
+        {% endif %}
+
+        <div class="c-share reveal">
+            <span>Compartir</span>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page_meta.canonical|urlencode }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://wa.me/?text={{ publication.title|urlencode }}%20{{ page_meta.canonical|urlencode }}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        </div>
+    </div>
+</article>
+
+{% if sources %}
+<section class="c-section c-section--tight">
+    <div class="container">
+        <div class="c-sources reveal">
+            <p class="firm-kicker">Fuentes</p>
+            <ol>
+                {% for source in sources %}
+                <li id="fuente-{{ forloop.counter }}">{% if source.url %}<a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.text }}</a>{% else %}{{ source.text }}{% endif %}</li>
+                {% endfor %}
+            </ol>
+            <p>Verificado en fuentes oficiales el {{ publication.verified_at|fecha_larga }}. Si la norma cambia, esta publicación se actualiza y lo indico arriba.</p>
+        </div>
+        <p class="c-disclaimer">{{ site_settings.disclaimer }}</p>
+    </div>
+</section>
+{% else %}
+<section class="c-section c-section--tight">
+    <div class="container">
+        <div class="c-sources reveal">
+            <p>Verificado en fuentes oficiales el {{ publication.verified_at|fecha_larga }}. Si la norma cambia, esta publicación se actualiza y lo indico arriba.</p>
+        </div>
+        <p class="c-disclaimer">{{ site_settings.disclaimer }}</p>
+    </div>
+</section>
+{% endif %}
+
+<section class="c-section c-section--paper">
+    <div class="container">
+        <div class="c-grid">
+            <div class="c-tile reveal">
+                <span class="c-meta">Autora</span>
+                <span class="c-tile-title">Ángela Montiel</span>
+                <p>{{ about_page.lead|enfasis }}</p>
+                <a href="{% url 'core:about' %}" class="firm-text-link">Conocer mi trayectoria</a>
+            </div>
+            {% if primary_area %}
+            <a href="{{ primary_area.get_absolute_url }}" class="c-tile c-tile--ink reveal reveal-delay-1">
+                <span class="c-meta">Área de práctica</span>
+                <span class="c-tile-title">{{ primary_area.name }}</span>
+                <p>{{ primary_area.home_description|enfasis }}</p>
+                <span class="firm-text-link">Ver el área</span>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% include "components/related.html" %}
+{% include "components/close.html" with question="¿Quieres revisar cómo afecta esto a tu empresa? Escríbeme." %}
+{% endblock %}

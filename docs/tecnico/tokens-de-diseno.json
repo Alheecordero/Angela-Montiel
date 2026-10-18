@@ -1,0 +1,44 @@
+{
+  "colores": {
+    "crema": "#FAF7F1",
+    "crema-2": "#F3EEE3",
+    "azul-marino": "#1F2E3A",
+    "azul-marino-profundo": "#15202A",
+    "dorado": "#B5924C",
+    "dorado-oscuro": "#967739",
+    "dorado-claro": "#E9DCC0",
+    "dorado-palido": "#F6EFE0",
+    "gris-carbon": "#2F3437",
+    "gris-medio": "#6B7280",
+    "arena": "#E6DFD0",
+    "blanco": "#FFFFFF"
+  },
+  "tipografia": {
+    "titulos": "Playfair Display 500 y 600, palabra clave en itálica dorada",
+    "cuerpo": "Nunito Sans 300, énfasis 600 a 700",
+    "etiquetas": "Nunito Sans 700, mayúsculas, espaciado 0.24em a 0.28em"
+  },
+  "escala_escritorio_px": {
+    "h1": "60 a 64",
+    "h2": "40 a 46",
+    "h3": "22 a 28",
+    "cuerpo": "17 a 21",
+    "etiqueta": "12 a 14"
+  },
+  "escala_celular_px": {
+    "h1": 38,
+    "h2": 29,
+    "h3": 22,
+    "cuerpo": "16 a 18"
+  },
+  "radio_bordes_px": 14,
+  "ancho_maximo_contenido_px": {
+    "general": 1180,
+    "lectura": 820,
+    "encabezado": 1280
+  },
+  "botones": {
+    "principal": "píldora azul marino, texto blanco, ícono dorado",
+    "secundario": "píldora con borde dorado fino"
+  }
+}

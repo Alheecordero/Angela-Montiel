@@ -1,0 +1,35 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.angelamontiel.cl/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Videos",
+          "item": "https://www.angelamontiel.cl/videos"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Ver transcripción completa ↓",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "[La transcripción del video va aquí. Google y las inteligencias artificiales leen texto, no video, así que cada transcripción también posiciona el sitio.]"
+          }
+        }
+      ]
+    }
+  ]
+}
