@@ -258,3 +258,118 @@ body { background: #ffffff; }
 .firm-intro .firm-pill:hover .icon { transform: translateX(3px); }
 #mapa.c-section,
 #herramienta.c-section { overflow-x: clip; }
+
+/* 9. Menú móvil: filas alineadas a la izquierda, áreas en acordeón y WhatsApp sólido */
+.nav-drawer {
+  background: linear-gradient(180deg, #13223a 0%, #172a42 100%);
+}
+.m-menu {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100%;
+  padding: 0.5rem 1.25rem calc(1.5rem + env(safe-area-inset-bottom));
+}
+.m-menu-list { list-style: none; margin: 0; padding: 0; }
+.m-menu-link,
+.m-menu-group summary {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(246, 241, 232, 0.12);
+  color: #f6f1e8;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-decoration: none;
+}
+.m-menu-link::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-top: 1.5px solid rgba(198, 161, 90, 0.8);
+  border-right: 1.5px solid rgba(198, 161, 90, 0.8);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+.m-menu-link:hover,
+.m-menu-link:focus-visible { color: var(--gold); }
+.m-menu-link.is-current { color: var(--gold); }
+.m-menu-link.is-current::before,
+.m-menu-sub a.is-current::before {
+  content: "";
+  position: absolute;
+  left: -1.25rem;
+  top: 50%;
+  width: 3px;
+  height: 1.4em;
+  transform: translateY(-50%);
+  background: var(--gold);
+}
+
+.m-menu-label {
+  margin: 1.6rem 0 0.25rem;
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.m-menu-groups { margin-bottom: 1.6rem; }
+.m-menu-group summary { list-style: none; cursor: pointer; font-size: 1.2rem; }
+.m-menu-group summary::-webkit-details-marker { display: none; }
+.m-menu-chevron { display: inline-flex; color: var(--gold); transform: rotate(180deg); transition: transform 0.25s ease; }
+.m-menu-group[open] .m-menu-chevron { transform: rotate(0deg); }
+.m-menu-group[open] summary { color: var(--gold); border-bottom-color: transparent; }
+
+.m-menu-sub {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 0 0.9rem 1rem;
+  border-left: 1px solid rgba(198, 161, 90, 0.45);
+  border-bottom: 1px solid rgba(246, 241, 232, 0.12);
+}
+.m-menu-sub li { position: relative; }
+.m-menu-sub a {
+  position: relative;
+  display: block;
+  padding: 0.6rem 0;
+  color: rgba(246, 241, 232, 0.86);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.35;
+  text-decoration: none;
+}
+.m-menu-sub a:hover,
+.m-menu-sub a.is-current { color: var(--gold); }
+.m-menu-sub a.is-current::before { left: -1.05rem; height: 1.2em; }
+.m-menu-sub-all { color: var(--gold) !important; font-size: 0.9rem !important; font-weight: 500; }
+
+.m-menu-cta { margin-top: auto; padding-top: 2rem; }
+.m-menu-whatsapp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 54px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: #1c1408;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.m-menu-whatsapp:hover { background: #d4b36a; color: #1c1408; }
+
+@media (min-width: 600px) {
+  .m-menu { max-width: 560px; padding-left: 2rem; padding-right: 2rem; }
+  .m-menu-link.is-current::before { left: -2rem; }
+}

@@ -42,29 +42,45 @@
     </div>
 </nav>
 
+{# Menú móvil. Filas alineadas a la izquierda; cada área se despliega con sus figuras. #}
 <div class="nav-drawer" id="main-navigation" aria-hidden="true">
-    <ul class="nav-links nav-links--mobile">
-        <li><a href="{% url 'core:home' %}" {% if current == 'home' %}class="active"{% endif %}>Inicio</a></li>
-        <li><a href="{% url 'core:about' %}" {% if current == 'about' %}class="active"{% endif %}>Sobre mí</a></li>
-        {% for item in nav_areas %}
-        <li><a href="{{ item.area.get_absolute_url }}">{{ item.area.name }}</a>
-            <ul class="nav-sublinks">
-                {% for figure in item.figures %}
-                <li><a href="{{ figure.get_absolute_url }}">{{ figure.menu_name }}</a></li>
-                {% endfor %}
-            </ul>
-        </li>
-        {% endfor %}
-        <li><a href="{% url 'publications:list' %}" {% if ns == 'publications' %}class="active"{% endif %}>Publicaciones</a></li>
-        <li><a href="{% url 'videos:list' %}" {% if ns == 'videos' %}class="active"{% endif %}>Videos</a></li>
-        <li><a href="{% url 'resources:index' %}" {% if ns == 'resources' %}class="active"{% endif %}>Recursos</a></li>
-        <li class="mobile-nav-cta">
-            <a href="{{ site_settings.whatsapp_url }}" class="firm-pill" target="_blank" rel="noopener noreferrer">
-                Conversemos por WhatsApp
-                {% include "components/icons.html" with icon="whatsapp" size=16 %}
+    <div class="m-menu">
+        <ul class="m-menu-list">
+            <li><a href="{% url 'core:home' %}" class="m-menu-link{% if current == 'home' %} is-current{% endif %}"{% if current == 'home' %} aria-current="page"{% endif %}>Inicio</a></li>
+            <li><a href="{% url 'core:about' %}" class="m-menu-link{% if current == 'about' %} is-current{% endif %}"{% if current == 'about' %} aria-current="page"{% endif %}>Sobre mí</a></li>
+        </ul>
+
+        <p class="m-menu-label">Áreas de práctica</p>
+        <div class="m-menu-groups">
+            {% for item in nav_areas %}
+            <details class="m-menu-group"{% if request.path == item.area.get_absolute_url %} open{% endif %}{% for figure in item.figures %}{% if request.path == figure.get_absolute_url %} open{% endif %}{% endfor %}>
+                <summary>
+                    <span>{{ item.area.name }}</span>
+                    <span class="m-menu-chevron" aria-hidden="true">{% include "components/icons.html" with icon="chevron-up" size=18 %}</span>
+                </summary>
+                <ul class="m-menu-sub">
+                    <li><a href="{{ item.area.get_absolute_url }}" class="m-menu-sub-all{% if request.path == item.area.get_absolute_url %} is-current{% endif %}">Ver el área completa</a></li>
+                    {% for figure in item.figures %}
+                    <li><a href="{{ figure.get_absolute_url }}"{% if request.path == figure.get_absolute_url %} class="is-current" aria-current="page"{% endif %}>{{ figure.menu_name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </details>
+            {% endfor %}
+        </div>
+
+        <ul class="m-menu-list">
+            <li><a href="{% url 'publications:list' %}" class="m-menu-link{% if ns == 'publications' %} is-current{% endif %}">Publicaciones</a></li>
+            <li><a href="{% url 'videos:list' %}" class="m-menu-link{% if ns == 'videos' %} is-current{% endif %}">Videos</a></li>
+            <li><a href="{% url 'resources:index' %}" class="m-menu-link{% if ns == 'resources' %} is-current{% endif %}">Recursos</a></li>
+        </ul>
+
+        <div class="m-menu-cta">
+            <a href="{{ site_settings.whatsapp_url }}" class="m-menu-whatsapp" target="_blank" rel="noopener noreferrer">
+                {% include "components/icons.html" with icon="whatsapp" size=18 %}
+                <span>Conversemos por WhatsApp</span>
             </a>
-        </li>
-    </ul>
+        </div>
+    </div>
 </div>
 <div class="nav-backdrop" data-nav-backdrop hidden></div>
 {% endwith %}
