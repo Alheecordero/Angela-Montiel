@@ -13,30 +13,7 @@
             <h2>{{ area.tool_title }}</h2>
             <p>{{ area.tool_intro|enfasis }}</p>
         </header>
-        <div class="c-map reveal" data-map>
-            <script type="application/json" data-map-data>{{ map_options_json|safe }}</script>
-            <div class="c-map-options" role="group" aria-label="{{ area.tool_title }}">
-                {% for option in map_options %}
-                <button type="button" class="c-map-option" data-map-option="{{ forloop.counter0 }}" aria-pressed="false">
-                    <span>{{ option.question }}</span>
-                    {% include "components/icons.html" with icon="arrow-right" size=16 %}
-                </button>
-                {% endfor %}
-            </div>
-            <div class="c-map-placeholder" data-map-empty>
-                <p>Elige una opción para ver la figura que podría servirte y su principal punto de atención.</p>
-            </div>
-            <article class="c-map-result" data-map-result hidden tabindex="-1" aria-live="polite">
-                <p class="firm-kicker">Figura</p>
-                <h3 data-map-name></h3>
-                <p data-map-para></p>
-                <div class="c-map-attention">
-                    <p class="firm-kicker">Principal punto de atención</p>
-                    <p data-map-atencion></p>
-                </div>
-                <a href="#" class="firm-text-link" data-map-link>Ver en detalle</a>
-            </article>
-        </div>
+        {% include "components/reorg_map.html" with map_label=area.tool_title %}
         <noscript>
             <div class="c-grid" style="margin-top: 1.5rem">
                 {% for option in map_options %}

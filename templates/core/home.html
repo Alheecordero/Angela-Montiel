@@ -3,12 +3,12 @@
 
 {% block body_class %}is-home{% endblock %}
 
-{% block meta_extra %}<link rel="preload" as="image" href="{% webp 'images/navy-stone-columns.png' %}">{% endblock %}
+{% block meta_extra %}<link rel="preload" as="image" href="{% webp 'images/angela-estudio.jpg' %}">{% endblock %}
 
 {% block content %}
 <section class="firm-hero" data-scrolly-hero>
     <div class="firm-hero-visual" aria-hidden="true">
-        <img src="{% webp 'images/navy-stone-columns.png' %}" alt="" class="firm-hero-columns" fetchpriority="high">
+        <img src="{% webp 'images/angela-estudio.jpg' %}" alt="Ángela Montiel" class="firm-hero-columns firm-hero-portrait is-bw" width="819" height="1024" fetchpriority="high">
     </div>
 
     <div class="container firm-hero-grid">
@@ -16,7 +16,6 @@
             <div class="firm-banner-stage">
             {# Banner 1. Fijo. Único H1 de la página. #}
             <div class="firm-banner is-active" data-banner aria-hidden="false">
-                <p class="firm-kicker">{{ site_settings.header_line }}</p>
                 <h1 class="firm-hero-title">Reorganizar tu empresa empieza por entenderla.</h1>
                 <p class="firm-lead">Derecho societario y reorganizaciones empresariales, explicados junto con <strong>su efecto tributario</strong>, para que decidas con claridad.</p>
                 <div class="firm-hero-actions">
@@ -30,9 +29,8 @@
 
             {# Banner 2. Última nota jurídica. #}
             <div class="firm-banner" data-banner aria-hidden="true">
-                <p class="firm-kicker">Publicaciones</p>
                 <p class="firm-hero-title">Cuando la ley cambia, te explico qué significa para tu empresa.</p>
-                <p class="firm-lead">Notas jurídicas, análisis y guías sobre derecho societario y reorganizaciones, con fuentes oficiales verificadas.</p>
+                <p class="firm-lead">Cada nota cita la fuente oficial.</p>
                 <div class="firm-hero-actions">
                     <a href="{% url 'publications:list' %}" class="firm-pill">
                         <span>Leer las publicaciones</span>
@@ -47,9 +45,8 @@
             {# Banner 3. Solo cuando el canal existe y hay videos. #}
             {% if latest_video %}
             <div class="firm-banner" data-banner aria-hidden="true">
-                <p class="firm-kicker">Entiende tu empresa</p>
-                <p class="firm-hero-title">Hola, soy Ángela Montiel. Hoy te explico…</p>
-                <p class="firm-lead">Videos breves sobre las decisiones societarias que más se preguntan los empresarios, y su efecto tributario.</p>
+                <p class="firm-hero-title">Las decisiones de tu sociedad, en pocos minutos.</p>
+                <p class="firm-lead">Preguntas concretas sobre reorganizaciones y derecho societario.</p>
                 <div class="firm-hero-actions">
                     <a href="{% url 'videos:list' %}" class="firm-pill">
                         {% include "components/icons.html" with icon="play" size=16 %}
@@ -69,10 +66,29 @@
         </div>
     </div>
 
-    <a href="#areas" class="firm-scroll" aria-label="Bajar">
+    <a href="#sobre" class="firm-scroll" aria-label="Bajar">
         {% include "components/icons.html" with icon="chevron-up" size=16 %}
         <span>Scroll</span>
     </a>
+</section>
+
+{# Sobre mí. Franja corta: título a la izquierda, texto y botón a la derecha. #}
+<section class="firm-intro" id="sobre">
+    <div class="container firm-intro-grid">
+        <div>
+            <p class="firm-kicker">{{ about_page.label }}</p>
+            <h2>{{ about_page.title }}</h2>
+        </div>
+        <div class="firm-intro-body">
+            <p class="firm-lead">{{ about_page.lead|enfasis }}</p>
+            <div class="firm-hero-actions">
+                <a href="{% url 'core:about' %}" class="firm-pill">
+                    <span>Conocer mi trayectoria</span>
+                    {% include "components/icons.html" with icon="arrow-right" size=16 %}
+                </a>
+            </div>
+        </div>
+    </div>
 </section>
 
 {# Áreas de práctica. Dos áreas con sus figuras. #}
@@ -80,7 +96,7 @@
     <div class="container">
         <header class="firm-services-head">
             <p class="firm-kicker">Áreas de práctica</p>
-            <p class="firm-services-lead">Cada decisión de tu empresa, con su efecto tributario.</p>
+            <p class="firm-services-lead">Elige el área y abre la figura que te importa.</p>
         </header>
 
         <div class="firm-services-stage">
@@ -101,7 +117,7 @@
                     <div class="firm-service-card-body">
                         <h2>{{ area.name }}</h2>
                         <p>{{ area.home_description|enfasis }}</p>
-                        <a href="{{ area.get_absolute_url }}" class="firm-text-link">{{ area.home_cta }}</a>
+                        <a href="{% if map_area and area.pk == map_area.pk %}#mapa{% else %}{{ area.get_absolute_url }}{% endif %}" class="firm-text-link">{{ area.home_cta }}</a>
                     </div>
                 </article>
                 {% for figure in area.published_figures %}
@@ -120,141 +136,81 @@
                 {% endfor %}
             </div>
             </div>
+            <div class="firm-services-footer">
+                <div class="firm-services-dots" role="tablist" aria-label="Áreas de práctica"></div>
+                <p class="firm-services-live" aria-live="polite" data-services-live></p>
+            </div>
         </div>
 
-        <div class="firm-services-footer">
-            <div class="firm-services-dots" role="tablist" aria-label="Áreas de práctica"></div>
-            <p class="firm-services-live" aria-live="polite" data-services-live></p>
-        </div>
-
-        <div class="c-grid" style="margin-top: 2.5rem">
-            {% for area in areas %}
-            <a href="{{ area.get_absolute_url }}" class="c-tile{% if area.is_primary %} c-tile--ink{% endif %} scrolly-reveal" style="--reveal-order: {{ forloop.counter }}">
-                <span class="c-meta">{% if area.is_primary %}Servicio principal{% else %}Área de práctica{% endif %}</span>
-                <span class="c-tile-title">{{ area.name }}</span>
-                <p>{% for figure in area.published_figures %}{{ figure.short_name }}{% if not forloop.last %} · {% endif %}{% endfor %}</p>
-                <span class="firm-text-link">{{ area.home_cta }}</span>
-            </a>
-            {% endfor %}
-        </div>
     </div>
 </section>
 
-{# Publicaciones recientes. #}
+{% if map_options %}
+<section class="c-section c-section--ink" id="mapa">
+    <div class="container">
+        <header class="c-head reveal">
+            <p class="firm-kicker firm-kicker--light">{{ map_area.tool_label }}</p>
+            <h2>{{ map_area.tool_title }}</h2>
+        </header>
+        {% include "components/reorg_map.html" with map_label=map_area.tool_title %}
+    </div>
+</section>
+{% endif %}
+
+{# Publicaciones. Solo cuando hay algo publicado. El aviso de “en preparación” no ocupa una sección. #}
+{% if recent_publications %}
 <section class="firm-journal" data-scroll-scene>
     <div class="container">
         <header class="firm-journal-head scrolly-reveal" style="--reveal-order: 0">
             <div class="firm-journal-intro">
                 <p class="firm-kicker">Publicaciones</p>
                 <h2>Lo último, verificado en la fuente.</h2>
-                <p>Notas jurídicas, análisis y guías para entender tu empresa antes de decidir.</p>
             </div>
-            {% if recent_publications %}
             <a href="{% url 'publications:list' %}" class="firm-journal-all firm-pill">
                 <span>Ver todas las publicaciones</span>
                 {% include "components/icons.html" with icon="arrow-right" size=16 %}
             </a>
-            {% endif %}
         </header>
-
-        {% if recent_publications %}
-        <div class="firm-posts-track">
-            <div class="firm-posts">
-                {% for pub in recent_publications %}
-                <article class="firm-post scrolly-reveal{% if forloop.first %} firm-post--lead{% endif %}" style="--reveal-order: {{ forloop.counter }}">
-                    <a href="{{ pub.get_absolute_url }}" class="firm-post-media">
-                        <span class="firm-post-tag">{{ pub.get_format_display }}</span>
-                        {% if pub.image %}<img src="{{ pub.image.url }}" alt="" loading="lazy" decoding="async">{% else %}<img src="{% webp 'images/navy-gold-architecture.png' %}" alt="" loading="lazy">{% endif %}
-                    </a>
-                    <div class="firm-post-body">
-                        <time datetime="{{ pub.published_at|date:'Y-m-d' }}">{{ pub.published_at|fecha_corta }}</time>
-                        <h3><a href="{{ pub.get_absolute_url }}">{{ pub.title }}</a></h3>
-                        <p class="firm-post-excerpt">{{ pub.lead }}</p>
-                        <a href="{{ pub.get_absolute_url }}" class="firm-text-link firm-post-more">Leer</a>
-                    </div>
-                </article>
-                {% endfor %}
-            </div>
-        </div>
-        {% else %}
-        <p class="c-note scrolly-reveal" style="--reveal-order: 1">Las primeras publicaciones están en preparación. Mientras tanto, puedes revisar las áreas de práctica y el glosario.</p>
-        {% endif %}
-    </div>
-</section>
-
-{# Sobre mí. #}
-<section class="firm-about" id="sobre" data-scroll-scene data-about-interactive>
-    <div class="container firm-about-wrap">
-        <article class="firm-about-card scrolly-reveal" data-about-card style="--reveal-order: 0">
-            <div class="firm-about-card-back" aria-hidden="true"></div>
-            <div class="firm-about-card-accent" aria-hidden="true"></div>
-
-            <div class="firm-about-card-inner" data-about-tilt>
-                <div class="firm-about-layout">
-                    <div class="firm-about-copy">
-                        <p class="firm-kicker firm-kicker--light firm-about-reveal" style="--about-delay: 1">{{ about_page.label }}</p>
-                        <h2 class="firm-about-reveal" style="--about-delay: 2">{{ about_page.title }}</h2>
-                        <p class="firm-about-lead firm-about-reveal" style="--about-delay: 3">{{ about_page.lead|enfasis }}</p>
-                        <div class="firm-about-actions firm-about-reveal" style="--about-delay: 4">
-                            <a href="{% url 'core:about' %}" class="firm-pill">
-                                <span>Conocer mi trayectoria</span>
-                                {% include "components/icons.html" with icon="arrow-right" size=16 %}
-                            </a>
-                            <a href="{{ site_settings.whatsapp_url }}" class="firm-about-secondary" target="_blank" rel="noopener noreferrer">Escríbeme por WhatsApp</a>
+        <div class="firm-latest">
+            <div class="firm-posts-track">
+                <div class="firm-posts">
+                    {% for pub in recent_publications %}
+                    <article class="firm-post scrolly-reveal{% if forloop.first %} firm-post--lead{% endif %}" style="--reveal-order: {{ forloop.counter }}">
+                        <a href="{{ pub.get_absolute_url }}" class="firm-post-media">
+                            <span class="firm-post-tag">{{ pub.get_format_display }}</span>
+                            {% if pub.image %}<img src="{{ pub.image.url }}" alt="" loading="lazy" decoding="async">{% else %}<img src="{% webp 'images/navy-gold-architecture.png' %}" alt="" loading="lazy">{% endif %}
+                        </a>
+                        <div class="firm-post-body">
+                            <time datetime="{{ pub.published_at|date:'Y-m-d' }}">{{ pub.published_at|fecha_corta }}</time>
+                            <h3><a href="{{ pub.get_absolute_url }}">{{ pub.title }}</a></h3>
+                            <p class="firm-post-excerpt">{{ pub.lead }}</p>
+                            <a href="{{ pub.get_absolute_url }}" class="firm-text-link firm-post-more">Leer</a>
                         </div>
-                    </div>
-
-                    <figure class="firm-about-visual firm-about-reveal" style="--about-delay: 3">
-                        <img src="{{ about_page.photo_url }}" alt="{{ about_page.photo_alt }}" width="819" height="1024" loading="lazy" decoding="async">
-                        <figcaption class="firm-about-nameplate firm-about-reveal" style="--about-delay: 5">
-                            <strong>Ángela Montiel</strong>
-                            <span>{{ site_settings.short_presentation }}</span>
-                        </figcaption>
-                    </figure>
+                    </article>
+                    {% endfor %}
                 </div>
-
             </div>
-        </article>
-    </div>
-</section>
-
-{# Recursos. #}
-<section class="c-section" id="recursos">
-    <div class="container">
-        <header class="c-head c-head--row reveal">
-            <div>
-                <p class="firm-kicker">Recursos</p>
-                <h2>Herramientas para entender tu empresa.</h2>
-            </div>
-            <a href="{% url 'resources:index' %}" class="firm-text-link"><span>Ver todos los recursos</span></a>
-        </header>
-        <div class="c-grid">
-            {% for area in areas %}
-            {% if area.has_map %}
-            <a href="{{ area.get_absolute_url }}#herramienta" class="c-tile c-tile--ink reveal">
-                <span class="c-meta">Herramienta</span>
-                <span class="c-tile-title">Mapa de reorganizaciones</span>
-                <p>Elige lo que quieres lograr y ve qué figura podría servirte y su principal punto de atención.</p>
-                <span class="firm-text-link">Usar el mapa</span>
-            </a>
-            {% elif area.has_comparator %}
-            <a href="{{ area.get_absolute_url }}#herramienta" class="c-tile c-tile--ink reveal reveal-delay-1">
-                <span class="c-meta">Herramienta</span>
-                <span class="c-tile-title">Comparador de tipos sociales</span>
-                <p>Sociedad anónima, SpA y limitada frente a frente, en los criterios que más pesan al decidir.</p>
-                <span class="firm-text-link">Comparar</span>
-            </a>
+            {% if recent_videos %}
+            <aside class="firm-latest-videos" aria-label="Videos recientes">
+                {% for video in recent_videos %}
+                <a href="{{ video.get_absolute_url }}" class="firm-video-teaser">
+                    <span class="firm-video-teaser-media">
+                        <img src="{{ video.thumbnail_url }}" alt="" loading="lazy" decoding="async">
+                        <span class="firm-video-teaser-play" aria-hidden="true">{% include "components/icons.html" with icon="play" size=18 %}</span>
+                        <span class="firm-post-tag firm-post-tag--video">{{ video.duration_display }}</span>
+                    </span>
+                    <span class="firm-video-teaser-body">
+                        <span class="firm-kicker">{{ video.area.short_name }}</span>
+                        <strong>{{ video.title }}</strong>
+                    </span>
+                </a>
+                {% endfor %}
+            </aside>
             {% endif %}
-            {% endfor %}
-            <a href="{% url 'resources:index' %}#glosario" class="c-tile reveal reveal-delay-2">
-                <span class="c-meta">Consulta</span>
-                <span class="c-tile-title">Glosario societario y tributario</span>
-                <p>Los términos que aparecen en estas páginas, explicados en una o dos líneas.</p>
-                <span class="firm-text-link">Abrir el glosario</span>
-            </a>
         </div>
     </div>
 </section>
+{% endif %}
 
 {% include "components/close.html" with question="¿Estás pensando en reorganizar tu empresa o revisar su estructura? Escríbeme." id="conversemos" %}
 {% endblock %}

@@ -1,4 +1,6 @@
-{% load static %}
+{% load static site_tags %}
+{# Pie con revelado. El bloque azul sube con el scroll y deja ver la foto fija que está debajo. #}
+<div class="footer-reveal">
 <footer class="footer firm-footer">
     <div class="container">
         <div class="firm-footer-top">
@@ -11,10 +13,6 @@
                     </span>
                 </a>
                 <p class="firm-footer-signature">{{ site_settings.signature_phrase }}</p>
-                <a href="{{ site_settings.whatsapp_url }}" class="firm-footer-whatsapp" target="_blank" rel="noopener noreferrer">
-                    {% include "components/icons.html" with icon="whatsapp" size=16 %}
-                    <span>Escríbeme por WhatsApp</span>
-                </a>
             </div>
 
             <div class="firm-footer-columns">
@@ -40,7 +38,7 @@
                     <p class="firm-footer-heading">Redes</p>
                     <ul class="firm-footer-nav firm-footer-nav--stack">
                         {% for red in site_settings.social_links %}
-                        <li><a href="{{ red.url }}" target="_blank" rel="noopener noreferrer">{{ red.name }}</a></li>
+                        <li><a class="firm-footer-social-link" href="{{ red.url }}" target="_blank" rel="noopener noreferrer">{% include "components/icons.html" with icon=red.icon size=16 %}<span>{{ red.name }}</span></a></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -59,3 +57,7 @@
         </div>
     </div>
 </footer>
+<div class="footer-reveal-photo" aria-hidden="true">
+    <img src="{% webp 'images/angela-banner1.jpg' %}" alt="" loading="lazy" decoding="async" class="is-bw">
+</div>
+</div>

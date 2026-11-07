@@ -1,0 +1,260 @@
+/* Retoques sobre la línea original (navy, dorado, Playfair, logo AM).
+   1. Fondo blanco en todo el sitio.
+   2. Fotos de Ángela en blanco y negro.
+   3. Banner de inicio más bajo para que la foto sea la protagonista.
+   4. Foto fija al costado de Sobre mí y las áreas de práctica.
+   5. Pie con revelado: el bloque azul sube y deja ver una foto fija. */
+
+/* 1. Fondo blanco */
+:root {
+  --paper: #ffffff;
+  --paper-2: #ffffff;
+  --color-cream: #ffffff;
+  --color-cream-dark: #ffffff;
+}
+body { background: #ffffff; }
+.firm-hero-visual::after {
+  background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.62) 16%, rgba(255, 255, 255, 0) 38%);
+}
+
+/* 2. Fotos de Ángela en blanco y negro */
+.is-bw,
+.c-hero-photo,
+.firm-about-visual img {
+  filter: grayscale(1) contrast(1.05);
+}
+
+/* 3. Banner de inicio: la foto de Ángela es la protagonista */
+.firm-scroll { display: none; }
+
+@media (min-width: 981px) {
+  .firm-hero,
+  .firm-hero-grid { min-height: clamp(640px, calc(100svh - 86px), 860px); }
+  .firm-hero-grid { padding-top: 2.5rem; padding-bottom: 3rem; }
+  .firm-hero-visual { width: min(56%, 820px); }
+  .firm-hero-visual::after {
+    background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.85) 10%, rgba(255, 255, 255, 0) 34%);
+  }
+  .firm-hero-copy { max-width: 32rem; }
+  .firm-hero-title,
+  .firm-hero h1 { font-size: clamp(2.8rem, 4.4vw, 4.1rem); max-width: 12ch; }
+}
+@media (min-width: 981px) and (max-width: 1100px) {
+  .firm-hero-visual { width: min(50%, 620px); }
+  .firm-hero-copy { max-width: 28rem; }
+}
+
+/* Tablet y móvil: banner tipo portada. La foto llena el banner y el texto va encima, abajo. */
+@media (max-width: 980px) {
+  .firm-hero {
+    --hero-photo-h: min(125vw, 640px);
+    position: relative;
+    display: block;
+    min-height: 0;
+    background: #fff;
+    overflow: hidden;
+  }
+  /* La foto se ve completa en su proporción 4:5; el texto entra sobre su borde inferior. */
+  .firm-hero-visual {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    width: 100%;
+    height: var(--hero-photo-h);
+  }
+  .firm-hero-columns.firm-hero-portrait { object-position: center top; }
+  .firm-hero-visual::after {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 62%, rgba(255, 255, 255, 0.9) 86%, #fff 100%);
+  }
+  .firm-hero-grid {
+    position: relative;
+    z-index: 5;
+    display: block;
+    min-height: 0;
+    padding-top: calc(var(--hero-photo-h) - 4.5rem);
+    padding-bottom: 1.6rem;
+  }
+  .firm-hero-copy { max-width: 100%; }
+  .firm-hero-title,
+  .firm-hero h1 {
+    max-width: 14ch;
+    font-size: clamp(1.9rem, 7.6vw, 2.5rem);
+    line-height: 1.02;
+  }
+  .firm-lead {
+    margin-top: 0.85rem;
+    max-width: 30rem;
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+  .firm-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+    margin-top: 1.25rem;
+  }
+  .firm-hero-actions .firm-pill { justify-content: center; }
+  .firm-hero-actions .firm-text-link { align-self: flex-start; }
+  .firm-banner-nav { margin-top: 1.25rem; gap: 0.6rem 1rem; }
+}
+@media (min-width: 600px) and (max-width: 980px) {
+  .firm-hero { --hero-photo-h: 560px; }
+  .firm-hero-columns.firm-hero-portrait { object-position: center 18%; }
+}
+
+/* 4. Sobre mí en franja corta y las dos áreas lado a lado */
+.firm-intro { padding: clamp(3rem, 6vw, 5rem) 0; background: #fff; border-bottom: 1px solid var(--line); }
+.firm-intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: clamp(1.5rem, 5vw, 5rem);
+  align-items: start;
+}
+.firm-intro h2 {
+  max-width: 14ch;
+  margin: 0;
+  color: #16181d;
+  font-size: clamp(2rem, 3.2vw, 2.8rem);
+  line-height: 1.05;
+}
+.firm-intro .firm-lead { max-width: 34rem; margin-top: 0; }
+.firm-intro .firm-hero-actions { margin-top: 1.4rem; }
+
+.firm-areas { padding: clamp(3rem, 6vw, 5.5rem) 0; background: #fff; }
+.firm-areas-head { margin-bottom: 1.5rem; }
+.firm-areas-head .firm-services-lead { margin: 0; color: #4e4a45; }
+.firm-areas-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+  border-top: 1px solid #16181d;
+}
+
+.firm-area { padding: 1.8rem 0 0; }
+.firm-area-title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+  line-height: 1.1;
+}
+.firm-area-title a { color: #16181d; }
+.firm-area-title a:hover { color: var(--gold-deep); }
+.firm-area-text { margin: 0 0 1.2rem; max-width: 36rem; color: #4e4a45; }
+
+.firm-area-figures { list-style: none; margin: 0 0 1.4rem; padding: 0; border-top: 1px solid var(--line); }
+.firm-area-figures li { border-bottom: 1px solid var(--line); }
+.firm-area-figures a {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.95rem 0;
+  color: inherit;
+}
+.firm-area-num { font-family: var(--font-serif); font-style: italic; color: var(--gold-deep); }
+.firm-area-name { display: block; font-family: var(--font-serif); font-size: 1.2rem; font-weight: 500; color: #16181d; }
+.firm-area-desc { display: block; margin-top: 0.2rem; font-size: 0.9rem; line-height: 1.5; color: #6b655d; }
+.firm-area-figures .icon { color: var(--gold); transition: transform 0.2s ease; }
+.firm-area-figures a:hover .firm-area-name { color: var(--gold-deep); }
+.firm-area-figures a:hover .icon { transform: translateX(3px); }
+
+@media (max-width: 900px) {
+  .firm-intro-grid { grid-template-columns: 1fr; }
+  .firm-areas-grid { grid-template-columns: 1fr; gap: 0; }
+  .firm-area { padding-bottom: 2rem; border-bottom: 1px solid var(--line); }
+  .firm-area:last-child { border-bottom: 0; }
+}
+
+/* 5. Pie con revelado */
+.footer-reveal { position: relative; background: #101d31; }
+.footer-reveal .firm-footer { position: relative; z-index: 2; }
+.footer-reveal-photo {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  height: min(78vh, 760px);
+  overflow: hidden;
+}
+.footer-reveal-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
+@media (max-width: 640px) { .footer-reveal-photo { height: 62vh; } }
+@media print { .footer-reveal-photo { display: none; } }
+
+/* 6. Foto de Ángela en el banner, en lugar de la columnata */
+.firm-hero-portrait { object-position: center 18%; }
+
+
+/* 7. El mapa de reorganizaciones y el comparador van sobre fondo blanco, sin bloque azul */
+.c-section--ink,
+#mapa.c-section,
+#herramienta.c-section {
+  background: #fff;
+  color: #1c1a17;
+  border-top: 1px solid var(--line);
+}
+.c-section--ink h2,
+.c-section--ink h3,
+.c-section--ink .c-head h2 { color: #16181d; }
+.c-section--ink .c-head p { color: #4e4a45; }
+.c-section--ink .firm-kicker,
+.c-section--ink .firm-kicker--light { color: #8a7352; }
+.c-section--ink .c-meta { color: #6b655d; }
+
+.c-map-option,
+.c-map-option:first-child { border-color: var(--line); color: #3f3b36; }
+.c-map-option:hover { color: #16181d; }
+.c-map-option.is-active { color: #16181d; border-color: var(--line); background: #faf8f4; }
+.c-map-num { color: var(--gold-deep); }
+
+/* Tarjeta del resultado: azul de la marca, translúcida y con desenfoque.
+   Detrás lleva un halo suave dorado y azul para que el vidrio se note sobre el blanco. */
+.c-map-stage { position: relative; isolation: isolate; }
+.c-map-stage::before {
+  content: "";
+  position: absolute;
+  inset: -8% -6%;
+  z-index: -1;
+  background:
+    radial-gradient(42% 46% at 78% 18%, rgba(198, 161, 90, 0.55), transparent 70%),
+    radial-gradient(48% 52% at 18% 82%, rgba(43, 76, 126, 0.45), transparent 72%);
+  filter: blur(28px);
+  pointer-events: none;
+}
+.c-map-placeholder,
+.c-map-result {
+  background: rgba(23, 42, 66, 0.84);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(246, 241, 232, 0.14);
+  border-top: 2px solid var(--gold);
+  border-radius: 6px;
+  box-shadow: 0 18px 40px rgba(12, 22, 38, 0.18);
+  color: rgba(246, 241, 232, 0.86);
+}
+.c-map-placeholder p { color: rgba(246, 241, 232, 0.78); }
+.c-section--ink .c-map-result h3,
+.c-map-result h3 { color: #f6f1e8; }
+.c-map-result p { color: rgba(246, 241, 232, 0.84); }
+.c-section--ink .c-map-result .firm-kicker,
+.c-section--ink .c-map-placeholder .firm-kicker,
+.c-map-result .firm-kicker { color: var(--gold); }
+.c-map-attention { border-top-color: rgba(246, 241, 232, 0.16); }
+.c-map-result .firm-text-link { color: var(--gold); }
+.c-map-result .firm-text-link:hover { color: #e2c580; }
+
+/* 8. Botón "Conocer mi trayectoria" en azul de la marca */
+.firm-intro .firm-pill {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #f6f1e8;
+}
+.firm-intro .firm-pill .icon { color: var(--gold); transition: transform 0.2s ease; }
+.firm-intro .firm-pill:hover {
+  background: var(--ink-soft);
+  border-color: var(--ink-soft);
+  color: #fff;
+}
+.firm-intro .firm-pill:hover .icon { transform: translateX(3px); }
+#mapa.c-section,
+#herramienta.c-section { overflow-x: clip; }

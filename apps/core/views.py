@@ -1,3 +1,5 @@
+import json
+
 from django.conf import settings
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
@@ -40,9 +42,15 @@ class HomeView(SeoMixin, TemplateView):
     def get_page_context(self, context):
         site = context["site"]
         context["areas"] = PracticeArea.objects.published().prefetch_related("figures")
+        map_area = context["areas"].filter(map_options__isnull=False).distinct().first()
+        map_options = list(map_area.map_options.select_related("figure")) if map_area else []
+        context["map_area"] = map_area
+        context["map_options"] = map_options
+        context["map_options_json"] = json.dumps([option.as_dict() for option in map_options], ensure_ascii=False)
         context["latest_nota"] = Publication.latest_nota()
         context["recent_publications"] = Publication.objects.published().prefetch_related("areas")[:3]
-        latest_video = Video.objects.published().first()
+        context["recent_videos"] = list(Video.objects.published().select_related("area")[:2])
+        latest_video = context["recent_videos"][0] if context["recent_videos"] else None
         # El tercer banner solo se publica cuando el canal existe y tiene videos.
         context["latest_video"] = latest_video if (latest_video and site.youtube_url) else None
         return context

@@ -1,0 +1,27 @@
+{# Mapa de reorganizaciones. Requiere map_options y map_options_json. #}
+<div class="c-map" data-map>
+    <script type="application/json" data-map-data>{{ map_options_json|safe }}</script>
+    <div class="c-map-options" role="group" aria-label="{{ map_label|default:'Mapa de reorganizaciones' }}">
+        {% for option in map_options %}
+        <button type="button" class="c-map-option" data-map-option="{{ forloop.counter0 }}" aria-pressed="false">
+            <span class="c-map-num">{{ forloop.counter }}</span>
+            <span>{{ option.question }}</span>
+        </button>
+        {% endfor %}
+    </div>
+    <div class="c-map-stage">
+        <div class="c-map-placeholder" data-map-empty>
+            <p>La figura y su punto de atención aparecen aquí.</p>
+        </div>
+        <article class="c-map-result" data-map-result hidden tabindex="-1" aria-live="polite">
+            <p class="firm-kicker">Figura</p>
+            <h3 data-map-name></h3>
+            <p data-map-para></p>
+            <div class="c-map-attention">
+                <p class="firm-kicker">Principal punto de atención</p>
+                <p data-map-atencion></p>
+            </div>
+            <a href="#" class="firm-text-link" data-map-link>Ver en detalle</a>
+        </article>
+    </div>
+</div>

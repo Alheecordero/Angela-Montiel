@@ -150,7 +150,7 @@ class SiteSettings(SingletonModel):
             links.append({"name": "LinkedIn", "label": "LinkedIn", "url": self.linkedin_url, "icon": "linkedin"})
         if self.youtube_url:
             label = f"YouTube · {self.youtube_channel_name}" if self.youtube_channel_name else "YouTube"
-            links.append({"name": "YouTube", "label": label, "url": self.youtube_url, "icon": "play"})
+            links.append({"name": "YouTube", "label": label, "url": self.youtube_url, "icon": "youtube"})
         if self.tiktok_url:
             links.append({"name": "TikTok", "label": "TikTok", "url": self.tiktok_url, "icon": "arrow-right"})
         return links

@@ -47,6 +47,9 @@
         campos.link.textContent = "Ver " + opcion.name.toLowerCase() + " en detalle";
         if (vacio) vacio.hidden = true;
         resultado.hidden = false;
+        resultado.classList.remove("is-shown");
+        void resultado.offsetWidth;
+        resultado.classList.add("is-shown");
         resultado.focus({ preventScroll: true });
       });
     });

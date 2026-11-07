@@ -307,21 +307,22 @@ function initServicesCarousel(reducedMotion) {
   let spreadPx = 0;
 
   const measure = () => {
-    const cardWidth = cards[0]?.offsetWidth || 320;
+    const visible = cards.find((card) => card.getAttribute("aria-hidden") !== "true") || cards[0];
+    const cardWidth = visible?.offsetWidth || viewport.clientWidth || 320;
     const vw = viewport.clientWidth || window.innerWidth;
     const width = window.innerWidth;
 
     let cardFactor = 0.52;
     let viewportFactor = 0.34;
     if (width < 480) {
-      cardFactor = 0.82;
-      viewportFactor = 0.44;
+      cardFactor = 0.5;
+      viewportFactor = 0.32;
     } else if (width < 768) {
-      cardFactor = 0.72;
-      viewportFactor = 0.4;
+      cardFactor = 0.46;
+      viewportFactor = 0.28;
     } else if (width < 980) {
-      cardFactor = 0.58;
-      viewportFactor = 0.36;
+      cardFactor = 0.42;
+      viewportFactor = 0.24;
     }
 
     spreadPx = Math.min(cardWidth * cardFactor, Math.max(108, vw * viewportFactor));
@@ -366,9 +367,7 @@ function initServicesCarousel(reducedMotion) {
     cards.forEach((card, idx) => {
       const offset = relativeOffset(idx, activeIndex);
       const styles = cardTransform(offset, dragShift);
-      card.style.transition = animate && !dragging
-        ? ""
-        : "none";
+      card.style.transition = animate && !dragging ? "" : "none";
       card.style.transform = styles.transform;
       card.style.opacity = styles.opacity;
       card.style.zIndex = styles.zIndex;
@@ -448,7 +447,7 @@ function initServicesCarousel(reducedMotion) {
     dragDelta = 0;
     viewport.classList.add("is-dragging");
     clearInterval(timer);
-    viewport.setPointerCapture(event.pointerId);
+    try { viewport.setPointerCapture(event.pointerId); } catch (error) { /* el gesto sigue sin captura */ }
   });
 
   viewport.addEventListener("pointermove", (event) => {
@@ -461,9 +460,9 @@ function initServicesCarousel(reducedMotion) {
     if (!dragging) return;
     dragging = false;
     viewport.classList.remove("is-dragging");
-    if (viewport.hasPointerCapture(event.pointerId)) {
-      viewport.releasePointerCapture(event.pointerId);
-    }
+    try {
+      if (viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId);
+    } catch (error) { /* no había captura */ }
     measure();
     if (Math.abs(dragDelta) > spreadPx * 0.22) {
       activate(activeIndex + (dragDelta < 0 ? 1 : -1));
