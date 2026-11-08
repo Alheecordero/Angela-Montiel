@@ -330,20 +330,19 @@ body { background: #ffffff; }
 }
 .hb-copy { max-width: 36rem; }
 
-/* Entrada suave del texto al activarse cada lámina */
-.hb-slide .hb-copy > *,
-.hb-slide .hb-card,
-.hb-slide .hb-video { opacity: 0; transform: translateY(14px); }
+/* Entrada suave del texto al activarse cada lámina.
+   El estado oculto vive solo en la animación: al salir, el texto queda visible
+   y se desvanece junto con la lámina, sin desaparecer de golpe. */
 .hb-slide.is-active .hb-copy > *,
 .hb-slide.is-active .hb-card,
-.hb-slide.is-active .hb-video { animation: hb-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.hb-slide.is-active .hb-video { animation: hb-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .hb-slide.is-active .hb-copy > :nth-child(2) { animation-delay: 0.08s; }
 .hb-slide.is-active .hb-copy > :nth-child(3) { animation-delay: 0.16s; }
 .hb-slide.is-active .hb-copy > :nth-child(4) { animation-delay: 0.22s; }
 .hb-slide.is-active .hb-copy > :nth-child(5) { animation-delay: 0.28s; }
 .hb-slide.is-active .hb-card,
 .hb-slide.is-active .hb-video { animation-delay: 0.2s; }
-@keyframes hb-in { to { opacity: 1; transform: none; } }
+@keyframes hb-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
 .hb-kicker {
   display: flex;
@@ -635,7 +634,7 @@ body { background: #ffffff; }
 @media (prefers-reduced-motion: reduce) {
   .hb-slide, .hb-photo img, .hb-video img { transition: none; }
   .hb-photo img { transform: none; }
-  .hb-slide .hb-copy > *, .hb-slide .hb-card, .hb-slide .hb-video { opacity: 1; transform: none; animation: none !important; }
+  .hb-slide .hb-copy > *, .hb-slide .hb-card, .hb-slide .hb-video { animation: none !important; }
   .hb-nav button.is-active::after { animation: none; width: 100%; }
 }
 /* Tablet vertical: hay más alto, la foto crece */
