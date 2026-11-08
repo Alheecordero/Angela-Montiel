@@ -3,73 +3,106 @@
 
 {% block body_class %}is-home{% endblock %}
 
-{% block meta_extra %}<link rel="preload" as="image" href="{% webp 'images/angela-estudio.jpg' %}">{% endblock %}
+{% block meta_extra %}<link rel="preload" as="image" href="{% webp 'images/angela-sobremi.jpg' %}">{% endblock %}
 
 {% block content %}
-<section class="firm-hero" data-scrolly-hero>
-    <div class="firm-hero-visual" aria-hidden="true">
-        <img src="{% webp 'images/angela-estudio.jpg' %}" alt="Ángela Montiel" class="firm-hero-columns firm-hero-portrait is-bw" width="819" height="1024" fetchpriority="high">
-    </div>
+{% comment %}Banner de inicio. Ocupa toda la pantalla bajo el menú.
+Tres láminas que rotan (studio.js: [data-banner] y [data-banner-dot]), cada una con su propio diseño.{% endcomment %}
+{% if latest_video %}{% firstof "03" as hb_total %}{% else %}{% firstof "02" as hb_total %}{% endif %}
+<section class="home-banner" aria-label="Mensajes de inicio">
+    <div class="hb" data-hero-banners>
+        <div class="hb-stage">
 
-    <div class="container firm-hero-grid">
-        <div class="firm-hero-copy" data-hero-banners data-parallax="-0.08">
-            <div class="firm-banner-stage">
-            {# Banner 1. Fijo. Único H1 de la página. #}
-            <div class="firm-banner is-active" data-banner aria-hidden="false">
-                <h1 class="firm-hero-title">Reorganizar tu empresa empieza por entenderla.</h1>
-                <p class="firm-lead">Derecho societario y reorganizaciones empresariales, explicados junto con <strong>su efecto tributario</strong>, para que decidas con claridad.</p>
-                <div class="firm-hero-actions">
-                    <a href="{{ site_settings.whatsapp_url }}" class="firm-pill" target="_blank" rel="noopener noreferrer">
-                        {% include "components/icons.html" with icon="whatsapp" size=16 %}
-                        <span>Conversemos por WhatsApp</span>
-                    </a>
-                    <a href="#areas" class="firm-text-link"><span>Ver las áreas de práctica</span></a>
+            {# Lámina 1. Presentación. Único H1 de la página. #}
+            <div class="hb-slide hb-slide--intro is-active" data-banner aria-hidden="false">
+                <figure class="hb-photo">
+                    <img src="{% webp 'images/angela-sobremi.jpg' %}" alt="Ángela Montiel en su escritorio" width="960" height="1200" fetchpriority="high">
+                </figure>
+                <div class="container hb-inner">
+                    <div class="hb-copy">
+                        <p class="hb-kicker">Ángela Montiel · Derecho societario</p>
+                        <h1 class="hb-title">Reorganizar tu empresa empieza por <em>entenderla.</em></h1>
+                        <span class="hb-rule" aria-hidden="true"></span>
+                        <p class="hb-lead">Derecho societario y reorganizaciones empresariales, explicados <strong>junto con su efecto tributario</strong>, para que decidas con claridad.</p>
+                        <div class="hb-actions">
+                            <a href="{{ site_settings.whatsapp_url }}" class="hb-btn" target="_blank" rel="noopener noreferrer">
+                                {% include "components/icons.html" with icon="whatsapp" size=15 %}
+                                <span>Conversemos por WhatsApp</span>
+                            </a>
+                            <a href="#areas" class="hb-link">Ver las áreas de práctica</a>
+                        </div>
+                    </div>
                 </div>
+                <span class="hb-num" aria-hidden="true">01 <i>/ {{ hb_total }}</i></span>
             </div>
 
-            {# Banner 2. Última nota jurídica. #}
-            <div class="firm-banner" data-banner aria-hidden="true">
-                <p class="firm-hero-title">Cuando la ley cambia, te explico qué significa para tu empresa.</p>
-                <p class="firm-lead">Cada nota cita la fuente oficial.</p>
-                <div class="firm-hero-actions">
-                    <a href="{% url 'publications:list' %}" class="firm-pill">
-                        <span>Leer las publicaciones</span>
-                        {% include "components/icons.html" with icon="arrow-right" size=16 %}
-                    </a>
-                    {% if latest_nota %}
-                    <a href="{{ latest_nota.get_absolute_url }}" class="firm-text-link"><span>Última nota · {{ latest_nota.title|truncatechars:60 }}</span></a>
-                    {% endif %}
+            {# Lámina 2. Publicaciones. #}
+            <div class="hb-slide hb-slide--dark" data-banner aria-hidden="true">
+                <div class="container hb-inner">
+                    <div class="hb-copy">
+                        <p class="hb-kicker">Nota jurídica</p>
+                        <p class="hb-title">Cuando la ley cambia, te explico qué significa para tu <em>empresa.</em></p>
+                        <span class="hb-rule" aria-hidden="true"></span>
+                        <p class="hb-lead">Notas jurídicas, análisis y guías sobre derecho societario y reorganizaciones, <strong>con fuentes oficiales verificadas.</strong></p>
+                        <div class="hb-actions">
+                            <a href="{% url 'publications:list' %}" class="hb-btn hb-btn--ghost">
+                                <span>Leer las publicaciones</span>
+                                {% include "components/icons.html" with icon="arrow-right" size=15 %}
+                            </a>
+                        </div>
+                    </div>
+                    <aside class="hb-card" aria-label="Publicaciones">
+                        <p class="hb-card-label">Publicaciones</p>
+                        <ul>
+                            <li><a href="{% url 'publications:list' %}?formato=nota#lista"><span>Notas jurídicas</span><i>01</i></a></li>
+                            <li><a href="{% url 'publications:list' %}?formato=analisis#lista"><span>Análisis</span><i>02</i></a></li>
+                            <li><a href="{% url 'publications:list' %}?formato=guia#lista"><span>Guías empresariales</span><i>03</i></a></li>
+                            <li><a href="{% url 'publications:list' %}?formato=consulta#lista"><span>Consulta de la semana</span><i>04</i></a></li>
+                        </ul>
+                    </aside>
                 </div>
+                <span class="hb-num" aria-hidden="true">02 <i>/ {{ hb_total }}</i></span>
             </div>
 
-            {# Banner 3. Solo cuando el canal existe y hay videos. #}
+            {# Lámina 3. Videos. Solo cuando el canal existe y hay videos. #}
             {% if latest_video %}
-            <div class="firm-banner" data-banner aria-hidden="true">
-                <p class="firm-hero-title">Las decisiones de tu sociedad, en pocos minutos.</p>
-                <p class="firm-lead">Preguntas concretas sobre reorganizaciones y derecho societario.</p>
-                <div class="firm-hero-actions">
-                    <a href="{% url 'videos:list' %}" class="firm-pill">
-                        {% include "components/icons.html" with icon="play" size=16 %}
-                        <span>Ver los videos</span>
+            <div class="hb-slide hb-slide--video" data-banner aria-hidden="true">
+                <div class="container hb-inner">
+                    <div class="hb-copy">
+                        <p class="hb-kicker">Entiende tu empresa · Videos</p>
+                        <p class="hb-title">Hola, soy Ángela Montiel. Hoy te <em>explico…</em></p>
+                        <span class="hb-rule" aria-hidden="true"></span>
+                        <p class="hb-lead">Videos breves sobre las decisiones societarias que más se preguntan los empresarios, <strong>y su efecto tributario.</strong></p>
+                        <div class="hb-actions">
+                            <a href="{% url 'videos:list' %}" class="hb-btn">
+                                {% include "components/icons.html" with icon="play" size=13 %}
+                                <span>Ver los videos</span>
+                            </a>
+                        </div>
+                    </div>
+                    <a href="{{ latest_video.get_absolute_url }}" class="hb-video" aria-label="Ver el video {{ latest_video.title }}">
+                        <img src="{% webp 'images/angela-banner3.jpg' %}" alt="" width="1160" height="652" loading="lazy" decoding="async">
+                        <span class="hb-play" aria-hidden="true">{% include "components/icons.html" with icon="play" size=20 %}</span>
+                        <span class="hb-video-caption">{{ latest_video.title }}{% if latest_video.duration_display %} · {{ latest_video.duration_display }}{% endif %}</span>
                     </a>
-                    <a href="{{ latest_video.get_absolute_url }}" class="firm-text-link"><span>{{ latest_video.title|truncatechars:60 }}</span></a>
                 </div>
+                <span class="hb-num" aria-hidden="true">03 <i>/ {{ hb_total }}</i></span>
             </div>
             {% endif %}
-            </div>
+        </div>
 
-            <div class="firm-banner-nav" role="tablist" aria-label="Mensajes de inicio">
-                <button type="button" class="is-active" data-banner-dot="0" role="tab" aria-selected="true">Presentación</button>
-                <button type="button" data-banner-dot="1" role="tab" aria-selected="false">Publicaciones</button>
-                {% if latest_video %}<button type="button" data-banner-dot="2" role="tab" aria-selected="false">Videos</button>{% endif %}
+        {# Barra inferior: pestañas con progreso y flecha para bajar. #}
+        <div class="hb-bar">
+            <div class="container hb-bar-inner">
+                <div class="firm-banner-nav hb-nav" role="tablist" aria-label="Mensajes de inicio">
+                    <button type="button" class="is-active" data-banner-dot="0" role="tab" aria-selected="true">Presentación</button>
+                    <button type="button" data-banner-dot="1" role="tab" aria-selected="false">Publicaciones</button>
+                    {% if latest_video %}<button type="button" data-banner-dot="2" role="tab" aria-selected="false">Videos</button>{% endif %}
+                </div>
+                <a href="#sobre" class="hb-down" aria-label="Bajar">{% include "components/icons.html" with icon="chevron-up" size=18 %}</a>
             </div>
         </div>
     </div>
-
-    <a href="#sobre" class="firm-scroll" aria-label="Bajar">
-        {% include "components/icons.html" with icon="chevron-up" size=16 %}
-        <span>Scroll</span>
-    </a>
 </section>
 
 {# Sobre mí. Franja corta: título a la izquierda, texto y botón a la derecha. #}
