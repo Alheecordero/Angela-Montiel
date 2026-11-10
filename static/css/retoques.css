@@ -416,29 +416,38 @@ body { background: #ffffff; }
 }
 .hb-num i { font-style: normal; color: rgba(31, 46, 58, 0.45); }
 
-/* Lámina 1: foto a sangre a la derecha, fundida con el crema */
-.hb-photo { position: absolute; top: 0; right: 0; bottom: 0; width: 50%; margin: 0; }
+/* Lámina 1: foto a sangre a la derecha, fundida con el crema.
+   El fundido es una máscara de transparencia con muchas paradas (curva suave),
+   no un velo crema encima: así la foto se disuelve en el fondo sin franja lechosa.
+   El modo multiply hace que los blancos de la foto tomen el tono del papel. */
+.hb-photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 56%;
+  margin: 0;
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.03) 6%, rgba(0,0,0,0.1) 12%, rgba(0,0,0,0.22) 18%, rgba(0,0,0,0.38) 24%, rgba(0,0,0,0.56) 30%, rgba(0,0,0,0.73) 36%, rgba(0,0,0,0.87) 42%, rgba(0,0,0,0.96) 48%, #000 54%),
+    linear-gradient(0deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.75) 9%, #000 20%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.03) 6%, rgba(0,0,0,0.1) 12%, rgba(0,0,0,0.22) 18%, rgba(0,0,0,0.38) 24%, rgba(0,0,0,0.56) 30%, rgba(0,0,0,0.73) 36%, rgba(0,0,0,0.87) 42%, rgba(0,0,0,0.96) 48%, #000 54%),
+    linear-gradient(0deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.75) 9%, #000 20%);
+  mask-composite: intersect;
+}
 .hb-photo img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 22%;
-  filter: grayscale(1) sepia(0.28) hue-rotate(180deg) saturate(1.35) contrast(1.04);
+  object-position: 62% 22%;
+  filter: grayscale(1) contrast(1.08) brightness(1.03);
+  mix-blend-mode: multiply;
   transform: scale(1.06);
   transition: transform 7.5s ease-out;
 }
 .hb-slide.is-active .hb-photo img { transform: scale(1); }
-.hb-photo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, var(--hb-cream) 0%, rgba(247, 242, 233, 0.7) 14%, rgba(247, 242, 233, 0) 40%),
-    linear-gradient(0deg, rgba(247, 242, 233, 0.55) 0%, rgba(247, 242, 233, 0) 22%);
-  pointer-events: none;
-}
-.hb-slide--intro .hb-num { color: #f6f1e8; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35); }
-.hb-slide--intro .hb-num i { color: rgba(246, 241, 232, 0.7); }
 
 /* Lámina 2: azul con tarjeta de formatos */
 .hb-slide--dark { background: radial-gradient(120% 90% at 85% 10%, #2a3e52 0%, var(--hb-ink) 55%, #172430 100%); color: #f6f1e8; }
@@ -605,9 +614,15 @@ body { background: #ffffff; }
   .hb-inner { grid-template-columns: 1fr; align-content: center; gap: 1.25rem; padding-top: 1.5rem; }
   .hb-slide--intro { flex-direction: column; }
   .hb-slide--intro .hb-inner { padding-top: 0; align-content: start; }
-  .hb-photo { position: relative; width: 100%; height: clamp(190px, 30svh, 320px); flex-shrink: 0; }
+  .hb-photo {
+    position: relative;
+    width: 100%;
+    height: clamp(190px, 30svh, 320px);
+    flex-shrink: 0;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 50%, rgba(0,0,0,0.88) 60%, rgba(0,0,0,0.66) 70%, rgba(0,0,0,0.4) 80%, rgba(0,0,0,0.16) 90%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 50%, rgba(0,0,0,0.88) 60%, rgba(0,0,0,0.66) 70%, rgba(0,0,0,0.4) 80%, rgba(0,0,0,0.16) 90%, transparent 100%);
+  }
   .hb-photo img { object-position: center 18%; }
-  .hb-photo::after { background: linear-gradient(180deg, rgba(247, 242, 233, 0) 55%, var(--hb-cream) 100%); }
   .hb-title { font-size: clamp(2rem, 8vw, 2.6rem); max-width: 15ch; }
   .hb-kicker { margin-bottom: 1rem; letter-spacing: 0.16em; }
   .hb-kicker::before { width: 24px; }
