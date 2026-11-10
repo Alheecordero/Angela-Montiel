@@ -658,3 +658,9 @@ body { background: #ffffff; }
   .hb-photo img { object-position: center 24%; }
   .hb-slide--intro .hb-inner { padding-top: 0.5rem; }
 }
+
+/* 10. Fotos de áreas y figuras en blanco y negro.
+   En el carrusel del inicio se filtra la imagen. En el encabezado de cada página
+   la foto es un fondo bajo un velo crema: el modo luminosity la deja en grises. */
+.firm-service-card-media img { filter: grayscale(1) contrast(1.08); }
+.c-hero--visual { background-color: #808080; background-blend-mode: luminosity; }

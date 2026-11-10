@@ -90,6 +90,26 @@ def webp(path):
     return static(path)
 
 
+@register.simple_tag
+def imagen_por_slug(prefijo, slug, respaldo):
+    """Ruta de la foto propia de un área o figura, o la de respaldo si no tiene.
+
+    Las fotos viven en static/images/<prefijo>-<slug>.jpg. Si se crea una figura
+    nueva sin foto, se usa la imagen de respaldo y la página no se rompe.
+
+    Uso. {% imagen_por_slug 'figura' figure.slug 'images/study-desk.jpg' as foto %}
+    """
+    from pathlib import Path
+
+    from django.conf import settings
+
+    ruta = f"images/{prefijo}-{slug}.jpg"
+    for base in getattr(settings, "STATICFILES_DIRS", []):
+        if (Path(base) / ruta).exists():
+            return ruta
+    return respaldo
+
+
 @register.filter
 def romano(value):
     from apps.practice.models import romano as _romano

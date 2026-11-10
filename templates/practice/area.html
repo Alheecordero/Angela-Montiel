@@ -2,7 +2,8 @@
 {% load static site_tags %}
 
 {% block content %}
-{% include "components/page_hero.html" with label=area.label title=area.title lead=area.lead breadcrumbs=breadcrumbs updated=area.content_updated_at cta_label="Escríbeme por WhatsApp" cta_message=area.whatsapp_message secondary_href="#herramienta" secondary_label=area.home_cta image="images/navy-gold-cinematic.png" %}
+{% imagen_por_slug 'area' area.slug 'images/navy-gold-cinematic.png' as hero_img %}
+{% include "components/page_hero.html" with label=area.label title=area.title lead=area.lead breadcrumbs=breadcrumbs updated=area.content_updated_at cta_label="Escríbeme por WhatsApp" cta_message=area.whatsapp_message secondary_href="#herramienta" secondary_label=area.home_cta image=hero_img %}
 
 {# Herramienta: mapa de reorganizaciones o comparador de tipos sociales #}
 {% if map_options %}

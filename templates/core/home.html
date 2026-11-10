@@ -145,7 +145,7 @@ Tres láminas que rotan (studio.js: [data-banner] y [data-banner-dot]), cada una
                 {% for area in areas %}
                 <article class="firm-service-card" data-service-card data-service-label="{{ area.short_name }}" aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
                     <div class="firm-service-card-media">
-                        <img src="{% webp 'images/navy-gold-architecture.png' %}" alt="" loading="lazy" decoding="async">
+                        {% imagen_por_slug 'area' area.slug 'images/navy-gold-architecture.png' as area_img %}<img src="{% webp area_img %}" alt="" loading="lazy" decoding="async">
                     </div>
                     <div class="firm-service-card-body">
                         <h2>{{ area.name }}</h2>
@@ -156,7 +156,7 @@ Tres láminas que rotan (studio.js: [data-banner] y [data-banner-dot]), cada una
                 {% for figure in area.published_figures %}
                 <article class="firm-service-card" data-service-card data-service-label="{{ figure.short_name }}" aria-hidden="true">
                     <div class="firm-service-card-media">
-                        {% cycle 'images/study-desk.jpg' 'images/navy-gold-shadows.png' 'images/bronze-sculpture-navy.png' 'images/acropolis-navy.png' 'images/museum-hall.jpg' as tile_img silent %}<img src="{% webp tile_img %}" alt="" loading="lazy" decoding="async">
+                        {% imagen_por_slug 'figura' figure.slug 'images/study-desk.jpg' as tile_img %}<img src="{% webp tile_img %}" alt="" loading="lazy" decoding="async">
                     </div>
                     <div class="firm-service-card-body">
                         <p class="firm-kicker">{{ area.short_name }}</p>

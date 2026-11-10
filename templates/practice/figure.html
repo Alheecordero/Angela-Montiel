@@ -2,7 +2,8 @@
 {% load static site_tags %}
 
 {% block content %}
-{% include "components/page_hero.html" with label=figure.label title=figure.title lead=figure.lead breadcrumbs=breadcrumbs updated=figure.content_updated_at cta_label="Escríbeme por WhatsApp" cta_message=figure.whatsapp_message secondary_href=area.get_absolute_url secondary_label="Volver al área" image="images/navy-gold-shadows.png" %}
+{% imagen_por_slug 'figura' figure.slug 'images/navy-gold-shadows.png' as hero_img %}
+{% include "components/page_hero.html" with label=figure.label title=figure.title lead=figure.lead breadcrumbs=breadcrumbs updated=figure.content_updated_at cta_label="Escríbeme por WhatsApp" cta_message=figure.whatsapp_message secondary_href=area.get_absolute_url secondary_label="Volver al área" image=hero_img %}
 
 {# Qué es #}
 <section class="c-section">
