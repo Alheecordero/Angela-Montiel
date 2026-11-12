@@ -1,0 +1,204 @@
+/* Componentes del sistema de diseño (DESIGN.md, sección 6).
+   Se carga al final: fija una sola versión de cada pieza sobre el CSS heredado.
+   Solo usa tokens de tokens.css. */
+
+/* Contextos azules: dentro de ellos el texto, las etiquetas y los enlaces
+   usan las variantes claras. */
+
+/* ---------- Contenedor ---------- */
+.container,
+.is-home main .container,
+.navbar .container {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* ---------- Títulos ---------- */
+h1,
+.c-hero h1 { font-size: var(--fs-h1); line-height: 1.08; }
+h2,
+.c-head h2,
+.firm-intro h2,
+.firm-journal h2,
+.c-close h2,
+.c-featured h2 { font-size: var(--fs-h2); line-height: 1.12; }
+.firm-post h3,
+.c-tile .c-tile-title,
+.c-lcr-card h3,
+.c-video-card h3 { font-size: var(--fs-h3); line-height: 1.25; }
+
+/* ---------- Botones ---------- */
+.firm-pill,
+.btn-ink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  padding: 0 var(--space-5);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  text-transform: none;
+  box-shadow: none;
+  cursor: pointer;
+  transition: background var(--duration) ease, color var(--duration) ease, border-color var(--duration) ease;
+}
+.firm-pill .icon,
+.btn-ink .icon { transition: transform var(--duration) ease; }
+.firm-pill:hover .icon,
+.btn-ink:hover .icon { transform: translateX(2px); }
+
+/* Principal: dorado. La acción de contacto. */
+.firm-pill { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+.firm-pill:hover { background: var(--gold-hover); border-color: var(--gold-hover); color: var(--ink); }
+.firm-pill .icon { color: currentColor; }
+
+/* Secundario: azul. Ir a otra sección. */
+.btn-ink { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.btn-ink .icon { color: var(--gold); }
+.btn-ink:hover { background: var(--ink-soft); border-color: var(--ink-soft); color: var(--on-ink); }
+/* Sobre azul: versión borde */
+.btn-ink--ghost { background: transparent; border-color: rgba(246, 241, 232, 0.35); color: var(--on-ink); }
+.btn-ink--ghost:hover { background: transparent; border-color: var(--gold); color: var(--gold); }
+
+.firm-pill[disabled], .btn-ink[disabled],
+.firm-pill[aria-disabled="true"], .btn-ink[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+
+/* El botón del menú es más compacto */
+.firm-pill.nav-cta { min-height: 40px; }
+
+/* Enlace: texto con subrayado fino */
+.firm-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding-bottom: 2px;
+  border-bottom: 1px solid currentColor;
+  color: var(--gold-text);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color var(--duration) ease;
+}
+.firm-text-link:hover { color: var(--ink); }
+:is(.c-col--ink, .c-tile--ink, .c-close, .c-featured, .c-taxblock, .hb-slide--dark, .firm-video-teaser, .footer) .firm-text-link { color: var(--gold); }
+:is(.c-col--ink, .c-tile--ink, .c-close, .c-featured, .c-taxblock, .hb-slide--dark, .firm-video-teaser, .footer) .firm-text-link:hover { color: var(--on-ink); }
+.c-map-result .firm-text-link { color: var(--gold-soft); }
+.c-map-result .firm-text-link:hover { color: var(--on-ink); }
+
+/* ---------- Filtro ---------- */
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+  transition: background var(--duration) ease, color var(--duration) ease, border-color var(--duration) ease;
+}
+.filter-chip:hover { background: var(--paper); border-color: var(--ink); color: var(--ink); }
+.filter-chip.active,
+.filter-chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+
+/* ---------- Etiqueta ---------- */
+.firm-kicker,
+.c-head .firm-kicker,
+.c-head h2.firm-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: none;
+  margin: 0 0 var(--space-4);
+  color: var(--gold-text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.firm-kicker::before { content: ""; width: 28px; height: 1px; background: var(--gold); flex-shrink: 0; }
+.firm-kicker--light,
+:is(.c-col--ink, .c-tile--ink, .c-close, .c-featured, .c-taxblock, .hb-slide--dark, .firm-video-teaser, .footer) .firm-kicker,
+:is(.c-col--ink, .c-tile--ink, .c-close, .c-featured, .c-taxblock) h2.firm-kicker { color: var(--on-ink-muted); }
+.c-map-result .firm-kicker { color: var(--on-ink-muted); }
+/* Las secciones "ink" son blancas desde los retoques: su etiqueta va en dorado */
+.c-section--ink .firm-kicker,
+.c-section--ink .firm-kicker--light { color: var(--gold-text); }
+
+/* ---------- Sección ---------- */
+.c-section { padding: var(--section-y) 0; }
+.c-section--tight { padding: var(--section-y-tight) 0; }
+#mapa.c-section,
+#herramienta.c-section,
+.firm-intro,
+.firm-journal,
+.c-close { padding-top: var(--section-y); padding-bottom: var(--section-y); }
+.c-head { margin-bottom: var(--space-6); }
+.c-head h2 { max-width: 24ch; color: var(--text-strong); }
+.c-head p:not(.firm-kicker) {
+  max-width: 40rem;
+  margin-top: var(--space-3);
+  color: var(--text);
+  font-size: var(--fs-lead);
+  line-height: 1.65;
+}
+
+/* ---------- Tarjeta ---------- */
+.c-tile,
+.c-col,
+.c-lcr-card,
+.firm-post {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+  box-shadow: none;
+  transition: border-color var(--duration) ease, box-shadow var(--duration) ease;
+}
+.c-tile,
+.c-col,
+.c-lcr-card { padding: var(--space-5); }
+a.c-tile:hover,
+.firm-post:hover {
+  border-color: rgba(198, 161, 90, 0.35);
+  box-shadow: var(--shadow-sm);
+  transform: none;
+}
+/* Versión azul */
+.c-tile--ink,
+.c-col--ink {
+  border-color: transparent;
+  background: var(--gradient-ink);
+  color: var(--on-ink-muted);
+}
+.c-tile--dashed { border: 1px dashed rgba(198, 161, 90, 0.7); }
+/* Ley, criterio y riesgo conservan su filete dorado superior */
+.c-lcr-card { border-top: 3px solid var(--gold); }
+.firm-post-body { padding: var(--space-4) var(--space-5) var(--space-5); }
+@media (max-width: 600px) {
+  .c-tile,
+  .c-col,
+  .c-lcr-card { padding: var(--space-4); }
+  .firm-post-body { padding: var(--space-4); }
+}
+
+/* ---------- Números de lista (i., ii., iii.) ---------- */
+/* Sobre claro van en el dorado de texto; sobre azul, en el dorado de siempre. */
+:is(.c-points, .c-steps, .c-tile) .c-num { color: var(--gold-text); }
+:is(.c-col--ink, .c-tile--ink, .c-taxblock, .c-featured) :is(.c-points, .c-steps) .c-num,
+.c-tile--ink .c-num { color: var(--gold); }
+.hb-num i { color: rgba(31, 46, 58, 0.72); }

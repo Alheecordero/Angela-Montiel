@@ -25,11 +25,11 @@ Tres láminas que rotan (studio.js: [data-banner] y [data-banner-dot]), cada una
                         <span class="hb-rule" aria-hidden="true"></span>
                         <p class="hb-lead">Derecho societario y reorganizaciones empresariales, explicados <strong>junto con su efecto tributario</strong>, para que decidas con claridad.</p>
                         <div class="hb-actions">
-                            <a href="{{ site_settings.whatsapp_url }}" class="hb-btn" target="_blank" rel="noopener noreferrer">
+                            <a href="{{ site_settings.whatsapp_url }}" class="firm-pill" target="_blank" rel="noopener noreferrer">
                                 {% include "components/icons.html" with icon="whatsapp" size=15 %}
                                 <span>Conversemos por WhatsApp</span>
                             </a>
-                            <a href="#areas" class="hb-link">Ver las áreas de práctica</a>
+                            <a href="#areas" class="firm-text-link">Ver las áreas de práctica</a>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@ Tres láminas que rotan (studio.js: [data-banner] y [data-banner-dot]), cada una
                         <span class="hb-rule" aria-hidden="true"></span>
                         <p class="hb-lead">Notas jurídicas, análisis y guías sobre derecho societario y reorganizaciones, <strong>con fuentes oficiales verificadas.</strong></p>
                         <div class="hb-actions">
-                            <a href="{% url 'publications:list' %}" class="hb-btn hb-btn--ghost">
+                            <a href="{% url 'publications:list' %}" class="btn-ink btn-ink--ghost">
                                 <span>Leer las publicaciones</span>
                                 {% include "components/icons.html" with icon="arrow-right" size=15 %}
                             </a>
@@ -74,7 +74,7 @@ Tres láminas que rotan (studio.js: [data-banner] y [data-banner-dot]), cada una
                         <span class="hb-rule" aria-hidden="true"></span>
                         <p class="hb-lead">Videos breves sobre las decisiones societarias que más se preguntan los empresarios, <strong>y su efecto tributario.</strong></p>
                         <div class="hb-actions">
-                            <a href="{% url 'videos:list' %}" class="hb-btn">
+                            <a href="{% url 'videos:list' %}" class="btn-ink">
                                 {% include "components/icons.html" with icon="play" size=13 %}
                                 <span>Ver los videos</span>
                             </a>
@@ -115,7 +115,7 @@ Tres láminas que rotan (studio.js: [data-banner] y [data-banner-dot]), cada una
         <div class="firm-intro-body">
             <p class="firm-lead">{{ about_page.lead|enfasis }}</p>
             <div class="firm-hero-actions">
-                <a href="{% url 'core:about' %}" class="firm-pill">
+                <a href="{% url 'core:about' %}" class="btn-ink">
                     <span>Conocer mi trayectoria</span>
                     {% include "components/icons.html" with icon="arrow-right" size=16 %}
                 </a>
@@ -199,7 +199,7 @@ Tres láminas que rotan (studio.js: [data-banner] y [data-banner-dot]), cada una
                 <p class="firm-kicker">Publicaciones</p>
                 <h2>Lo último, verificado en la fuente.</h2>
             </div>
-            <a href="{% url 'publications:list' %}" class="firm-journal-all firm-pill">
+            <a href="{% url 'publications:list' %}" class="firm-journal-all btn-ink">
                 <span>Ver todas las publicaciones</span>
                 {% include "components/icons.html" with icon="arrow-right" size=16 %}
             </a>

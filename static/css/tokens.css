@@ -1,0 +1,95 @@
+/* Sistema de diseño de angelamontiel.cl. Ver DESIGN.md.
+   Única fuente de colores, letras, espacios, formas y movimiento.
+   Se carga antes que el resto: los demás archivos usan estos nombres,
+   nunca valores sueltos. */
+
+:root {
+  /* Color · marca */
+  --ink: #172a42;            /* azul principal: menú, pie, bloques azules, botón secundario */
+  --ink-deep: #101d31;       /* final de los degradados azules */
+  --ink-soft: #27405f;       /* hover del botón azul */
+  --gold: #c6a15a;           /* acento: botón principal, líneas, íconos, texto sobre azul */
+  --gold-hover: #d4b36a;     /* hover del botón principal */
+  --gold-text: #86672c;      /* dorado para texto sobre fondo claro (5,3:1) */
+  --gold-soft: #dcc28e;      /* texto dorado sobre azul translúcido */
+  --gradient-ink: linear-gradient(160deg, var(--ink) 0%, var(--ink-deep) 100%);
+
+  /* Color · neutros */
+  --paper: #ffffff;          /* fondo de página y tarjetas */
+  --cream: #f7f2e9;          /* superficie cálida: solo banner y estados activos suaves */
+  --line: rgba(23, 42, 66, 0.12);
+  --text-strong: #16181d;    /* títulos */
+  --text: #3f3b36;           /* texto corrido (11,1:1) */
+  --text-muted: #6f685e;     /* fechas, datos, pies de foto (5,5:1) */
+  --on-ink: #f6f1e8;         /* texto sobre azul */
+  --on-ink-muted: rgba(246, 241, 232, 0.78);
+  --on-ink-line: rgba(246, 241, 232, 0.16);
+
+  /* Color · estados */
+  --success: #2f6b4f;
+  --error: #a3392f;
+
+  /* Tipografía */
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Outfit", system-ui, sans-serif;
+  --fs-display: clamp(2.6rem, 4.6vw, 4.6rem);
+  --fs-h1: clamp(2.2rem, 4vw, 3.4rem);
+  --fs-h2: clamp(1.8rem, 3vw, 2.5rem);
+  --fs-h3: 1.35rem;
+  --fs-lead: 1.125rem;
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+  --fs-label: 0.72rem;
+  --tracking-label: 0.18em;
+  --measure: 38rem;
+
+  /* Espacio (escala de 4 px) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --section-y: clamp(3.5rem, 7vw, 6rem);
+  --section-y-tight: clamp(2.5rem, 5vw, 3.5rem);
+  --container: 1180px;
+  --gutter: 24px;
+
+  /* Forma y profundidad */
+  --radius-sm: 4px;
+  --radius-md: 14px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 8px 24px rgba(16, 29, 49, 0.08);
+  --shadow-lg: 0 24px 56px rgba(16, 29, 49, 0.16);
+
+  /* Movimiento */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration: 0.35s;
+  --duration-slow: 0.55s;
+
+  /* Nombres antiguos que aún usa el CSS heredado. Apuntan a los tokens. */
+  --color-white: var(--paper);
+  --color-cream: var(--paper);
+  --color-cream-dark: var(--paper);
+  --color-charcoal: var(--text-strong);
+  --color-charcoal-light: var(--text-muted);
+  --color-blue: var(--ink);
+  --color-gray-200: var(--line);
+  --color-gray-400: var(--text-muted);
+  --color-ochre: var(--gold-text);
+  --color-ochre-dark: var(--gold-text);
+  --color-ochre-light: var(--gold);
+  --gold-deep: var(--gold-text);
+  --paper-2: var(--paper);
+  --max-width: var(--container);
+  --radius: var(--radius-sm);
+  --radius-lg: var(--radius-md);
+  --shadow-md: var(--shadow-sm);
+}
+
+@media (max-width: 600px) {
+  :root { --gutter: 16px; }
+}

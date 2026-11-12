@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía de estilo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+/* Tokens tal como quedarían en el sitio (DESIGN.md) */
+:root {
+  --ink: #172a42; --ink-deep: #101d31; --ink-soft: #27405f;
+  --gold: #c6a15a; --gold-hover: #d4b36a; --gold-text: #86672c; --gold-soft: #dcc28e;
+  --paper: #ffffff; --cream: #f7f2e9; --line: rgba(23, 42, 66, 0.12);
+  --text-strong: #16181d; --text: #3f3b36; --text-muted: #6f685e;
+  --on-ink: #f6f1e8; --on-ink-muted: rgba(246, 241, 232, 0.78);
+  --success: #2f6b4f; --error: #a3392f;
+  --font-serif: "Playfair Display", Georgia, serif; --font-sans: "Outfit", system-ui, sans-serif;
+  --fs-display: clamp(2.6rem, 4.6vw, 4.6rem); --fs-h1: clamp(2.2rem, 4vw, 3.4rem); --fs-h2: clamp(1.8rem, 3vw, 2.5rem);
+  --fs-h3: 1.35rem; --fs-lead: 1.125rem; --fs-body: 1rem; --fs-small: 0.875rem; --fs-label: 0.72rem;
+  --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+  --section-y: clamp(3.5rem, 7vw, 6rem); --container: 1180px; --gutter: 24px; --measure: 38rem;
+  --radius-sm: 4px; --radius-md: 14px; --radius-pill: 999px;
+  --shadow-sm: 0 8px 24px rgba(16, 29, 49, 0.08); --shadow-lg: 0 24px 56px rgba(16, 29, 49, 0.16);
+}
+@media (max-width: 600px) { :root { --gutter: 16px; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--text); font: 400 var(--fs-body)/1.7 var(--font-sans); }
+.wrap { max-width: var(--container); margin: 0 auto; padding: 0 var(--gutter); }
+h1, h2, h3 { margin: 0; color: var(--text-strong); font-family: var(--font-serif); font-weight: 500; }
+h1 em, h2 em { color: var(--gold-text); font-style: italic; }
+a { color: inherit; }
+:where(a, button):focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: var(--radius-sm); }
+.ink :where(a, button):focus-visible { outline-color: var(--gold); }
+
+/* Encabezado de la guía */
+.top { background: linear-gradient(160deg, var(--ink), var(--ink-deep)); color: var(--on-ink); padding: var(--space-7) 0; }
+.top h1 { color: var(--on-ink); font-size: var(--fs-h1); line-height: 1.08; }
+.top p { max-width: 44rem; margin: var(--space-4) 0 0; color: var(--on-ink-muted); }
+
+/* Componentes */
+.kicker { display: flex; align-items: center; gap: 0.75rem; margin: 0 0 var(--space-4); color: var(--gold-text); font-size: var(--fs-label); font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; line-height: 1.5; }
+.kicker::before { content: ""; width: 28px; height: 1px; background: var(--gold); flex-shrink: 0; }
+.ink .kicker { color: var(--on-ink-muted); }
+.btn { display: inline-flex; align-items: center; gap: 0.55rem; min-height: 48px; padding: 0 1.4rem; border-radius: var(--radius-pill); border: 1px solid transparent; font: 500 var(--fs-small)/1 var(--font-sans); text-decoration: none; cursor: pointer; transition: background .25s ease, color .25s ease, border-color .25s ease; }
+.btn-gold { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+.btn-gold:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
+.btn-ink { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.btn-ink:hover { background: var(--ink-soft); border-color: var(--ink-soft); }
+.ink .btn-ink { background: transparent; border-color: rgba(246, 241, 232, 0.35); }
+.ink .btn-ink:hover { border-color: var(--gold); color: var(--gold); }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.link { display: inline-flex; padding-bottom: 2px; border-bottom: 1px solid currentColor; color: var(--gold-text); font-size: var(--fs-small); font-weight: 500; text-decoration: none; }
+.link:hover { color: var(--ink); }
+.ink .link { color: var(--gold); }
+.chip { min-height: 40px; padding: 0 1rem; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--paper); color: var(--text); font: 500 var(--fs-small)/1 var(--font-sans); cursor: pointer; }
+.chip.on { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.card { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper); transition: border-color .25s ease, box-shadow .25s ease; }
+.card:hover { border-color: rgba(198, 161, 90, 0.35); box-shadow: var(--shadow-sm); }
+.card img { display: block; width: 100%; height: auto; aspect-ratio: 16/10; object-fit: cover; filter: grayscale(1) contrast(1.06); }
+.card-body { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-5); flex: 1; }
+.card-body .kicker { margin: 0; }
+.card h3 { font-size: var(--fs-h3); line-height: 1.25; }
+.card p { margin: 0; flex: 1; }
+.card .link { align-self: flex-start; }
+.card.ink { background: linear-gradient(160deg, var(--ink), var(--ink-deep)); border-color: transparent; color: var(--on-ink-muted); }
+.card.ink h3 { color: var(--on-ink); }
+@media (max-width: 600px) { .card-body { padding: var(--space-4); } }
+
+/* Secciones de la guía */
+section { padding: var(--section-y) 0; }
+section + section { border-top: 1px solid var(--line); }
+section.ink { background: linear-gradient(160deg, var(--ink), var(--ink-deep)); color: var(--on-ink-muted); border-top: 0; }
+section.ink h2 { color: var(--on-ink); }
+.head { margin-bottom: var(--space-6); }
+.head h2 { max-width: 24ch; font-size: var(--fs-h2); line-height: 1.12; }
+.head p { max-width: 40rem; margin: var(--space-3) 0 0; font-size: var(--fs-lead); line-height: 1.65; }
+.grid { display: grid; gap: var(--space-5); grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.sw { border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
+.sw i { display: block; height: 72px; }
+.sw div { padding: var(--space-3) var(--space-4); font-size: var(--fs-small); line-height: 1.45; }
+.sw b { display: block; color: var(--text-strong); font-weight: 600; }
+.sw code, td code { color: var(--text-muted); font-size: 0.8rem; }
+.sw span { color: var(--text-muted); }
+.row { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; }
+.panel { padding: var(--space-6); border-radius: var(--radius-md); }
+.panel.ink { background: linear-gradient(160deg, var(--ink), var(--ink-deep)); }
+.type > div { display: grid; grid-template-columns: 9rem 1fr; gap: var(--space-5); align-items: baseline; padding: var(--space-4) 0; border-bottom: 1px solid var(--line); }
+.type small { color: var(--text-muted); font-size: var(--fs-small); line-height: 1.4; }
+.type small b { display: block; color: var(--text-strong); font-weight: 600; }
+@media (max-width: 600px) { .type > div { grid-template-columns: 1fr; gap: var(--space-2); } }
+table { width: 100%; border-collapse: collapse; font-size: var(--fs-small); }
+th, td { padding: var(--space-3) var(--space-3) var(--space-3) 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+th { color: var(--text-strong); font-weight: 600; }
+.table-wrap { overflow-x: auto; }
+.prose { max-width: var(--measure); }
+.prose p { margin: 0 0 var(--space-4); }
+.scale { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: flex-end; }
+.scale div { text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+.scale i { display: block; margin: 0 auto var(--space-2); background: var(--gold); }
+.depth { display: flex; flex-wrap: wrap; gap: var(--space-5); }
+.depth div { width: 180px; height: 110px; display: grid; place-items: center; background: var(--paper); border: 1px solid var(--line); font-size: var(--fs-small); color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<header class="top ink">
+  <div class="wrap">
+    <p class="kicker">Propuesta para aprobar</p>
+    <h1>Guía de estilo de angelamontiel.cl</h1>
+    <p>La misma identidad de siempre (azul marino, dorado, Playfair, Outfit y fotos en blanco y negro), con cada decisión fijada una sola vez. Así todas las páginas y pantallas se ven igual de cuidadas. El detalle completo está en DESIGN.md.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="head"><p class="kicker">1 · Color</p><h2>De 283 colores sueltos a <em>15 con nombre.</em></h2><p>Cada color tiene un solo uso. El dorado para texto sobre blanco es un punto más oscuro, para que se lea bien.</p></div>
+    <div class="grid">
+      <div class="sw"><i style="background:#172a42"></i><div><b>Azul principal</b><code>--ink #172a42</code><br><span>Menú, pie, bloques azules, botón secundario.</span></div></div>
+      <div class="sw"><i style="background:linear-gradient(160deg,#172a42,#101d31)"></i><div><b>Degradado de marca</b><code>--ink → --ink-deep #101d31</code><br><span>El único degradado del sitio, siempre a 160°.</span></div></div>
+      <div class="sw"><i style="background:#c6a15a"></i><div><b>Dorado</b><code>--gold #c6a15a</code><br><span>Botón principal, líneas, íconos, texto sobre azul.</span></div></div>
+      <div class="sw"><i style="background:#86672c"></i><div><b>Dorado para texto</b><code>--gold-text #86672c</code><br><span>Enlaces y etiquetas sobre blanco. 5,3:1.</span></div></div>
+      <div class="sw"><i style="background:#f7f2e9"></i><div><b>Crema</b><code>--cream #f7f2e9</code><br><span>Solo el banner de inicio.</span></div></div>
+      <div class="sw"><i style="background:#16181d"></i><div><b>Títulos</b><code>--text-strong #16181d</code></div></div>
+      <div class="sw"><i style="background:#3f3b36"></i><div><b>Texto corrido</b><code>--text #3f3b36</code><br><span>11,1:1.</span></div></div>
+      <div class="sw"><i style="background:#6f685e"></i><div><b>Texto secundario</b><code>--text-muted #6f685e</code><br><span>Fechas y datos. 5,5:1.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head"><p class="kicker">2 · Tipografía</p><h2>De 99 tamaños a <em>8.</em></h2><p>Playfair para títulos, Outfit para todo lo demás. El texto corrido nunca baja de 16 px.</p></div>
+    <div class="type">
+      <div><small><b>Banner</b>--fs-display</small><span style="font:500 var(--fs-display)/1.03 var(--font-serif);color:var(--text-strong)">Entender <em style="color:#a7843e">tu empresa.</em></span></div>
+      <div><small><b>Título de página</b>--fs-h1</small><span style="font:500 var(--fs-h1)/1.08 var(--font-serif);color:var(--text-strong)">Fusión de sociedades</span></div>
+      <div><small><b>Título de sección</b>--fs-h2</small><span style="font:500 var(--fs-h2)/1.12 var(--font-serif);color:var(--text-strong)">Lo que todas tienen en común</span></div>
+      <div><small><b>Título de tarjeta</b>--fs-h3</small><span style="font:500 var(--fs-h3)/1.25 var(--font-serif);color:var(--text-strong)">Pactos de accionistas</span></div>
+      <div><small><b>Bajada</b>--fs-lead · 18 px</small><span style="font-size:var(--fs-lead);line-height:1.65">Una introducción breve bajo un título.</span></div>
+      <div><small><b>Texto</b>--fs-body · 16 px</small><span>Texto corrido de páginas, tarjetas y preguntas frecuentes.</span></div>
+      <div><small><b>Pequeño</b>--fs-small · 14 px</small><span style="font-size:var(--fs-small);color:var(--text-muted)">17 oct 2026 · 4 min</span></div>
+      <div><small><b>Etiqueta</b>--fs-label</small><span class="kicker" style="margin:0">Reorganizaciones</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head"><p class="kicker">3 · Botones</p><h2>Tres botones, <em>un uso cada uno.</em></h2><p>Hoy hay ocho estilos para tres funciones. Prueba con Tab: el foco se ve en ambos fondos.</p></div>
+    <div class="row" style="margin-bottom:var(--space-5)">
+      <a class="btn btn-gold" href="#">Conversemos por WhatsApp</a>
+      <a class="btn btn-ink" href="#">Ver las publicaciones</a>
+      <a class="link" href="#">Ver en detalle</a>
+      <button class="btn btn-ink" disabled>Desactivado</button>
+    </div>
+    <div class="panel ink row">
+      <a class="btn btn-gold" href="#">Conversemos por WhatsApp</a>
+      <a class="btn btn-ink" href="#">Ver las publicaciones</a>
+      <a class="link" href="#">Ver en detalle</a>
+    </div>
+    <div class="table-wrap" style="margin-top:var(--space-6)">
+      <table>
+        <tr><th>Tipo</th><th>Uso</th><th>Reemplaza a</th></tr>
+        <tr><td>Principal dorado</td><td>Contacto por WhatsApp. Uno por pantalla.</td><td><code>.firm-pill</code></td></tr>
+        <tr><td>Secundario azul</td><td>Ir a otra sección.</td><td><code>.hb-btn</code>, <code>.firm-pill--ghost</code>, <code>.btn-*</code></td></tr>
+        <tr><td>Enlace</td><td>Leer, ver en detalle, ver el área.</td><td><code>.firm-text-link</code>, <code>.hb-link</code></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head"><p class="kicker">4 · Filtros, etiquetas y tarjetas</p><h2>Una sola tarjeta <em>para todo.</em></h2><p>Publicaciones, videos, figuras y recursos comparten la misma tarjeta, en blanco o en azul.</p></div>
+    <div class="row" style="margin-bottom:var(--space-6)">
+      <button class="chip on">Todas</button><button class="chip">Nota jurídica</button><button class="chip">Análisis</button><button class="chip">Guía empresarial</button>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&q=75&auto=format&fit=crop" alt="" loading="lazy" width="800" height="500">
+        <div class="card-body"><p class="kicker">Nota jurídica · Societario</p><h3>El tipo social se decide mirando el pacto</h3><p>Texto de ejemplo para mostrar cómo se ve el resumen de una tarjeta.</p><a class="link" href="#">Leer</a></div>
+      </article>
+      <article class="card">
+        <div class="card-body"><p class="kicker">ii.</p><h3>División</h3><p>Tarjeta sin foto, como las figuras de cada área.</p><a class="link" href="#">Ver en detalle</a></div>
+      </article>
+      <article class="card ink">
+        <div class="card-body"><p class="kicker">Video · 4 min</p><h3>Qué mirar antes de fusionar</h3><p>Versión azul para destacar.</p><a class="link" href="#">Ver video</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head"><p class="kicker">5 · Espacio, forma y lectura</p><h2>Una escala de espacios, <em>tres radios, dos sombras.</em></h2></div>
+    <div class="scale" style="margin-bottom:var(--space-6)">
+      <div><i style="width:4px;height:4px"></i>4</div><div><i style="width:8px;height:8px"></i>8</div><div><i style="width:12px;height:12px"></i>12</div><div><i style="width:16px;height:16px"></i>16</div><div><i style="width:24px;height:24px"></i>24</div><div><i style="width:32px;height:32px"></i>32</div><div><i style="width:48px;height:48px"></i>48</div><div><i style="width:64px;height:64px"></i>64</div><div><i style="width:96px;height:96px"></i>96</div>
+    </div>
+    <div class="depth" style="margin-bottom:var(--space-7)">
+      <div style="border-radius:var(--radius-sm)">Radio 4 px</div>
+      <div style="border-radius:var(--radius-md)">Radio 14 px</div>
+      <div style="border-radius:var(--radius-md);box-shadow:var(--shadow-sm)">Sombra suave</div>
+      <div style="border-radius:var(--radius-md);box-shadow:var(--shadow-lg)">Sombra elevada</div>
+    </div>
+    <div class="prose">
+      <p class="kicker">Ancho de lectura · 38rem</p>
+      <p>Los párrafos largos se cortan entre 65 y 75 letras por línea, la medida en que un texto se lee sin cansar la vista. Las secciones respiran con el mismo relleno vertical, de 56 px en el celular a 96 px en escritorio.</p>
+    </div>
+  </div>
+</section>
+
+<section class="ink">
+  <div class="wrap">
+    <div class="head"><p class="kicker">6 · Pantallas</p><h2>De 12 cortes a <em style="color:var(--gold)">3.</em></h2></div>
+    <div class="table-wrap">
+      <table style="color:var(--on-ink-muted)">
+        <tr><th style="color:var(--on-ink)">Pantalla</th><th style="color:var(--on-ink)">Rango</th><th style="color:var(--on-ink)">Qué cambia</th></tr>
+        <tr><td>Celular</td><td>hasta 600 px</td><td>Una columna, margen 16 px, menú desplegable, carrusel sin flechas.</td></tr>
+        <tr><td>Tablet</td><td>601 a 980 px</td><td>Dos columnas donde cabe, menú desplegable, foto del banner arriba.</td></tr>
+        <tr><td>Escritorio</td><td>desde 981 px</td><td>Menú completo, columnas finales, foto del banner a la derecha.</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
