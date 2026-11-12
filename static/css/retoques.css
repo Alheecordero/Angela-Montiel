@@ -785,7 +785,7 @@ h2.firm-kicker--light { color: rgba(246, 241, 232, 0.78); }
 picture.foto { display: contents; }
 
 /* 11.11 Página 404 */
-.c-error .hb-btn { margin-top: 0.5rem; }
+.c-error .firm-pill { margin-top: 0.5rem; }
 .c-error-links {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
