@@ -1,7 +1,7 @@
 {% load static site_tags %}
 {# Cierre con pregunta y botón de WhatsApp. Variables: question, message, id #}
 <section class="c-close" data-scroll-scene{% if id %} id="{{ id }}"{% endif %}>
-    <img src="{% webp 'images/museum-hall.jpg' %}" alt="" class="c-close-bg" loading="lazy" decoding="async">
+    {% foto 'images/museum-hall.jpg' clase='c-close-bg' sizes='100vw' %}
     <div class="container c-close-inner">
         <div class="scrolly-reveal" style="--reveal-order: 0">
             <p class="firm-kicker firm-kicker--light">Conversemos</p>

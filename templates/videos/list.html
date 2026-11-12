@@ -22,7 +22,7 @@
         <div class="c-cols reveal" style="grid-template-columns: 1.25fr 0.75fr; align-items: start">
             <div>
                 <div class="c-video" data-video-facade="{{ featured.embed_url }}">
-                    <img src="{{ featured.thumbnail_url }}" alt="" width="1280" height="720" fetchpriority="high">
+                    <img src="{% if featured.thumbnail %}{{ featured.thumbnail|miniatura:1280 }}{% else %}{{ featured.thumbnail_url }}{% endif %}" alt="" width="1280" height="720" fetchpriority="high">
                     <button type="button" class="c-video-play" data-video-play aria-label="Reproducir {{ featured.title }}">
                         <span>{% include "components/icons.html" with icon="play" size=28 %}</span>
                     </button>
@@ -59,7 +59,7 @@
     <div class="container">
         <header class="c-head c-head--row reveal">
             <div>
-                <p class="firm-kicker">Todos los videos</p>
+                <h2 class="firm-kicker">Todos los videos</h2>
                 <div class="filter-bar" role="group" aria-label="Filtrar por área" data-filter-group="videos" data-filter-param="area" style="margin-bottom: 0">
                     <button type="button" class="filter-chip active" data-filter="todas" aria-pressed="true">Todos</button>
                     {% for area in areas %}
@@ -79,7 +79,7 @@
         <div class="c-video-grid">
             {% for video in videos %}
             <a href="{{ video.get_absolute_url }}" class="c-video-card reveal" data-filter-item="videos" data-key="{{ video.area.slug }}">
-                <span class="c-video"><img src="{{ video.thumbnail_url }}" alt="" loading="lazy" decoding="async" width="480" height="360"></span>
+                <span class="c-video"><img src="{% if video.thumbnail %}{{ video.thumbnail|miniatura:640 }}{% else %}{{ video.thumbnail_url }}{% endif %}" alt="" loading="lazy" decoding="async" width="480" height="360"></span>
                 <span class="c-meta">{% if video.area %}<span>{{ video.area.short_name }}</span>{% endif %}{% if video.duration_display %}<span>{{ video.duration_display }}</span>{% endif %}</span>
                 <h3>{{ video.title }}</h3>
                 <p>{{ video.summary|truncatewords:22 }}</p>

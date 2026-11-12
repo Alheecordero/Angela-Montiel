@@ -32,27 +32,34 @@
       link: resultado.querySelector("[data-map-link]"),
     };
 
+    var mostrar = function (boton, enfocar) {
+      var opcion = opciones[parseInt(boton.getAttribute("data-map-option"), 10)];
+      if (!opcion) return;
+      botones.forEach(function (b) {
+        b.classList.toggle("is-active", b === boton);
+        b.setAttribute("aria-pressed", b === boton ? "true" : "false");
+      });
+      campos.name.textContent = opcion.name;
+      campos.para.textContent = opcion.para;
+      campos.atencion.textContent = opcion.atencion;
+      campos.link.setAttribute("href", opcion.page);
+      campos.link.textContent = "Ver " + opcion.name.toLowerCase() + " en detalle";
+      if (vacio) vacio.hidden = true;
+      resultado.hidden = false;
+      resultado.classList.remove("is-shown");
+      void resultado.offsetWidth;
+      resultado.classList.add("is-shown");
+      if (enfocar) resultado.focus({ preventScroll: true });
+    };
+
     botones.forEach(function (boton) {
       boton.addEventListener("click", function () {
-        var opcion = opciones[parseInt(boton.getAttribute("data-map-option"), 10)];
-        if (!opcion) return;
-        botones.forEach(function (b) {
-          b.classList.toggle("is-active", b === boton);
-          b.setAttribute("aria-pressed", b === boton ? "true" : "false");
-        });
-        campos.name.textContent = opcion.name;
-        campos.para.textContent = opcion.para;
-        campos.atencion.textContent = opcion.atencion;
-        campos.link.setAttribute("href", opcion.page);
-        campos.link.textContent = "Ver " + opcion.name.toLowerCase() + " en detalle";
-        if (vacio) vacio.hidden = true;
-        resultado.hidden = false;
-        resultado.classList.remove("is-shown");
-        void resultado.offsetWidth;
-        resultado.classList.add("is-shown");
-        resultado.focus({ preventScroll: true });
+        mostrar(boton, true);
       });
     });
+
+    /* Parte con la primera opción elegida: así el panel nunca se ve vacío. */
+    if (botones.length) mostrar(botones[0], false);
   });
 
   /* Filtros (publicaciones por formato, videos por área) -------------- */

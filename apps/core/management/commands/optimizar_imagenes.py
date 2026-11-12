@@ -2,8 +2,10 @@
 
 Las imágenes decorativas del sitio pesan varios megas en PNG. Este comando
 crea junto a cada original una versión redimensionada (ancho máximo 1920 px)
-en WebP y AVIF. El filtro `webp` de las plantillas usa la versión WebP cuando
-existe. Es idempotente y solo regenera lo que falta o está desactualizado.
+en WebP y AVIF, y otra de 800 px (nombre-800.webp y nombre-800.avif) para
+tarjetas y pantallas chicas. La etiqueta `webp` de las plantillas usa la versión
+WebP cuando existe y `foto` arma el <picture> con ambos tamaños. Es idempotente
+y solo regenera lo que falta o está desactualizado.
 
     python manage.py optimizar_imagenes
     python manage.py optimizar_imagenes --forzar
@@ -17,6 +19,7 @@ from PIL import Image, features
 
 ORIGENES = (".png", ".jpg", ".jpeg")
 ANCHO_MAX = 1920
+ANCHO_CHICO = 800
 CALIDAD_WEBP = 78
 CALIDAD_AVIF = 55
 
@@ -35,15 +38,20 @@ class Command(BaseCommand):
         for ruta in sorted(carpeta.iterdir()):
             if ruta.suffix.lower() not in ORIGENES or ruta.name.startswith("logo"):
                 continue
-            destinos = [ruta.with_suffix(".webp")] + ([ruta.with_suffix(".avif")] if avif else [])
-            pendientes = [d for d in destinos if options["forzar"] or not d.exists() or d.stat().st_mtime < ruta.stat().st_mtime]
+            chica = ruta.with_name(f"{ruta.stem}-{ANCHO_CHICO}{ruta.suffix}")
+            destinos = [(ruta.with_suffix(ext), ANCHO_MAX) for ext in (".webp", ".avif") if ext == ".webp" or avif]
+            destinos += [(chica.with_suffix(ext), ANCHO_CHICO) for ext in (".webp", ".avif") if ext == ".webp" or avif]
+            pendientes = [(d, a) for d, a in destinos if options["forzar"] or not d.exists() or d.stat().st_mtime < ruta.stat().st_mtime]
             if not pendientes:
                 continue
-            with Image.open(ruta) as img:
-                img = img.convert("RGBA") if img.mode in ("P", "LA") else img
-                if img.width > ANCHO_MAX:
-                    img = img.resize((ANCHO_MAX, round(img.height * ANCHO_MAX / img.width)), Image.LANCZOS)
-                for destino in pendientes:
+            with Image.open(ruta) as original:
+                original = original.convert("RGBA") if original.mode in ("P", "LA") else original
+                for destino, ancho in pendientes:
+                    if ancho == ANCHO_CHICO and original.width <= ANCHO_CHICO:
+                        continue
+                    img = original
+                    if img.width > ancho:
+                        img = img.resize((ancho, round(img.height * ancho / img.width)), Image.LANCZOS)
                     if destino.suffix == ".webp":
                         img.save(destino, "WEBP", quality=CALIDAD_WEBP, method=6)
                     else:

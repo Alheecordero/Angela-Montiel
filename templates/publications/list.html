@@ -23,7 +23,7 @@
                 <p class="c-meta" style="margin-top: 1rem"><span>{{ featured.published_at|fecha_larga }}</span><span>{{ featured.reading_time }} min de lectura</span></p>
                 <a href="{{ featured.get_absolute_url }}" class="firm-text-link"><span>Leer la publicación</span></a>
             </div>
-            {% if featured.image %}<img src="{{ featured.image.url }}" alt="{{ featured.image_alt }}" loading="lazy" decoding="async">{% endif %}
+            {% if featured.image %}<img src="{{ featured.image|miniatura:900 }}" alt="{{ featured.image_alt }}" width="1200" height="630" loading="lazy" decoding="async">{% endif %}
         </article>
     </div>
 </section>

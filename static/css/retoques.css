@@ -664,3 +664,145 @@ body { background: #ffffff; }
    la foto es un fondo bajo un velo crema: el modo luminosity la deja en grises. */
 .firm-service-card-media img { filter: grayscale(1) contrast(1.08); }
 .c-hero--visual { background-color: #808080; background-blend-mode: luminosity; }
+
+/* 11. Revisión de frontend (noviembre 2026).
+   Ajustes de accesibilidad, lectura y coherencia. No cambian la estructura,
+   la paleta ni las tipografías: solo afinan tonos, tamaños y estados. */
+
+/* 11.1 Foco visible al navegar con teclado.
+   Dorado sobre fondos oscuros, azul marino sobre fondos claros. */
+:where(a, button, summary, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+:where(.navbar, .nav-drawer, .footer, .c-section--ink, .c-col--ink, .c-close, .c-featured,
+  .hb-slide--dark, .c-map-stage, .firm-video-teaser, .firm-latest-videos, .c-taxblock)
+  :where(a, button, summary, input, [tabindex]):focus-visible,
+.firm-pill:focus-visible,
+.float-btn:focus-visible { outline-color: var(--gold); }
+.skip-link:focus-visible { outline-color: var(--gold); }
+
+/* 11.2 Contraste del texto pequeño (mínimo 4,5:1).
+   El dorado de texto sobre fondo claro se oscurece un punto; el dorado
+   de líneas, íconos y todo lo que va sobre azul no cambia. */
+:root { --gold-deep: #86672c; }
+.hb-title em { color: #a7843e; }                       /* titular grande: 3:1 basta */
+.c-col--ink .c-col-type { color: var(--gold); }        /* sobre azul */
+/* La tarjeta del mapa es azul translúcido: el texto dorado se aclara un punto */
+.c-map-result .firm-text-link { color: #dcc28e; }
+.c-section--ink .c-map-result .firm-kicker,
+.c-map-result .firm-kicker { color: rgba(246, 241, 232, 0.78); }
+.firm-kicker,
+.hb-kicker { color: #76603f; }
+.c-section--ink .firm-kicker,
+.firm-kicker--light { color: rgba(246, 241, 232, 0.78); }
+.hb-slide--dark .hb-kicker { color: var(--gold); }
+.hb-nav button { color: rgba(31, 46, 58, 0.72); }
+.hb-num i { color: rgba(31, 46, 58, 0.62); }
+.firm-services-live,
+.firm-post-body time,
+.c-meta { color: #6f685e; }
+.c-featured .c-meta { color: rgba(246, 241, 232, 0.72); }
+
+/* 11.3 Lista de publicaciones: la descripción del filtro ya no se monta sobre los botones */
+.c-filter-note { margin: 1.1rem 0 2rem; }
+
+/* 11.4 Títulos de sección que se ven como etiqueta.
+   Son h2 para Google y lectores de pantalla; se ven igual que antes. */
+h2.firm-kicker,
+.c-head h2.firm-kicker {
+  max-width: none;
+  margin: 0 0 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.18em;
+}
+.c-head h2.firm-kicker { margin-top: 0.75rem; color: #4e4a45; line-height: 1.65; }   /* igual que las etiquetas vecinas */
+.c-section--ink h2.firm-kicker,
+.c-section--ink .c-head h2.firm-kicker,
+h2.firm-kicker--light { color: rgba(246, 241, 232, 0.78); }
+
+/* 11.5 Fotos de publicaciones, videos y cierres en blanco y negro, como el resto */
+.firm-post-media img,
+.firm-video-teaser-media img,
+.c-featured img,
+.c-article-cover,
+.c-video img,
+.c-video-player img,
+.c-close-bg { filter: grayscale(1) contrast(1.06); }
+
+/* 11.6 Carrusel de áreas: las tarjetas de los costados muestran solo la foto,
+   para que sus textos no choquen con los de la tarjeta central. */
+.firm-service-card-body > * { transition: opacity 0.45s ease; }
+.firm-service-card:not(.is-center) .firm-service-card-body > * { opacity: 0; }
+/* Puntos: el punto se ve igual, pero el área táctil es de 24 px */
+.firm-services-dots { gap: 0; }
+.firm-services-dots button {
+  width: 24px;
+  height: 24px;
+  background: transparent !important;
+  transform: none !important;
+}
+.firm-services-dots button::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 50%;
+  background: rgba(23, 42, 66, 0.22);
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+.firm-services-dots button:hover::before { background: rgba(23, 42, 66, 0.4); }
+.firm-services-dots button.is-active::before,
+.firm-services-dots button[aria-selected="true"]::before { background: var(--gold); transform: scale(1.1); }
+.firm-services-dots button.is-active.is-timing::after,
+.firm-services-dots button[aria-selected="true"].is-timing::after { inset: 2px; }
+/* En el celular se navega deslizando o con los puntos: las flechas tapaban la tarjeta */
+@media (max-width: 600px) {
+  .firm-services-nav { display: none !important; }
+}
+
+/* 11.7 Lectura cómoda en páginas largas: entre 65 y 75 letras por línea */
+.c-prose { max-width: 38rem; }
+.c-faq details p { max-width: 37rem; font-size: 1rem; line-height: 1.7; }
+.c-sources p,
+.c-sources li { max-width: 36rem; }
+
+/* 11.8 Sin franja blanca entre el cierre y el pie en el celular */
+@media (max-width: 980px) {
+  .is-home main { padding-bottom: 0; }
+}
+
+/* 11.9 El contenido aparece antes y más rápido al hacer scroll */
+.reveal {
+  transform: translateY(14px);
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 11.10 Las fotos con varios tamaños van envueltas en <picture>; el envoltorio no ocupa caja */
+picture.foto { display: contents; }
+
+/* 11.11 Página 404 */
+.c-error .hb-btn { margin-top: 0.5rem; }
+.c-error-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+.c-error-links a {
+  display: block;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.c-error-links a:hover { color: var(--gold-deep); }

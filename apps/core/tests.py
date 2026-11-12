@@ -103,6 +103,24 @@ class RutasTests(ImportadorMixin, TestCase):
         self.assertEqual(self.client.get("/no-existe").status_code, 404)
         self.assertEqual(self.client.get("/publicaciones/no-existe").status_code, 404)
 
+    def test_404_con_diseno_del_sitio(self):
+        r = self.client.get("/no-existe")
+        html = r.content.decode()
+        self.assertEqual(r.status_code, 404)
+        self.assertIn('lang="es-CL"', html)
+        self.assertIn("No encontramos esta página.", html)
+        self.assertEqual(html.count("<h1"), 1)
+        for area in PracticeArea.objects.all():
+            self.assertIn(area.get_absolute_url(), html)
+
+    def test_figura_con_titulos_de_seccion_en_orden(self):
+        figura = PracticeFigure.objects.first()
+        html = self.client.get(figura.get_absolute_url()).content.decode()
+        niveles = [int(n) for n in re.findall(r"<h([1-6])[\s>]", html)]
+        self.assertEqual(niveles[0], 1)
+        for previo, actual in zip(niveles, niveles[1:]):
+            self.assertLessEqual(actual - previo, 1, f"Salto de h{previo} a h{actual}")
+
     def test_sin_correo_ni_formulario_de_contacto(self):
         html = self.client.get("/").content.decode()
         self.assertNotIn("mailto:", html)

@@ -81,7 +81,7 @@ Tres láminas que rotan (studio.js: [data-banner] y [data-banner-dot]), cada una
                         </div>
                     </div>
                     <a href="{{ latest_video.get_absolute_url }}" class="hb-video" aria-label="Ver el video {{ latest_video.title }}">
-                        <img src="{% webp 'images/angela-banner3.jpg' %}" alt="" width="1160" height="652" loading="lazy" decoding="async">
+                        {% foto 'images/angela-banner3.jpg' sizes='(max-width: 900px) 92vw, 46vw' ancho=1160 alto=652 %}
                         <span class="hb-play" aria-hidden="true">{% include "components/icons.html" with icon="play" size=20 %}</span>
                         <span class="hb-video-caption">{{ latest_video.title }}{% if latest_video.duration_display %} · {{ latest_video.duration_display }}{% endif %}</span>
                     </a>
@@ -145,7 +145,7 @@ Tres láminas que rotan (studio.js: [data-banner] y [data-banner-dot]), cada una
                 {% for area in areas %}
                 <article class="firm-service-card" data-service-card data-service-label="{{ area.short_name }}" aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
                     <div class="firm-service-card-media">
-                        {% imagen_por_slug 'area' area.slug 'images/navy-gold-architecture.png' as area_img %}<img src="{% webp area_img %}" alt="" loading="lazy" decoding="async">
+                        {% imagen_por_slug 'area' area.slug 'images/navy-gold-architecture.png' as area_img %}{% foto area_img sizes='(max-width: 767px) 84vw, 380px' ancho=1920 alto=1280 %}
                     </div>
                     <div class="firm-service-card-body">
                         <h2>{{ area.name }}</h2>
@@ -156,7 +156,7 @@ Tres láminas que rotan (studio.js: [data-banner] y [data-banner-dot]), cada una
                 {% for figure in area.published_figures %}
                 <article class="firm-service-card" data-service-card data-service-label="{{ figure.short_name }}" aria-hidden="true">
                     <div class="firm-service-card-media">
-                        {% imagen_por_slug 'figura' figure.slug 'images/study-desk.jpg' as tile_img %}<img src="{% webp tile_img %}" alt="" loading="lazy" decoding="async">
+                        {% imagen_por_slug 'figura' figure.slug 'images/study-desk.jpg' as tile_img %}{% foto tile_img sizes='(max-width: 767px) 84vw, 380px' ancho=1920 alto=1280 %}
                     </div>
                     <div class="firm-service-card-body">
                         <p class="firm-kicker">{{ area.short_name }}</p>
@@ -211,7 +211,7 @@ Tres láminas que rotan (studio.js: [data-banner] y [data-banner-dot]), cada una
                     <article class="firm-post scrolly-reveal{% if forloop.first %} firm-post--lead{% endif %}" style="--reveal-order: {{ forloop.counter }}">
                         <a href="{{ pub.get_absolute_url }}" class="firm-post-media">
                             <span class="firm-post-tag">{{ pub.get_format_display }}</span>
-                            {% if pub.image %}<img src="{{ pub.image.url }}" alt="" loading="lazy" decoding="async">{% else %}<img src="{% webp 'images/navy-gold-architecture.png' %}" alt="" loading="lazy">{% endif %}
+                            {% if pub.image %}<img src="{{ pub.image|miniatura:900 }}" alt="" width="1200" height="630" loading="lazy" decoding="async">{% else %}{% foto 'images/navy-gold-architecture.png' sizes='(max-width: 900px) 92vw, 520px' %}{% endif %}
                         </a>
                         <div class="firm-post-body">
                             <time datetime="{{ pub.published_at|date:'Y-m-d' }}">{{ pub.published_at|fecha_corta }}</time>
@@ -228,7 +228,7 @@ Tres láminas que rotan (studio.js: [data-banner] y [data-banner-dot]), cada una
                 {% for video in recent_videos %}
                 <a href="{{ video.get_absolute_url }}" class="firm-video-teaser">
                     <span class="firm-video-teaser-media">
-                        <img src="{{ video.thumbnail_url }}" alt="" loading="lazy" decoding="async">
+                        <img src="{% if video.thumbnail %}{{ video.thumbnail|miniatura:640 }}{% else %}{{ video.thumbnail_url }}{% endif %}" alt="" width="1280" height="720" loading="lazy" decoding="async">
                         <span class="firm-video-teaser-play" aria-hidden="true">{% include "components/icons.html" with icon="play" size=18 %}</span>
                         <span class="firm-post-tag firm-post-tag--video">{{ video.duration_display }}</span>
                     </span>

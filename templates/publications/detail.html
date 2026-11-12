@@ -22,7 +22,7 @@
 <article class="c-section">
     <div class="container">
         {% if publication.image %}
-        <img src="{{ publication.image.url }}" alt="{{ publication.image_alt }}" class="c-article-cover reveal" width="1200" height="630" fetchpriority="high">
+        <img src="{{ publication.image|miniatura:1200 }}" alt="{{ publication.image_alt }}" class="c-article-cover reveal" width="1200" height="630" fetchpriority="high">
         {% endif %}
 
         <div class="c-prose reveal">
@@ -39,7 +39,7 @@
 
         {% if publication.tax_block %}
         <aside class="c-taxblock reveal" style="max-width: 44rem">
-            <p class="firm-kicker firm-kicker--light">Y en lo tributario…</p>
+            <h2 class="firm-kicker firm-kicker--light">Y en lo tributario…</h2>
             <div>{{ publication.tax_block|parrafos }}</div>
         </aside>
         {% endif %}
@@ -64,7 +64,7 @@
 <section class="c-section c-section--tight">
     <div class="container">
         <div class="c-sources reveal">
-            <p class="firm-kicker">Fuentes</p>
+            <h2 class="firm-kicker">Fuentes</h2>
             <ol>
                 {% for source in sources %}
                 <li id="fuente-{{ forloop.counter }}">{% if source.url %}<a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.text }}</a>{% else %}{{ source.text }}{% endif %}</li>

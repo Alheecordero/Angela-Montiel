@@ -9,7 +9,7 @@
 <section class="c-section">
     <div class="container">
         <header class="c-head reveal">
-            <p class="firm-kicker">{{ figure.definition_label }}</p>
+            <h2 class="firm-kicker">{{ figure.definition_label }}</h2>
         </header>
         <p class="c-definition-lead reveal">{{ figure.definition_lead|enfasis }}</p>
         {% if figure.definition_body %}<div class="c-prose reveal">{{ figure.definition_body|parrafos }}</div>{% endif %}
@@ -21,14 +21,14 @@
     <div class="container">
         <div class="c-cols">
             <article class="c-col reveal">
-                <p class="firm-kicker">Lo societario</p>
+                <h2 class="firm-kicker">Lo societario</h2>
                 {% if figure.sa %}<div class="c-col-group"><p class="c-col-type">Sociedad anónima</p><p>{{ figure.sa|enfasis }}</p></div>{% endif %}
                 {% if figure.spa %}<div class="c-col-group"><p class="c-col-type">Sociedad por acciones</p><p>{{ figure.spa|enfasis }}</p></div>{% endif %}
                 {% if figure.ltda %}<div class="c-col-group"><p class="c-col-type">Sociedad de responsabilidad limitada</p><p>{{ figure.ltda|enfasis }}</p></div>{% endif %}
                 {% if figure.societario_note %}<p class="c-note">{{ figure.societario_note|enfasis }}</p>{% endif %}
             </article>
             <article class="c-col c-col--ink reveal reveal-delay-1">
-                <p class="firm-kicker firm-kicker--light">Lo tributario</p>
+                <h2 class="firm-kicker firm-kicker--light">Lo tributario</h2>
                 {% if tax_points %}
                 <ol class="c-points">
                     {% for point in tax_points %}
